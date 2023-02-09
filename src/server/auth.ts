@@ -1,13 +1,14 @@
-import type { GetServerSidePropsContext } from "next";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import type { GetServerSidePropsContext } from "next"
 import {
+  type DefaultSession,
   getServerSession,
   type NextAuthOptions,
-  type DefaultSession,
-} from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { env } from "../env/server.mjs";
-import { prisma } from "./db";
+} from "next-auth"
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
+import { env } from "../env/server.mjs"
+import { prisma } from "./db"
+import { customAlphabet } from "nanoid"
 
 /**
  * Module augmentation for `next-auth` types.
@@ -19,10 +20,10 @@ import { prisma } from "./db";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: string;
+      id: string
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession["user"]
   }
 
   // interface User {
@@ -37,21 +38,45 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  **/
+
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    // signIn({ account, profile }) {
+    //   if (account?.provider === "google") {
+    //     return "/dashboard";
+    //   }
+    //   return true;
+    // },
     session({ session, user }) {
       if (session.user) {
-        session.user.id = user.id;
+        session.user.id = user.id
         // session.user.role = user.role; <-- put other properties on the session here
       }
-      return session;
+      return session
     },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      profile: (profile: GoogleProfile) => {
+        return {
+          id: profile.sub,
+          firstName: profile.given_name,
+          lastName: profile.family_name,
+          email: profile.email,
+          image: profile.picture,
+          username: customAlphabet("1234567890abcdef", 10)(),
+        }
+      },
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
     /**
      * ...add more providers here
@@ -63,7 +88,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      **/
   ],
-};
+}
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the
@@ -72,8 +97,8 @@ export const authOptions: NextAuthOptions = {
  * @see https://next-auth.js.org/configuration/nextjs
  **/
 export const getServerAuthSession = (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+  req: GetServerSidePropsContext["req"]
+  res: GetServerSidePropsContext["res"]
 }) => {
-  return getServerSession(ctx.req, ctx.res, authOptions);
-};
+  return getServerSession(ctx.req, ctx.res, authOptions)
+}
