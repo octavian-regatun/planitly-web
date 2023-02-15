@@ -78,7 +78,7 @@ export const RequestsTab: React.FC = () => {
         >
           <ProfilePicture size={32} />
           <p className="text-sm">
-            {friendship.requester.firstName} {friendship.requester.lastName}
+            {friendship.recipient.firstName} {friendship.recipient.lastName}
           </p>
           <p className="ml-auto rounded-full bg-gray-200 p-2 text-xs">
             PENDING
