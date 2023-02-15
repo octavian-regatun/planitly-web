@@ -4,7 +4,7 @@ import { api } from "../../../utils/api"
 import type { User } from "@prisma/client"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
 
-export const Search: React.FC = () => {
+export const SearchTab: React.FC = () => {
   const [users, setUsers] = useState<User[]>([])
   const [friendsQuery, setFriendsQuery] = useState("")
   const usersQuery = api.users.search.useQuery(

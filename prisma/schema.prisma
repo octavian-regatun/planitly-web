@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Friendship {
-  id          BigInt   @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   requesterId String
   recipientId String
   status      String

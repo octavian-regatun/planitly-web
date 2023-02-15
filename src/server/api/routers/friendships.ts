@@ -2,7 +2,7 @@ import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const friendshipsRouter = createTRPCRouter({
-  getFriendships: protectedProcedure
+  getAll: protectedProcedure
     .input(
       z.object({
         status: z.enum(["PENDING", "ACCEPTED"]).nullable(),
@@ -77,7 +77,7 @@ export const friendshipsRouter = createTRPCRouter({
 
   acceptFriend: protectedProcedure
     .input(z.object({ requesterId: z.string() }))
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const { requesterId } = input
 
       const friendship = await ctx.prisma.friendship.findFirst({
@@ -99,9 +99,9 @@ export const friendshipsRouter = createTRPCRouter({
       })
     }),
 
-  rejectFriend: protectedProcedure
+  deleteFriendship: protectedProcedure
     .input(z.object({ friendshipId: z.number() }))
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const { friendshipId: id } = input
 
       return ctx.prisma.friendship.delete({
