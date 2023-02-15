@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import { getNavbarTitle } from "../../utils/navbar"
 import ProfilePicture from "../ProfilePicture"
+import Link from "next/link"
 
 const Navbar: React.FC = () => {
   const router = useRouter()
@@ -11,9 +12,9 @@ const Navbar: React.FC = () => {
       <h1 className="relative -right-[21px] mx-auto uppercase">
         {getNavbarTitle(router.pathname)}
       </h1>
-      <button className="transition-all hover:brightness-90">
+      <Link href="/profile" className="transition-all hover:brightness-90">
         <ProfilePicture />
-      </button>
+      </Link>
     </nav>
   )
 }

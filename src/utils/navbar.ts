@@ -4,6 +4,8 @@ export function getNavbarTitle(route: string) {
       return "Dashboard"
     case "/social":
       return "Social"
+    case "/profile":
+      return "Profile"
 
     default:
       return "Sample Title"
