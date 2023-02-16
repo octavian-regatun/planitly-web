@@ -15,7 +15,7 @@ export const Friends: React.FC = () => {
 
   return (
     <div className="flex w-full flex-1 flex-col items-center">
-      <h1 className="mb-2 text-4xl font-bold">Friends</h1>
+      <h1 className="mb-2 text-2xl font-bold">Friends</h1>
       {/* tabs buttons */}
       <div className="flex w-[calc(100%-42px)] rounded-t-3xl border border-b-0 border-black">
         <button

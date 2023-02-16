@@ -58,7 +58,7 @@ model User {
   lastName               String
   email                  String?      @unique
   emailVerified          Boolean?
-  image                  String?
+  image                  String
   username               String       @unique
   accounts               Account[]
   sessions               Session[]

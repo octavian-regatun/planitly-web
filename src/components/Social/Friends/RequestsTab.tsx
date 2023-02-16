@@ -47,7 +47,7 @@ export const RequestsTab: React.FC = () => {
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture size={32} />
+          <ProfilePicture size={32} src={friendship.requester.image} />
           <p>
             {friendship.requester.firstName} {friendship.requester.lastName}
           </p>
@@ -76,7 +76,7 @@ export const RequestsTab: React.FC = () => {
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture size={32} />
+          <ProfilePicture size={32} src={friendship.recipient.image} />
           <p className="text-sm">
             {friendship.recipient.firstName} {friendship.recipient.lastName}
           </p>

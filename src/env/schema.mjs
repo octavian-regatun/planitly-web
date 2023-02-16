@@ -1,5 +1,5 @@
 // @ts-check
-import { z } from "zod"
+import { z } from "zod";
 
 /**
  * Specify your server-side environment variables schema here.
@@ -21,7 +21,14 @@ export const serverSchema = z.object({
   ),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
-})
+  FIREBASE_API_KEY: z.string(),
+  FIREBASE_AUTH_DOMAIN: z.string(),
+  FIREBASE_PROJECT_ID: z.string(),
+  FIREBASE_STORAGE_BUCKET: z.string(),
+  FIREBASE_MESSAGING_SENDER_ID: z.string(),
+  FIREBASE_APP_ID: z.string(),
+  FIREBASE_MEASUREMENT_ID: z.string()
+});
 
 /**
  * You can't destruct `process.env` as a regular object in the Next.js
@@ -35,7 +42,14 @@ export const serverEnv = {
   NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-}
+  FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
+  FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID
+};
 
 /**
  * Specify your client-side environment variables schema here.
@@ -44,7 +58,7 @@ export const serverEnv = {
  */
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
-})
+});
 
 /**
  * You can't destruct `process.env` as a regular object, so you have to do
@@ -54,4 +68,4 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
-}
+};
