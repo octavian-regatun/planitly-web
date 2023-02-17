@@ -14,11 +14,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Group {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  GroupMember GroupMember[]
+}
+
+model GroupMember {
+  id        Int             @id @default(autoincrement())
+  role      GroupMemberRole @default(MEMBER)
+  status    Status          @default(PENDING)
+  groupId   Int
+  userId    String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  group     Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Friendship {
   id          Int      @id @default(autoincrement())
   requesterId String
   recipientId String
-  status      String
+  status      Status   @default(PENDING)
   requester   User     @relation("requester", fields: [requesterId], references: [id], onDelete: Cascade)
   recipient   User     @relation("recipient", fields: [recipientId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
@@ -53,17 +74,18 @@ model Session {
 }
 
 model User {
-  id                     String       @id @default(cuid())
+  id                     String        @id @default(cuid())
   firstName              String
   lastName               String
-  email                  String?      @unique
+  email                  String?       @unique
   emailVerified          Boolean?
   image                  String
-  username               String       @unique
+  username               String        @unique
   accounts               Account[]
   sessions               Session[]
-  friendshipsAsRecipient Friendship[] @relation("recipient")
-  friendshipsAsRequester Friendship[] @relation("requester")
+  friendshipsAsRecipient Friendship[]  @relation("recipient")
+  friendshipsAsRequester Friendship[]  @relation("requester")
+  GroupMember            GroupMember[]
 }
 
 model VerificationToken {
@@ -72,4 +94,14 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+}
+
+enum GroupMemberRole {
+  MEMBER
+  ADMIN
 }

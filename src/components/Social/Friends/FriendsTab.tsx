@@ -20,7 +20,7 @@ export const FriendsTab: React.FC = () => {
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture size={32} />
+          <ProfilePicture size={32} src={friendship.requester.image} />
           <p>
             {friendship.requester.firstName} {friendship.requester.lastName}
           </p>

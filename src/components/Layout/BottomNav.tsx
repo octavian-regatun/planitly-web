@@ -1,4 +1,4 @@
-import { HomeIcon, UsersIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 
 const BottomNav: React.FC = () => {
@@ -15,6 +15,12 @@ const BottomNav: React.FC = () => {
         className="mx-auto box-content h-6 w-6 rounded-full bg-black p-2 text-white"
       >
         <UsersIcon />
+      </Link>
+      <Link
+        href="/groups"
+        className="mx-auto box-content h-6 w-6 rounded-full bg-black p-2 text-white"
+      >
+        <UserGroupIcon />
       </Link>
     </div>
   )
