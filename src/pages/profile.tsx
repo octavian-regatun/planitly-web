@@ -45,7 +45,7 @@ const ProfilePage: React.FC = () => {
             <Image
               width={128}
               height={128}
-              src={image as string}
+              src={image}
               alt="profile"
               className="rounded-full"
             />
