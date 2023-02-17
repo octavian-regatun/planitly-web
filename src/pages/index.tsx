@@ -1,11 +1,13 @@
 import { type NextPage } from "next"
 import Head from "next/head"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import Image from "next/image"
 import { mainGradient } from "../utils/gradient"
+import Link from "next/link"
+import ProfilePicture from "../components/ProfilePicture"
 
 const Home: NextPage = () => {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const session = useSession()
 
   return (
     <>
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
         >
           PlanITLY
         </h1>
-        <div className="my-auto flex flex-col gap-4">
+        <div className="my-auto flex flex-col gap-4 items-center">
           <Image
             src="/assets/images/pages/index/illustration.svg"
             width={500}
@@ -42,15 +44,47 @@ const Home: NextPage = () => {
             trips in one place easier than ever? Well, you found the way now!
           </p>
         </div>
-        <button
-          className={
-            "mt-auto w-full rounded-full py-4 text-2xl font-bold text-white drop-shadow-lg md:w-fit md:px-16 md:text-3xl " +
-            mainGradient
-          }
-          onClick={() => void signIn()}
-        >
-          LOGIN
-        </button>
+        <div className="flex w-full flex-col gap-2">
+          <button
+            className={
+              "mt-auto w-full rounded-full border border-black py-4 text-2xl font-bold drop-shadow-lg md:w-fit md:px-16 md:text-3xl " +
+              (session.status !== "authenticated"
+                ? "text-white "
+                : "bg-clip-text text-transparent ") +
+              mainGradient
+            }
+            onClick={() => void signIn()}
+          >
+            {session.status === "authenticated"
+              ? "CHANGE ACCOUNT"
+              : "LOGIN WITH GOOGLE"}
+          </button>
+          <Link
+            className={
+              "mt-auto w-full rounded-full py-4 text-center text-2xl font-bold text-white drop-shadow-lg md:w-fit md:px-16 md:text-3xl " +
+              (session.status !== "authenticated"
+                ? "pointer-events-none opacity-75 "
+                : "") +
+              mainGradient
+            }
+            href="/dashboard"
+          >
+            <div className="flex flex-col gap-2">
+              <p>GO TO APP</p>
+              {session.data && (
+                <div className="flex items-center gap-2 self-center text-sm">
+                  <ProfilePicture
+                    src={session.data.user.image as string}
+                    size={28}
+                  />
+                  <p>
+                    {` ${session.data.user.firstName} ${session.data.user.lastName}`}
+                  </p>
+                </div>
+              )}
+            </div>
+          </Link>
+        </div>
       </main>
     </>
   )
