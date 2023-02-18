@@ -44,13 +44,13 @@ export const MembersList: React.FC<{
         <ProfilePicture
           key={`members-profile-picture-${member.id}`}
           src={member.image}
-          size={32}
+          size={36}
         />
       ))}
       {formik && (
         <>
           <button type="button" onClick={() => setIsOpen(true)}>
-            <PlusIcon className="box-content h-8 w-8 rounded-full bg-gray-200 p-2" />
+            <PlusIcon className="box-content h-7 w-7 rounded-full bg-gray-200 p-1" />
           </button>
           <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
             <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
