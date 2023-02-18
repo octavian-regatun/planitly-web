@@ -1,6 +1,7 @@
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import type { Group, GroupMember, User } from "@prisma/client"
 import { useSession } from "next-auth/react"
+import Link from "next/link"
 import { api } from "../../../utils/api"
 import { mainGradient } from "../../../utils/gradient"
 import { MembersList } from "./MembersList"
@@ -36,7 +37,8 @@ export const GroupCard: React.FC<{
     })
 
   return (
-    <div
+    <Link
+      href={`/groups/${group.id}`}
       className={
         "flex w-full flex-col gap-2 rounded-3xl p-4 text-white transition-all hover:opacity-90 " +
         mainGradient
@@ -65,6 +67,6 @@ export const GroupCard: React.FC<{
       )}
       <p className="text-xl">{group.name}</p>
       <MembersList members={members} />
-    </div>
+    </Link>
   )
 }

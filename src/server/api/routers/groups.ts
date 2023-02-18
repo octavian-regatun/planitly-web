@@ -28,6 +28,25 @@ export const groupsRouter = createTRPCRouter({
       })
     }),
 
+  getGroup: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const { id } = input
+
+      return await ctx.prisma.group.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          GroupMember: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      })
+    }),
+
   getGroups: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.group.findMany({
       where: {
@@ -110,6 +129,39 @@ export const groupsRouter = createTRPCRouter({
       return await ctx.prisma.groupMember.delete({
         where: {
           id: groupMemberId.GroupMember[0].id,
+        },
+      })
+    }),
+
+  deleteGroup: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const { id } = input
+
+      const groupMemberId = await ctx.prisma.group.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          GroupMember: {
+            where: {
+              userId: ctx.session.user.id,
+              role: "ADMIN",
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+      })
+
+      if (!groupMemberId) throw new Error("Group not found")
+      if (!groupMemberId.GroupMember[0]?.id)
+        throw new Error("Group member not found")
+
+      return await ctx.prisma.group.delete({
+        where: {
+          id,
         },
       })
     }),
