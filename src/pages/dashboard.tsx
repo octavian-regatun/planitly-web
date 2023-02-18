@@ -3,10 +3,10 @@ import CalendarScreen from "../components/Calendar/CalendarScreen"
 import Layout from "../components/Layout/Layout"
 import RequireAuth from "../components/RequireAuth"
 
-type Pages = "today" | "calendar"
+type Page = "today" | "calendar"
 
 const CalendarPage: React.FC = () => {
-  const [page, setPage] = useState<Pages>("today")
+  const [page, setPage] = useState<Page>("calendar")
 
   return (
     <RequireAuth>
