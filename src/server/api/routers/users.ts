@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 import type { Blob } from "buffer"
 import {
   getDownloadURL,
@@ -89,5 +90,80 @@ export const usersRouter = createTRPCRouter({
           ],
         },
       })
+    }),
+
+  searchFriends: protectedProcedure
+    .input(z.object({ query: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { query } = input
+
+      const friends1 = await ctx.prisma.friendship.findMany({
+        where: {
+          status: "ACCEPTED",
+          requesterId: ctx.session.user.id,
+          recipient: {
+            OR: [
+              {
+                username: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                firstName: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                lastName: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
+        },
+        select: {
+          recipient: true,
+        },
+      })
+
+      const friends2 = await ctx.prisma.friendship.findMany({
+        where: {
+          status: "ACCEPTED",
+          recipientId: ctx.session.user.id,
+          requester: {
+            OR: [
+              {
+                username: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                firstName: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                lastName: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
+        },
+        select: {
+          requester: true,
+        },
+      })
+
+      const mappedFriends1 = friends1.map((friend) => friend.recipient)
+      const mappedFriends2 = friends2.map((friend) => friend.requester)
+
+      return [...mappedFriends1, ...mappedFriends2]
     }),
 })

@@ -62,6 +62,7 @@ export const MembersList: React.FC<{
               <Dialog.Panel>
                 <div className="flex w-80 flex-col rounded-3xl border border-black bg-white p-4">
                   <SearchUsers
+                    friendsOnly
                     onClick={(user) => handleAddMember(user, formik)}
                   />
                 </div>

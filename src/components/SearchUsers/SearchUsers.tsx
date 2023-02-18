@@ -6,14 +6,28 @@ import { UserItem } from "./UserItem"
 
 export const SearchUsers: React.FC<{
   onClick: (user: User) => void
-}> = ({ onClick }) => {
+  friendsOnly?: boolean
+}> = ({ onClick, friendsOnly }) => {
   const [users, setUsers] = useState<User[]>([])
   const [friendsQuery, setFriendsQuery] = useState("")
 
-  const usersQuery = api.users.search.useQuery(
+  const searchUsersQuery = api.users.search.useQuery(
     { query: friendsQuery },
     {
-      onSuccess: (data) => setUsers(data),
+      onSuccess: (data) => {
+        if (!friendsOnly) setUsers(data)
+      },
+    }
+  )
+
+  const searchFriendsQuery = api.users.searchFriends.useQuery(
+    {
+      query: friendsQuery,
+    },
+    {
+      onSuccess: (data) => {
+        if (friendsOnly) setUsers(data)
+      },
     }
   )
 
@@ -26,7 +40,7 @@ export const SearchUsers: React.FC<{
           value={friendsQuery}
           onChange={(e) => setFriendsQuery(e.target.value)}
         />
-        {usersQuery.isFetching && (
+        {searchUsersQuery.isFetching && (
           <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
         )}
       </div>
