@@ -23,10 +23,14 @@ export const MembersList: React.FC<{
 
   useEffect(() => {
     void getMeQuery.refetch()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (meUser) formik?.setFieldValue("members", [meUser, ...members])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meUser])
 
   function handleAddMember(
@@ -34,8 +38,8 @@ export const MembersList: React.FC<{
     formik: FormikProps<CreateGroupFormikValues>
   ) {
     const { setFieldValue, values } = formik
-
-    setFieldValue("members", [...values.members, user])
+    if (!values.members.some((member) => member.id === user.id))
+      setFieldValue("members", [...values.members, user])
   }
 
   return (
