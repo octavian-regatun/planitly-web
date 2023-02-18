@@ -16,12 +16,6 @@ const BottomNav: React.FC = () => {
       >
         <UsersIcon />
       </Link>
-      <Link
-        href="/groups"
-        className="mx-auto box-content h-6 w-6 rounded-full bg-black p-2 text-white"
-      >
-        <UserGroupIcon />
-      </Link>
     </div>
   )
 }

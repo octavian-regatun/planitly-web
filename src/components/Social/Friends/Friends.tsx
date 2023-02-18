@@ -15,11 +15,10 @@ export const Friends: React.FC = () => {
 
   return (
     <div className="flex w-full flex-1 flex-col items-center">
-      <h1 className="mb-2 text-2xl font-bold">Friends</h1>
       {/* tabs buttons */}
       <div className="flex w-[calc(100%-42px)] rounded-t-3xl border border-b-0 border-black">
         <button
-          className={`flex-1 rounded-tl-3xl border-r border-black px-4 py-2 ${getActiveStyles(
+          className={`flex-1 rounded-tl-3xl border-r border-black px-4 py-2 transition-all ${getActiveStyles(
             "friends"
           )}`}
           onClick={() => setTab("friends")}
@@ -27,7 +26,7 @@ export const Friends: React.FC = () => {
           Friends
         </button>
         <button
-          className={`flex-1 border-r border-black px-4 py-2 ${getActiveStyles(
+          className={`flex-1 border-r border-black px-4 py-2 transition-all ${getActiveStyles(
             "requests"
           )}`}
           onClick={() => setTab("requests")}
@@ -35,7 +34,7 @@ export const Friends: React.FC = () => {
           Requests
         </button>
         <button
-          className={`flex-1 rounded-tr-3xl px-4 py-2 ${getActiveStyles(
+          className={`flex-1 rounded-tr-3xl py-2 px-4 transition-all ${getActiveStyles(
             "search"
           )}`}
           onClick={() => setTab("search")}
