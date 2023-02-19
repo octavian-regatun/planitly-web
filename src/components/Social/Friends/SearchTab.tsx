@@ -18,6 +18,11 @@ export const SearchTab: React.FC = () => {
     status: "PENDING",
   })
 
+  const getFriendsQuery = api.friendships.getAll.useQuery({
+    type: null,
+    status: "ACCEPTED",
+  })
+
   const usersQuery = api.users.search.useQuery(
     { query: friendsQuery },
     {
@@ -51,6 +56,18 @@ export const SearchTab: React.FC = () => {
       {users && (
         <div className="flex w-[calc(100%-42px)] flex-col rounded-b-3xl border border-t-0 border-black">
           {users.map((user) => {
+            // if we are already friends display nothing
+            if (
+              getFriendsQuery.data &&
+              getFriendsQuery.data.some(
+                (friendship) =>
+                  friendship.requester.id === user.id ||
+                  friendship.recipient.id === user.id
+              )
+            )
+              return null
+
+            // if we have a pending request from the user display pending
             if (
               (incomingFriendshipsQuery.data &&
                 incomingFriendshipsQuery.data.some(
@@ -79,6 +96,7 @@ export const SearchTab: React.FC = () => {
                 </div>
               )
 
+            // else display user with the add button
             return (
               <div
                 key={`friends-list-friend-${user.id}`}
