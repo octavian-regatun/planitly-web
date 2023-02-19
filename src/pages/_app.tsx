@@ -15,6 +15,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <>
       <Head>
         <title>PlanITLY</title>
+        <meta
+          name="description"
+          content="Let's upgrade the way you plan things in your life. If you were looking for a way to manage all tasks, meetings, events, trips in one place easier than ever? Well, you found the way now!"
+        />
         <meta property="og:title" content="PlanITLY" />
         <meta
           property="og:description"
