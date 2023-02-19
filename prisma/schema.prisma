@@ -46,6 +46,42 @@ model Friendship {
   updatedAt   DateTime @updatedAt
 }
 
+model Event {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  location    Location      @relation(fields: [locationId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  allDay      Boolean
+  sameDay     Boolean
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  EventMember EventMember[]
+  locationId  Int
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String?
+  latitude  Float?
+  longitude Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Event     Event[]
+}
+
+model EventMember {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -86,6 +122,7 @@ model User {
   friendshipsAsRecipient Friendship[]  @relation("recipient")
   friendshipsAsRequester Friendship[]  @relation("requester")
   GroupMember            GroupMember[]
+  EventMember            EventMember[]
 }
 
 model VerificationToken {

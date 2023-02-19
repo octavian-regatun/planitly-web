@@ -49,9 +49,10 @@ export const GroupCard: React.FC<{
           <p className="text-sm text-black">PENDING INVITATION</p>
           <button
             className="ml-auto rounded-full bg-gray-300"
-            onClick={() =>
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               acceptGroupInvitationMutation.mutate({ id: group.id })
-            }
+              e.stopPropagation()
+            }}
           >
             <CheckIcon className="box-content h-6 w-6 rounded-full p-1 text-green-500" />
           </button>

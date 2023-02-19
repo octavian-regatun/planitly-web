@@ -5,7 +5,7 @@ const Layout: React.FC<{ children: JSX.Element }> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="h-[calc(100vh-128px)] p-4">{children}</main>
+      <main className="h-[calc(100vh-128px)] p-4 overflow-y-auto">{children}</main>
       <BottomNav />
     </>
   )

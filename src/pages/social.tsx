@@ -1,8 +1,8 @@
 import RequireAuth from "../components/RequireAuth"
 import Layout from "../components/Layout/Layout"
-import { Friends } from "../components/Social/Friends/Friends"
+import { Friends as FriendsTab } from "../components/Social/Friends/Friends"
 import { useState } from "react"
-import { Groups } from "../components/Social/Groups/Groups"
+import { Groups as GroupsTab } from "../components/Social/Groups/Groups"
 
 type Tab = "FRIENDS" | "GROUPS"
 
@@ -16,7 +16,7 @@ const SocialPage: React.FC = () => {
   return (
     <RequireAuth>
       <Layout>
-        <div className="flex h-full flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4">
           <div className="flex gap-2">
             <button
               className={
@@ -37,8 +37,8 @@ const SocialPage: React.FC = () => {
               GROUPS
             </button>
           </div>
-          {tab === "FRIENDS" && <Friends />}
-          {tab === "GROUPS" && <Groups />}
+          {tab === "FRIENDS" && <FriendsTab />}
+          {tab === "GROUPS" && <GroupsTab />}
         </div>
       </Layout>
     </RequireAuth>

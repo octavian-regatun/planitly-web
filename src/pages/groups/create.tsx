@@ -6,6 +6,7 @@ import RequireAuth from "../../components/RequireAuth"
 import { MembersList } from "../../components/Social/Groups/MembersList"
 import { api } from "../../utils/api"
 import { mainGradient } from "../../utils/gradient"
+import { useRouter } from "next/router"
 
 export type CreateGroupFormikValues = {
   name: string
@@ -13,9 +14,15 @@ export type CreateGroupFormikValues = {
 }
 
 const GroupsCreatePage: React.FC = () => {
+  const router = useRouter()
+
   const initialValues: CreateGroupFormikValues = { name: "", members: [] }
 
-  const createGroup = api.groups.createGroup.useMutation()
+  const createGroup = api.groups.createGroup.useMutation({
+    onSuccess() {
+      void router.push("/social")
+    },
+  })
 
   function onSubmit(values: CreateGroupFormikValues) {
     const { name, members } = values
