@@ -1,11 +1,12 @@
 import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 import { type AppType } from "next/app"
+import NextNProgress from "nextjs-progressbar"
 
 import { api } from "../utils/api"
 
-import "../styles/globals.css"
 import Head from "next/head"
+import "../styles/globals.css"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -28,6 +29,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:image" content="/logo.svg" />
       </Head>
       <SessionProvider session={session}>
+        <NextNProgress />
         <Component {...pageProps} />
       </SessionProvider>
     </>
