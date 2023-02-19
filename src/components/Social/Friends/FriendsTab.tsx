@@ -17,7 +17,7 @@ export const FriendsTab: React.FC = () => {
   if (!friendshipsQuery.data || friendshipsQuery.data?.length === 0) return null
 
   return (
-    <div className="w-[calc(100%-42px)] border border-black p-2">
+    <div className="w-[calc(100%-42px)] border border-black p-2 rounded-b-3xl">
       {friendshipsQuery.data?.map((friendship) => {
         const friend =
           friendship.requester.id === session.data?.user.id

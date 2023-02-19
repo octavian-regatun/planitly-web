@@ -5,7 +5,7 @@ import { FriendsTab } from "./FriendsTab"
 
 type Tabs = "friends" | "requests" | "search"
 
-export const Friends: React.FC = () => {
+export const FriendsScreen: React.FC = () => {
   const [tab, setTab] = useState<Tabs>("friends")
 
   function getActiveStyles(currentTab: Tabs) {

@@ -1,8 +1,8 @@
 import RequireAuth from "../components/RequireAuth"
 import Layout from "../components/Layout/Layout"
-import { Friends as FriendsTab } from "../components/Social/Friends/Friends"
+import { FriendsScreen  } from "../components/Social/Friends/FriendsScreen"
 import { useState } from "react"
-import { Groups as GroupsTab } from "../components/Social/Groups/Groups"
+import { GroupsScreen  } from "../components/Social/Groups/GroupsScreen"
 
 type Tab = "FRIENDS" | "GROUPS"
 
@@ -37,8 +37,8 @@ const SocialPage: React.FC = () => {
               GROUPS
             </button>
           </div>
-          {tab === "FRIENDS" && <FriendsTab />}
-          {tab === "GROUPS" && <GroupsTab />}
+          {tab === "FRIENDS" && <FriendsScreen />}
+          {tab === "GROUPS" && <GroupsScreen />}
         </div>
       </Layout>
     </RequireAuth>
