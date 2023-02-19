@@ -5,15 +5,13 @@ const RichTextEditor: React.FC<{
   onChange: (content: string) => void
   value: string
 }> = ({ onChange, value }) => {
-  const editorRef = useRef(null)
-
   return (
     <Editor
       apiKey="eunl29hhc04gt2orlwnk09pu4ilto10yhzkx4irqsks7u6d5"
-      ref={editorRef}
+      // ref={editorRef}
       value={value}
       onEditorChange={(content) => onChange(content)}
-      onInit={(evt, editor) => (editorRef.current = editor)}
+      // onInit={(evt, editor: unknown) => (editorRef.current = editor)}
       init={{
         height: 300,
         menubar: false,
