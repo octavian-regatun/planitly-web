@@ -39,7 +39,10 @@ export const usersRouter = createTRPCRouter({
       if (image) {
         const imageRef = ref(
           firebaseStorage,
-          `images/${customAlphabet("1234567890abcdef", 10)()}`
+          `images/users/${ctx.session.user.id}/${customAlphabet(
+            "1234567890abcdef",
+            16
+          )()}`
         )
 
         await uploadString(imageRef, image, "data_url")
