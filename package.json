@@ -30,8 +30,8 @@
     "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-popper": "^2.3.0",
-    "react-toastify": "^9.1.1",
     "superjson": "1.9.1",
     "zod": "^3.20.2",
     "zustand": "^4.3.2"

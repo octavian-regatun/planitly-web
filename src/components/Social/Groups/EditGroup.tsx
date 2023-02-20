@@ -2,7 +2,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import type { inferRouterOutputs } from "@trpc/server"
 import { Field, Form, Formik } from "formik"
 import { useRouter } from "next/router"
-import { __embeddedInHtml } from "../../../../prettier.config.cjs"
+import { toast } from "react-hot-toast"
 import type { GroupsRouter } from "../../../server/api/routers/groups"
 import { api } from "../../../utils/api"
 import { mainGradient } from "../../../utils/gradient"
@@ -26,6 +26,9 @@ export const EditGroup: React.FC<{
   const deleteGroupMutation = api.groups.deleteGroup.useMutation({
     onSuccess() {
       void router.push("/social")
+      toast.success("Group deleted successfully!", {
+        id: "group-deleted",
+      })
     },
   })
 
@@ -37,6 +40,9 @@ export const EditGroup: React.FC<{
   const updateGroupMutation = api.groups.updateGroup.useMutation({
     onSuccess() {
       void apiContext.groups.getGroup.invalidate({ id: group.id })
+      toast.success("Group updated successfully!", {
+        id: "group-updated",
+      })
     },
   })
 

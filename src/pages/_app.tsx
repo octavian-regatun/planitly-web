@@ -6,6 +6,7 @@ import NextNProgress from "nextjs-progressbar"
 import { api } from "../utils/api"
 
 import Head from "next/head"
+import { Toaster } from "react-hot-toast"
 import "../styles/globals.css"
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -30,6 +31,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
       <SessionProvider session={session}>
         <NextNProgress />
+        <Toaster position="top-center" />
         <Component {...pageProps} />
       </SessionProvider>
     </>

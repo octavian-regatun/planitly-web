@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { useRef } from "react"
+import toast from "react-hot-toast"
 import Layout from "../components/Layout/Layout"
 import RequireAuth from "../components/RequireAuth"
 import { api } from "../utils/api"
@@ -10,7 +11,12 @@ const ProfilePage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const getMeQuery = api.users.getMe.useQuery()
 
-  const updateMeMutation = api.users.updateMe.useMutation()
+  const updateMeMutation = api.users.updateMe.useMutation({
+    onSuccess() {
+      void getMeQuery.refetch()
+      toast.success("Profile updated!", { id: "profile-updated" })
+    },
+  })
 
   function handleImageClick() {
     fileInputRef.current?.click()

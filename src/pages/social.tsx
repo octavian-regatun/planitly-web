@@ -1,8 +1,8 @@
-import RequireAuth from "../components/RequireAuth"
-import Layout from "../components/Layout/Layout"
-import { FriendsScreen  } from "../components/Social/Friends/FriendsScreen"
 import { useState } from "react"
-import { GroupsScreen  } from "../components/Social/Groups/GroupsScreen"
+import Layout from "../components/Layout/Layout"
+import RequireAuth from "../components/RequireAuth"
+import { FriendsScreen } from "../components/Social/Friends/FriendsScreen"
+import { GroupsScreen } from "../components/Social/Groups/GroupsScreen"
 
 type Tab = "FRIENDS" | "GROUPS"
 

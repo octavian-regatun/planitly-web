@@ -1,6 +1,7 @@
 import { api } from "../../../utils/api"
 import ProfilePicture from "../../ProfilePicture"
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { toast } from "react-hot-toast"
 
 export const RequestsTab: React.FC = () => {
   const incomingFriendshipsQuery = api.friendships.getAll.useQuery({
@@ -16,6 +17,9 @@ export const RequestsTab: React.FC = () => {
   const acceptFriendMutation = api.friendships.acceptFriend.useMutation({
     onSuccess() {
       void incomingFriendshipsQuery.refetch()
+      toast.success("Friend request accepted!", {
+        id: "friend-request-accepted",
+      })
     },
   })
 
@@ -24,6 +28,11 @@ export const RequestsTab: React.FC = () => {
       onSuccess() {
         void incomingFriendshipsQuery.refetch()
         void outgoingFriendshipsQuery.refetch()
+        toast.success("Friend request deleted!", {
+          id: "friend-request-deleted",
+        })
+
+        console.log("deleted")
       },
     }
   )

@@ -1,6 +1,7 @@
 import { ArrowPathIcon, UserPlusIcon } from "@heroicons/react/24/outline"
 import type { User } from "@prisma/client"
 import { useState } from "react"
+import toast from "react-hot-toast"
 import { api } from "../../../utils/api"
 import ProfilePicture from "../../ProfilePicture"
 
@@ -33,6 +34,9 @@ export const SearchTab: React.FC = () => {
   const addFriendMutation = api.friendships.addFriend.useMutation({
     onSuccess() {
       void outgoingFriendshipsQuery.refetch()
+      toast.success("Friend request sent!", {
+        id: "friend-request-sent",
+      })
     },
   })
 
