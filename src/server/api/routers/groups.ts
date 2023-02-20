@@ -1,5 +1,8 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { User } from "@prisma/client"
+import { enforceGroupAdminProcedure } from "../middlewares/enforceGroupAdminProcedure"
+import { TRPCError } from "@trpc/server"
 
 export const groupsRouter = createTRPCRouter({
   createGroup: protectedProcedure
@@ -89,37 +92,40 @@ export const groupsRouter = createTRPCRouter({
       return groupMemberId.GroupMember[0]?.id ? true : false
     }),
 
-  updateGroup: protectedProcedure
+  updateGroup: enforceGroupAdminProcedure
     .input(
       z.object({
         id: z.number(),
         name: z.string().min(1),
         description: z.string(),
+        membersId: z.array(z.string()),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, name, description } = input
+      const { id, name, description, membersId: membersIdUpdated } = input
 
-      const groupMemberId = await ctx.prisma.group.findUnique({
+      const groupMembers = await ctx.prisma.group.findUnique({
         where: {
           id,
         },
         select: {
           GroupMember: {
-            where: {
-              userId: ctx.session.user.id,
-              role: "ADMIN",
-            },
             select: {
-              id: true,
+              userId: true,
             },
           },
         },
       })
 
-      if (!groupMemberId) throw new Error("Group not found")
-      if (!groupMemberId.GroupMember[0]?.id)
-        throw new Error("Group member not found")
+      if (!groupMembers)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Group not found!",
+        })
+
+      const membersIdCurrent = groupMembers?.GroupMember.map(
+        (member) => member.userId
+      )
 
       return ctx.prisma.group.update({
         where: {

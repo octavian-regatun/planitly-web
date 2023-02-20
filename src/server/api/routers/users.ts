@@ -9,7 +9,7 @@ import {
 import { readFile } from "fs/promises"
 import { customAlphabet } from "nanoid"
 import { z } from "zod"
-import { firebaseStorage } from "../firebase"
+import { firebaseStorage } from "../../firebase"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const usersRouter = createTRPCRouter({

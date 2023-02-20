@@ -68,7 +68,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
     return shape

@@ -1,4 +1,5 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
+import type { User } from "@prisma/client"
 import type { inferRouterOutputs } from "@trpc/server"
 import { Field, Form, Formik } from "formik"
 import { useRouter } from "next/router"
@@ -12,6 +13,7 @@ import { MembersList } from "./MembersList"
 type EditGroupFormikValues = {
   name: string
   description: string
+  members: User[]
 }
 
 export const EditGroup: React.FC<{
@@ -35,6 +37,7 @@ export const EditGroup: React.FC<{
   const initialValues: EditGroupFormikValues = {
     name: group.name,
     description: group.description || "",
+    members: members,
   }
 
   const updateGroupMutation = api.groups.updateGroup.useMutation({
@@ -46,11 +49,13 @@ export const EditGroup: React.FC<{
     },
   })
 
+  const membersId = members.map((member) => member.id)
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(data) => {
-        updateGroupMutation.mutate({ id: group.id, ...data })
+        updateGroupMutation.mutate({ id: group.id, ...data, membersId })
       }}
     >
       {(formik) => (
@@ -78,7 +83,7 @@ export const EditGroup: React.FC<{
             onChange={(content) => formik.setFieldValue("description", content)}
           />
           <p className="w-full text-left text-lg">Members</p>
-          <MembersList members={members} />
+          <MembersList members={formik.values.members} formik={formik} />
           <button
             className="w-fit self-center rounded-full bg-red-600 px-8 py-2 transition-all hover:bg-red-700"
             onClick={() => deleteGroupMutation.mutate({ id: group.id })}
