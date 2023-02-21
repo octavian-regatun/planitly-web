@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { api } from "../../../utils/api"
 import { mainGradient } from "../../../utils/gradient"
-import { MembersList } from "./MembersList"
+import { MembersListWithSearch } from "./MembersListWithSearch"
 
 export const GroupCard: React.FC<{
   group: Group & {
@@ -67,7 +67,7 @@ export const GroupCard: React.FC<{
         </div>
       )}
       <p className="text-xl">{group.name}</p>
-      <MembersList members={members} />
+      <MembersListWithSearch members={members} />
     </Link>
   )
 }

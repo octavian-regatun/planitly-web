@@ -1,6 +1,6 @@
 import { mainGradient } from "../../../utils/gradient"
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
-import { MembersList } from "./MembersList"
+import { MembersListWithSearch } from "./MembersListWithSearch"
 import { GroupsRouter } from "../../../server/api/routers/groups"
 import { inferRouterOutputs } from "@trpc/server"
 import { api } from "../../../utils/api"
@@ -28,7 +28,7 @@ export const Group: React.FC<{
       <p className="w-full text-left text-lg">Description</p>
       <div dangerouslySetInnerHTML={{ __html: group.description || "" }} />
       <p className="w-full text-left text-lg">Members</p>
-      <MembersList members={members} />
+      <MembersListWithSearch members={members} />
     </div>
   )
 }

@@ -102,11 +102,16 @@ export const groupsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, name, description, membersId: membersIdUpdated } = input
+      const {
+        id: groupId,
+        name,
+        description,
+        membersId: membersIdUpdated,
+      } = input
 
       const groupMembers = await ctx.prisma.group.findUnique({
         where: {
-          id,
+          id: groupId,
         },
         select: {
           GroupMember: {
@@ -127,9 +132,37 @@ export const groupsRouter = createTRPCRouter({
         (member) => member.userId
       )
 
+      const membersIdToDelete = membersIdCurrent.filter(
+        (id) => !membersIdUpdated.includes(id)
+      )
+
+      const membersIdToAdd = membersIdUpdated.filter(
+        (id) => !membersIdCurrent.includes(id)
+      )
+
+      // add the new members to the group
+      await ctx.prisma.groupMember.createMany({
+        data: membersIdToAdd.map((userId) => {
+          return {
+            userId,
+            groupId,
+          }
+        }),
+      })
+
+      // delete the members from the group
+      await ctx.prisma.groupMember.deleteMany({
+        where: {
+          userId: {
+            in: membersIdToDelete,
+          },
+          groupId,
+        },
+      })
+
       return ctx.prisma.group.update({
         where: {
-          id,
+          id: groupId,
         },
         data: {
           name,

@@ -11,14 +11,17 @@ import type { CreateGroupFormikValues } from "../../../pages/groups/create"
 import { api } from "../../../utils/api"
 import ProfilePicture from "../../ProfilePicture"
 import { SearchUsers } from "../../SearchUsers/SearchUsers"
+import { GroupMemberModal } from "./GroupMemberModal"
 
-export const MembersList: React.FC<{
+export const MembersListWithSearch: React.FC<{
   members: User[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formik?: FormikProps<any>
 }> = ({ members, formik }) => {
   const [meUser, setMeUser] = useState<User>()
+  const [isOpenMemberModal, setIsOpenMemberModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [pickedUser, setPickedUser] = useState<User>()
 
   const getMeQuery = api.users.getMe.useQuery(undefined, {
     onSuccess(data) {
@@ -52,8 +55,6 @@ export const MembersList: React.FC<{
   ) {
     const { setFieldValue, values } = formik
 
-    console.log(values)
-
     if (!values.members.some((member) => member.id === user.id))
       setFieldValue("members", [...values.members, user])
   }
@@ -61,11 +62,16 @@ export const MembersList: React.FC<{
   return (
     <div className="flex flex-wrap">
       {members.map((member) => (
-        <ProfilePicture
+        <button
+          onClick={() => {
+            setIsOpenMemberModal(true)
+            setPickedUser(member)
+          }}
+          type="button"
           key={`members-profile-picture-${member.id}`}
-          src={member.image}
-          size={36}
-        />
+        >
+          <ProfilePicture src={member.image} size={36} />
+        </button>
       ))}
       {formik && (
         <>
@@ -77,7 +83,7 @@ export const MembersList: React.FC<{
               className="fixed inset-0 z-10 bg-black/50"
               aria-hidden="true"
             />
-            <div className="fixed inset-0 flex items-center justify-center p-4 z-20">
+            <div className="fixed inset-0 z-20 flex items-center justify-center p-4">
               <Dialog.Panel>
                 <div className="flex w-80 flex-col rounded-3xl border border-black bg-white p-4">
                   <SearchUsers
@@ -88,6 +94,14 @@ export const MembersList: React.FC<{
               </Dialog.Panel>
             </div>
           </Dialog>
+          {pickedUser && (
+            <GroupMemberModal
+              isOpen={isOpenMemberModal}
+              setIsOpen={setIsOpenMemberModal}
+              user={pickedUser}
+              formik={formik}
+            />
+          )}
         </>
       )}
     </div>

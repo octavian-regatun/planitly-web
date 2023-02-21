@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import { useEffect } from "react"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-import { MembersList } from "../../components/Social/Groups/MembersList"
+import { MembersListWithSearch } from "../../components/Social/Groups/MembersListWithSearch"
 import { api } from "../../utils/api"
 import { mainGradient } from "../../utils/gradient"
 import { useRouter } from "next/router"
@@ -60,7 +60,7 @@ const GroupsCreatePage: React.FC = () => {
               </div>
               <div className="flex w-full flex-col gap-2">
                 <label className="text-center text-xl font-bold">Members</label>
-                <MembersList members={formik.values.members} formik={formik} />
+                <MembersListWithSearch members={formik.values.members} formik={formik} />
                 <ErrorMessage name="title" component="div" />
               </div>
 
