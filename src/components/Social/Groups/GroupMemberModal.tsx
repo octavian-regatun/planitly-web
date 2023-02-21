@@ -1,8 +1,8 @@
 import { Dialog } from "@headlessui/react"
-import { Dispatch, SetStateAction } from "react"
-import { User } from "@prisma/client"
+import type { User } from "@prisma/client"
+import type { FormikProps } from "formik"
+import type { Dispatch, SetStateAction } from "react"
 import ProfilePicture from "../../ProfilePicture"
-import { FormikProps } from "formik"
 
 export const GroupMemberModal: React.FC<{
   isOpen: boolean

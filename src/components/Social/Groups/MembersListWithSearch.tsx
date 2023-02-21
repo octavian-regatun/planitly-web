@@ -94,7 +94,7 @@ export const MembersListWithSearch: React.FC<{
               </Dialog.Panel>
             </div>
           </Dialog>
-          {pickedUser && (
+          {pickedUser && meUser && meUser.id !== pickedUser.id && (
             <GroupMemberModal
               isOpen={isOpenMemberModal}
               setIsOpen={setIsOpenMemberModal}
