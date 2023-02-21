@@ -35,7 +35,10 @@ export const GroupMemberModal: React.FC<{
             </div>
             <button
               className="rounded-full bg-red-600 px-8 py-2 font-bold text-white"
-              onClick={() => handleRemoveMember(user)}
+              onClick={() => {
+                handleRemoveMember(user)
+                setIsOpen(false)
+              }}
             >
               REMOVE MEMBER
             </button>
