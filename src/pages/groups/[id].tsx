@@ -29,15 +29,14 @@ const GroupPage: React.FC = () => {
     setIsEditing((prevState) => !prevState)
   }
 
-  if (!group) return <p>Loading...</p>
-
   return (
     <RequireAuth>
       <Layout>
         <div className="pb-20">
-          {isEditing ? (
+          {group && isEditing && (
             <EditGroup group={group} toggleEditingState={toggleEditingState} />
-          ) : (
+          )}
+          {group && !isEditing && (
             <Group group={group} toggleEditingState={toggleEditingState} />
           )}
         </div>
