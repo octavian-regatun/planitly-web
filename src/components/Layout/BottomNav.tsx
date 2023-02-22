@@ -11,7 +11,7 @@ const BottomNav: React.FC = () => {
         <HomeIcon />
       </Link>
       <Link
-        href="/social"
+        href="/social/friends"
         className="mx-auto box-content h-6 w-6 rounded-full bg-black p-2 text-white"
       >
         <UsersIcon />
