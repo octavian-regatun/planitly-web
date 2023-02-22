@@ -67,7 +67,7 @@ export const GroupCard: React.FC<{
         </div>
       )}
       <p className="text-xl">{group.name}</p>
-      <MembersListWithSearch members={members} />
+      <MembersListWithSearch members={members} groupId={group.id} />
     </Link>
   )
 }

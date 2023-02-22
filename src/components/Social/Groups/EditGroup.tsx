@@ -86,7 +86,11 @@ export const EditGroup: React.FC<{
               }
             />
             <p className="w-full text-left text-lg">Members</p>
-            <MembersListWithSearch members={formik.values.members} formik={formik} />
+            <MembersListWithSearch
+              members={formik.values.members}
+              formik={formik}
+              groupId={group.id}
+            />
             <button
               className="w-fit self-center rounded-full bg-red-600 px-8 py-2 transition-all hover:bg-red-700"
               onClick={() => deleteGroupMutation.mutate({ id: group.id })}
