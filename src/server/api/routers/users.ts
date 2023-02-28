@@ -1,16 +1,9 @@
-import { User } from "@prisma/client"
-import type { Blob } from "buffer"
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadString,
-} from "firebase/storage"
-import { readFile } from "fs/promises"
+import { getDownloadURL, ref, uploadString } from "firebase/storage"
 import { customAlphabet } from "nanoid"
 import { z } from "zod"
 import { firebaseStorage } from "../../firebase"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { searchFriends } from "../../../utils/users"
 
 export const usersRouter = createTRPCRouter({
   getMe: protectedProcedure.query(({ ctx }) => {
@@ -100,73 +93,6 @@ export const usersRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const { query } = input
 
-      const friends1 = await ctx.prisma.friendship.findMany({
-        where: {
-          status: "ACCEPTED",
-          requesterId: ctx.session.user.id,
-          recipient: {
-            OR: [
-              {
-                username: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-              {
-                firstName: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-              {
-                lastName: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-            ],
-          },
-        },
-        select: {
-          recipient: true,
-        },
-      })
-
-      const friends2 = await ctx.prisma.friendship.findMany({
-        where: {
-          status: "ACCEPTED",
-          recipientId: ctx.session.user.id,
-          requester: {
-            OR: [
-              {
-                username: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-              {
-                firstName: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-              {
-                lastName: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-            ],
-          },
-        },
-        select: {
-          requester: true,
-        },
-      })
-
-      const mappedFriends1 = friends1.map((friend) => friend.recipient)
-      const mappedFriends2 = friends2.map((friend) => friend.requester)
-
-      return [...mappedFriends1, ...mappedFriends2]
+      return await searchFriends(query, ctx.session.user.id)
     }),
 })

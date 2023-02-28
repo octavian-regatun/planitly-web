@@ -1,8 +1,8 @@
 import { z } from "zod"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
-import { User } from "@prisma/client"
 import { enforceGroupAdminProcedure } from "../middlewares/enforceGroupAdminProcedure"
 import { TRPCError } from "@trpc/server"
+import { searchFriends } from "../../../utils/users"
 
 export const groupsRouter = createTRPCRouter({
   createGroup: protectedProcedure
@@ -89,7 +89,7 @@ export const groupsRouter = createTRPCRouter({
 
       if (!groupMemberId) throw new Error("Group not found")
 
-      return groupMemberId.GroupMember[0]?.id ? true : false
+      return !!groupMemberId.GroupMember[0]?.id
     }),
 
   updateGroup: enforceGroupAdminProcedure
@@ -273,6 +273,33 @@ export const groupsRouter = createTRPCRouter({
           id,
         },
       })
+    }),
+
+  searchMembers: protectedProcedure
+    .input(z.object({ query: z.string(), groupId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const { query, groupId } = input
+
+      const friends = await searchFriends(query, ctx.session.user.id)
+
+      const groupMembers = await ctx.prisma.group.findUnique({
+        where: {
+          id: groupId,
+        },
+        select: {
+          GroupMember: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+      })
+
+      const groupMembersId = groupMembers?.GroupMember.map(
+        (member) => member.userId
+      )
+
+      return friends.filter((friend) => !groupMembersId?.includes(friend.id))
     }),
 })
 
