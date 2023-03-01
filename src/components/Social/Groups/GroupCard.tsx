@@ -1,26 +1,17 @@
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import type { Group, GroupMember, User } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { api } from "../../../utils/api"
 import { mainGradient } from "../../../utils/gradient"
-import { MembersListWithSearch } from "./MembersListWithSearch"
+import { UsersList } from "./UsersList"
+import type { inferRouterOutputs } from "@trpc/server"
+import type { GroupsRouter } from "../../../server/api/routers/groups"
 
 export const GroupCard: React.FC<{
-  group: Group & {
-    GroupMember: (GroupMember & {
-      user: User
-    })[]
-  }
+  group: NonNullable<inferRouterOutputs<GroupsRouter>["getGroup"]>
 }> = ({ group }) => {
   const myUser = useSession()
   const apiContext = api.useContext()
-
-  const members = group.GroupMember.map((member) => member.user)
-
-  const myGroupMember = group.GroupMember.find(
-    (member) => member.userId === myUser?.data?.user.id
-  )
 
   const acceptGroupInvitationMutation =
     api.groups.acceptGroupInvitation.useMutation({
@@ -35,6 +26,16 @@ export const GroupCard: React.FC<{
         void apiContext.groups.getGroups.invalidate()
       },
     })
+
+  const members = group.GroupMember.map((member) => {
+    let loading = false
+    if (member.status === "PENDING") loading = true
+    return { ...member.user, loading }
+  })
+
+  const myGroupMember = group.GroupMember.find(
+    (member) => member.userId === myUser?.data?.user.id
+  )
 
   return (
     <Link
@@ -67,7 +68,7 @@ export const GroupCard: React.FC<{
         </div>
       )}
       <p className="text-xl">{group.name}</p>
-      <MembersListWithSearch members={members} groupId={group.id} />
+      <UsersList users={members} />
     </Link>
   )
 }

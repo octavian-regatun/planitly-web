@@ -1,15 +1,19 @@
 import { mainGradient } from "../../../utils/gradient"
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
-import { MembersListWithSearch } from "./MembersListWithSearch"
 import type { GroupsRouter } from "../../../server/api/routers/groups"
 import type { inferRouterOutputs } from "@trpc/server"
 import { api } from "../../../utils/api"
+import { UsersList } from "./UsersList"
 
 export const Group: React.FC<{
   group: NonNullable<inferRouterOutputs<GroupsRouter>["getGroup"]>
   toggleEditingState: () => void
 }> = ({ group, toggleEditingState }) => {
-  const members = group?.GroupMember.map((member) => member.user)
+  const members = group.GroupMember.map((member) => {
+    let loading = false
+    if (member.status === "PENDING") loading = true
+    return { ...member.user, loading }
+  })
 
   const isGroupAdminQuery = api.groups.isGroupAdmin.useQuery({ id: group.id })
 
@@ -28,7 +32,7 @@ export const Group: React.FC<{
       <p className="w-full text-left text-lg">Description</p>
       <div dangerouslySetInnerHTML={{ __html: group.description || "" }} />
       <p className="w-full text-left text-lg">Members</p>
-      <MembersListWithSearch members={members} groupId={group.id} />
+      <UsersList users={members} />
     </div>
   )
 }

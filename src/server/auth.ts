@@ -5,7 +5,8 @@ import {
   getServerSession,
   type NextAuthOptions,
 } from "next-auth"
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
+import type { GoogleProfile } from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google"
 import { env } from "../env/server.mjs"
 import { prisma } from "./db"
 import { customAlphabet } from "nanoid"

@@ -7,7 +7,8 @@ import { UserItem } from "./UserItem"
 export const SearchUsers: React.FC<{
   onClick: (user: User) => void
   friendsOnly?: boolean
-}> = ({ onClick, friendsOnly }) => {
+  excludeUsersFromSearch: (User & { loading: boolean })[]
+}> = ({ onClick, friendsOnly, excludeUsersFromSearch }) => {
   const [users, setUsers] = useState<User[]>([])
   const [friendsQuery, setFriendsQuery] = useState("")
 
@@ -15,7 +16,7 @@ export const SearchUsers: React.FC<{
     { query: friendsQuery },
     {
       onSuccess: (data) => {
-        if (!friendsOnly) setUsers(data)
+        if (!friendsOnly) setUsers(users)
       },
     }
   )
@@ -31,6 +32,10 @@ export const SearchUsers: React.FC<{
     }
   )
 
+  const filteredData = users.filter(
+    (user) => !excludeUsersFromSearch.some((u) => u.id === user.id)
+  )
+
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-full">
@@ -44,9 +49,9 @@ export const SearchUsers: React.FC<{
           <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
         )}
       </div>
-      {users && (
+      {filteredData && (
         <div className="flex w-[calc(100%-42px)] flex-col rounded-b-3xl border border-t-0 border-black">
-          {users.map((user) => (
+          {filteredData.map((user) => (
             <UserItem
               key={`friends-list-friend-${user.id}`}
               user={user}

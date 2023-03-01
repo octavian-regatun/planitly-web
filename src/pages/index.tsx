@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         >
           PlanITLY
         </h1>
-        <div className="my-auto flex flex-col gap-4 items-center">
+        <div className="my-auto flex flex-col items-center gap-4">
           <Image
             src="/assets/images/pages/index/illustration.svg"
             width={500}
