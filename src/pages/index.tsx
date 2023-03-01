@@ -42,6 +42,8 @@ const Home: NextPage = () => {
           <p className="text-md font-bold">
             Are you looking for a way to manage all tasks, meetings, events,
             trips in one place easier than ever? Well, you found the way now!
+
+            Watchtower - test
           </p>
         </div>
         <div className="flex w-full flex-col gap-2">
