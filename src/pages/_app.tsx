@@ -28,6 +28,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
           trips in one place easier than ever? Well, you found the way now!"
         />
         <meta property="og:image" content="/logo.svg" />
+        <meta
+          name="google-site-verification"
+          content="9DFNcZdMN8_VKIEGVoMyRCJskAFzkWutCWGWUNBfXig"
+        />
       </Head>
       <SessionProvider session={session}>
         <NextNProgress />
@@ -38,4 +42,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   )
 }
 
-export default api.withTRPC(MyApp)
+export default api.withTRPC(MyApp);
