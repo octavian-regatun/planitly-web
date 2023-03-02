@@ -1,28 +1,81 @@
-# Create T3 App
+# PlanITLY - https://planitly.com
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+<div style="text-align:center">
+<img src="https://planitly.com/logo.svg" width="300" style=""/>
+</div>
 
-## What's next? How do I make an app with this?
+# About
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+**<u>PlanITLY</u>** it's an app that makes it easier for users to organize and plan meetings and trips for groups of
+people. With various features it enables people to easily find common available dates for groups of people, help them
+take a common advantageous decision about the location, place to stay, time-frame, budget and easily share and keep
+track of the money spent and other various aspects of related to the trip.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+# Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## MVP
 
-## Learn More
+- sign in with:
+    - ~~google~~
+    - vanilla
+- create events
+    - title
+    - description
+    - start date - end date
+    - location name
+    - add particiapnts
+- modify event details
+- ~~see a list of upcoming events~~
+- see the upcoming events on the small calendar
+- ~~change username~~
+- ~~friends~~
+    - ~~add~~
+    - ~~delete~~
+    - ~~accept~~
+    - ~~reject~~
+- groups
+    - ~~create~~
+    - ~~invite people~~
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## **To be available in the future**
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- create events
+    - add location coordinates
+    - pick location from a map
+    - display a map with the location
+    - warning/information (things to be aware of)
+    - description wysiwyg editor
+    - when picking the day, display if the days are available or not for all participants
+    - add task/subtask
+- rate events anonymously
+- keep event version history
+- public events
+- feedback system
+- counter page (days until next event)
+- sign in with:
+    - facebook
+    - apple
+    - discord
+- integrations with:
+    - booking
+    - discord
+    - google calendar
+- notifications
+    - desktop
+    - mobile
+- statistics
+    - per person
+    - per group
+- total price of meeting and price per participant
+- add intervals of time when available for events or not
+- suggest meeting and add pools/voting system (location, date)
+- events settings
+    - allow others to invite people or not
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+# Technologies
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Next.js
+- tRPC
+- Prisma
+- TailwindCSS
+- PostgreSQL
