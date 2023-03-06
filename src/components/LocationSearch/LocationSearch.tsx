@@ -1,4 +1,4 @@
-import { MapPinIcon } from "@heroicons/react/24/outline"
+import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/outline"
 import type { inferRouterOutputs } from "@trpc/server"
 import dynamic from "next/dynamic"
 import { publicIpv4 } from "public-ip"
@@ -50,7 +50,7 @@ export const LocationSearch: React.FC<{
       if (query.length > 0 && ip) {
         searchHereApiMutation.mutate({ query, ip })
       }
-    }, 1000)
+    }, 250)
     return () => clearTimeout(debounce)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, ip])
@@ -60,15 +60,18 @@ export const LocationSearch: React.FC<{
       <div className="relative flex flex-col items-center">
         <input
           type="text"
-          className="w-full rounded-full border border-black p-2"
+          className="w-full rounded-full border border-black p-2 "
           placeholder="Search for a location..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={onFocus}
           onBlur={onBlur}
         />
+        {searchHereApiMutation.isLoading && (
+          <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
+        )}
         {focused && results && results.length > 0 && (
-          <div className="absolute top-[38px] z-[401] w-[calc(100%-2rem)] rounded-b-3xl border border-t-0 border-black bg-white">
+          <div className="absolute top-[38px] z-[1001] w-[calc(100%-2rem)] rounded-b-3xl border border-t-0 border-black bg-white">
             {results.map((item) => (
               <button
                 key={`location-search-${item.id}`}
