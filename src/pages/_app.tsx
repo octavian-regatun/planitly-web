@@ -8,6 +8,7 @@ import { api } from "../utils/api"
 import Head from "next/head"
 import { Toaster } from "react-hot-toast"
 import "../styles/globals.css"
+import "rsuite/dist/rsuite.min.css"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -42,4 +43,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   )
 }
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(MyApp)

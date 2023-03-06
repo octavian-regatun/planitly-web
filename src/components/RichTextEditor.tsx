@@ -5,6 +5,8 @@ const RichTextEditor: React.FC<{
   onChange: (content: string) => void
   value: string
 }> = ({ onChange, value }) => {
+  if (!value) value = ""
+
   return (
     <Editor
       apiKey="eunl29hhc04gt2orlwnk09pu4ilto10yhzkx4irqsks7u6d5"

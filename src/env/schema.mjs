@@ -28,6 +28,7 @@ export const serverSchema = z.object({
   FIREBASE_MESSAGING_SENDER_ID: z.string(),
   FIREBASE_APP_ID: z.string(),
   FIREBASE_MEASUREMENT_ID: z.string(),
+  HERE_API_KEY: z.string(),
 })
 
 /**
@@ -49,6 +50,7 @@ export const serverEnv = {
   FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
+  HERE_API_KEY: process.env.HERE_API_KEY,
 }
 
 /**

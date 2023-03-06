@@ -1,15 +1,15 @@
 import type { User } from "@prisma/client"
-import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik"
+import type { FormikProps } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik"
+import { useRouter } from "next/router"
+import { useState } from "react"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-// import { MembersListWithSearch } from "../../components/Social/Groups/MembersListWithSearch"
+import { GroupMemberModal } from "../../components/Social/Groups/GroupMemberModal"
+import { UsersListWithSearch } from "../../components/Social/Groups/UsersListWithSearch"
+import type { UserWithLoading } from "../../types/user"
 import { api } from "../../utils/api"
 import { mainGradient } from "../../utils/gradient"
-import { useRouter } from "next/router"
-import { UsersListWithSearch } from "../../components/Social/Groups/UsersListWithSearch"
-import { GroupMemberModal } from "../../components/Social/Groups/GroupMemberModal"
-import { useState } from "react"
-import { UserWithLoading } from "../../types/user"
 
 export type CreateGroupFormikValues = {
   name: string
