@@ -1,4 +1,6 @@
+import { signOut } from "next-auth/react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { useRef } from "react"
 import toast from "react-hot-toast"
 import Layout from "../components/Layout/Layout"
@@ -8,7 +10,10 @@ import { mainGradient } from "../utils/gradient"
 import { toBase64 } from "../utils/image"
 
 const ProfilePage: React.FC = () => {
+  const router = useRouter()
+
   const fileInputRef = useRef<HTMLInputElement>(null)
+
   const getMeQuery = api.users.getMe.useQuery()
 
   const updateMeMutation = api.users.updateMe.useMutation({
@@ -17,6 +22,12 @@ const ProfilePage: React.FC = () => {
       toast.success("Profile updated!", { id: "profile-updated" })
     },
   })
+
+  function handleSignOut() {
+    void signOut({
+      callbackUrl: `${window.location.origin}`,
+    })
+  }
 
   function handleImageClick() {
     fileInputRef.current?.click()
@@ -73,12 +84,20 @@ const ProfilePage: React.FC = () => {
           </table>
           <button
             className={
-              "rounded-full px-4 py-2 font-bold uppercase text-white " +
+              "w-48 rounded-full py-2 font-bold uppercase text-white " +
               mainGradient
             }
             onClick={onSubmit}
           >
             save profile
+          </button>
+          <button
+            className={
+              "-mt-2 w-48 rounded-full bg-red-600 py-2 font-bold uppercase text-white"
+            }
+            onClick={handleSignOut}
+          >
+            logout
           </button>
         </div>
       </Layout>
