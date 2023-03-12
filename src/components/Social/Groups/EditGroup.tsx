@@ -34,7 +34,7 @@ export const EditGroup: React.FC<{
 
   const deleteGroupMutation = api.groups.deleteGroup.useMutation({
     onSuccess() {
-      void router.push("/social")
+      void router.push("/groups")
       toast.success("Group deleted successfully!", {
         id: "group-deleted",
       })

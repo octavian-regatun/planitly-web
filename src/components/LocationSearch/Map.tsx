@@ -44,7 +44,6 @@ const CenterToUserLocation = () => {
   useEffect(() => {
     void publicIpv4().then((ip) =>
       getLatLonFromIp(ip).then((data) => {
-        console.log(data)
         map.setView([data.lat, data.lon], 12)
       })
     )

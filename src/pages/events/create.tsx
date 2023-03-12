@@ -1,10 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
-import { DateRangePicker } from "rsuite"
+import { DateTimeRangePicker } from "../../components/DateRangePicker/DateRangePicker"
+
 import Layout from "../../components/Layout/Layout"
 import type { LocationItem } from "../../components/LocationSearch/LocationSearch"
 import { LocationSearch } from "../../components/LocationSearch/LocationSearch"
 import RequireAuth from "../../components/RequireAuth"
 import RichTextEditor from "../../components/RichTextEditor"
+import { api } from "../../utils/api"
 
 type CreateEventFormikValues = {
   name: string
@@ -16,17 +18,30 @@ type CreateEventFormikValues = {
 }
 
 const EventsCreatePage = () => {
+  const createEventMutation = api.events.createEvent.useMutation({
+    onSuccess(data) {
+      console.log(data)
+    },
+  })
+
   const initialValues: CreateEventFormikValues = {
     name: "",
     description: "",
     startDate: new Date(),
     endDate: new Date(),
-    allDay: false,
+    allDay: true,
     location: null,
   }
 
   function onSubmit(values: CreateEventFormikValues) {
-    console.log(values)
+    alert(JSON.stringify(values, null, 2))
+
+    if (!values.location) return
+
+    createEventMutation.mutate({
+      ...values,
+      location: values.location
+    })
   }
 
   return (
@@ -58,27 +73,7 @@ const EventsCreatePage = () => {
                 </div>
                 <div className="flex w-full flex-col gap-2">
                   <label className="text-center text-xl font-bold">Date</label>
-                  <DateRangePicker
-                    format={`yyyy-MM-dd ${
-                      formik.values.allDay ? "" : "HH:mm:ss"
-                    }`}
-                    value={[formik.values.startDate, formik.values.endDate]}
-                    onChange={(value) => {
-                      formik.setFieldValue("startDate", value?.at(0))
-                      formik.setFieldValue("endDate", value?.at(1))
-                    }}
-                    showOneCalendar
-                    ranges={[
-                      {
-                        label: "today",
-                        value: [new Date(), new Date()],
-                      },
-                    ]}
-                    defaultCalendarValue={[
-                      new Date("2022-02-01 00:00:00"),
-                      new Date("2022-05-01 23:59:59"),
-                    ]}
-                  />
+                  <DateTimeRangePicker />
                 </div>
                 <div className="flex w-full flex-col items-center justify-center gap-2">
                   <label className="text-center text-xl font-bold">

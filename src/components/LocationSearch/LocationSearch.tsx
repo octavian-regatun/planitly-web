@@ -7,10 +7,10 @@ import type { LocationsRouter } from "../../server/api/routers/locations"
 import { api } from "../../utils/api"
 
 export type LocationItem = {
-  title: string
+  name: string
   address: string
-  lat: number
-  lon: number
+  latitude: number
+  longitude: number
 }
 
 type Results = NonNullable<inferRouterOutputs<LocationsRouter>["searchHereApi"]>
@@ -60,8 +60,8 @@ export const LocationSearch: React.FC<{
       <div className="relative flex flex-col items-center">
         <input
           type="text"
-          className="w-full rounded-full border border-black p-2 "
-          placeholder="Search for a location..."
+          className="w-full rounded-full border border-black px-4 py-2 "
+          placeholder="Search location..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={onFocus}
@@ -80,9 +80,9 @@ export const LocationSearch: React.FC<{
                 onClick={() => {
                   setPicked(item)
                   onSelect({
-                    title: item.title,
-                    lat: item.position.lat,
-                    lon: item.position.lng,
+                    name: item.title,
+                    latitude: item.position.lat,
+                    longitude: item.position.lng,
                     address: item.address.label,
                   })
                 }}

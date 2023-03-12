@@ -7,8 +7,8 @@ import { api } from "../utils/api"
 
 import Head from "next/head"
 import { Toaster } from "react-hot-toast"
-import "rsuite/dist/rsuite.min.css"
 import "../styles/globals.scss"
+import "react-datepicker/dist/react-datepicker.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

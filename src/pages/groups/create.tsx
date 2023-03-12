@@ -25,7 +25,7 @@ const GroupsCreatePage: React.FC = () => {
 
   const createGroup = api.groups.createGroup.useMutation({
     onSuccess() {
-      void router.push("/social/groups")
+      void router.push("/groups")
     },
   })
 

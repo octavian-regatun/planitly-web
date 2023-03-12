@@ -64,9 +64,10 @@ model Event {
 
 model Location {
   id        Int      @id @default(autoincrement())
-  address   String?
-  latitude  Float?
-  longitude Float?
+  name      String
+  address   String
+  latitude  Float
+  longitude Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Event     Event[]
