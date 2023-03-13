@@ -15,9 +15,9 @@ const Navbar: React.FC = () => {
   const getMeQuery = api.users.getMe.useQuery()
 
   return (
-    <nav className="flex h-16 items-center justify-center border-b-2 border-b-black p-4 text-2xl font-bold">
+    <nav className="flex h-16 items-center justify-center p-4 text-2xl font-bold text-white bg-teal-600">
       <button onClick={() => router.back()}>
-        <ArrowLeftIcon className="box-content h-6 w-6 rounded-full bg-black p-2 text-white" />
+        <ArrowLeftIcon className="box-content h-6 w-6 rounded-full bg-yellow-200 p-2 text-black" />
       </button>
       {/* offset the (ProfilePicture width)/2 so title can be absolutely centered */}
       <h1 className="relative -right-[1px] mx-auto uppercase">

@@ -29,6 +29,7 @@ export const serverSchema = z.object({
   FIREBASE_APP_ID: z.string(),
   FIREBASE_MEASUREMENT_ID: z.string(),
   HERE_API_KEY: z.string(),
+  PEXELS_API_KEY: z.string(),
 })
 
 /**
@@ -51,6 +52,7 @@ export const serverEnv = {
   FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
   HERE_API_KEY: process.env.HERE_API_KEY,
+  PEXELS_API_KEY: process.env.PEXELS_API_KEY,
 }
 
 /**

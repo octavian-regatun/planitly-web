@@ -39,4 +39,8 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+
+  getEvents: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.event.findMany({ include: { location: true } })
+  }),
 })

@@ -6,7 +6,7 @@ const CalendarHeader: React.FC = () => {
       <tr className="flex flex-1 justify-evenly">
         {weekDays.map((day) => (
           <th
-            className="flex-1 border-r border-black uppercase last:border-r-0"
+            className="flex-1 border-r border-gray-200 last:border-r-0 font-normal"
             key={`calendar-week-day-${day}`}
           >
             {day}

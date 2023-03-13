@@ -11,23 +11,29 @@ const CalendarPage: React.FC = () => {
     <RequireAuth>
       <Layout>
         <div className="flex h-full flex-col gap-4">
-          <div className="flex gap-4">
-            <Link
-              href="/dashboard/today"
-              className="rounded-full border border-gray-400 bg-black px-6 py-2 text-lg text-white"
-            >
-              Today
-            </Link>
-            <Link
-              href="/dashboard/calendar"
-              className="rounded-full border border-gray-400 px-6 py-2 text-lg"
-            >
-              Calendar
-            </Link>
-          </div>
+          <Buttons />
         </div>
       </Layout>
     </RequireAuth>
+  )
+}
+
+const Buttons: React.FC = () => {
+  return (
+    <div className="flex gap-4">
+      <Link
+        href="/dashboard/today"
+        className="rounded-full bg-yellow-200 px-6 py-2 text-lg text-black"
+      >
+        Today
+      </Link>
+      <Link
+        href="/dashboard/calendar"
+        className="rounded-full border border-gray-200 px-6 py-2 text-lg text-gray-200"
+      >
+        Calendar
+      </Link>
+    </div>
   )
 }
 

@@ -1,7 +1,7 @@
 import { signOut } from "next-auth/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import toast from "react-hot-toast"
 import Layout from "../components/Layout/Layout"
 import RequireAuth from "../components/RequireAuth"

@@ -16,23 +16,23 @@ const Calendar: React.FC = () => {
   })
 
   return (
-    <div className="flex h-full flex-col gap-4 text-center">
-      <div className="flex justify-center">
+    <div className="flex h-full flex-col gap-4 text-center text-gray-200">
+      <div className="flex justify-center items-center">
         <button
-          className="rounded-full bg-black p-2 text-white"
+          className="rounded-full border border-gray-200 p-2 text-gray-200"
           onClick={prevMonth}
         >
           <Icon type="arrow-left" className="h-6 w-6" />
         </button>
-        <p className="flex-1 text-2xl font-bold">{format(date, "MMMM, y")}</p>
+        <p className="flex-1 text-xl">{format(date, "MMMM, y")}</p>
         <button
-          className="rounded-full bg-black p-2 text-white"
+          className="rounded-full border border-gray-200 p-2 text-gray-200"
           onClick={nextMonth}
         >
           <Icon type="arrow-right" className="h-6 w-6" />
         </button>
       </div>
-      <table className="flex h-1/2 flex-col rounded border border-black">
+      <table className="flex flex-1 flex-col rounded border border-gray-200">
         <CalendarHeader />
         <CalendarWeek weeks={calendar} />
       </table>
