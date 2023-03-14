@@ -52,10 +52,16 @@ const ProfilePage: React.FC = () => {
 
   return (
     <RequireAuth>
-      <Layout>
-        <div className="flex h-full flex-col items-center gap-4">
+      <Layout className="p-0">
+        <Image
+          alt="cover"
+          width={2560}
+          height={1440}
+          src="https://picsum.photos/2560/1441"
+        />
+        <div className="relative -top-8 flex h-full flex-col items-center gap-4 rounded-t-3xl bg-white">
           <button
-            className="relative rounded-full transition-all hover:brightness-75"
+            className="absolute -top-16 rounded-full transition-all hover:brightness-75"
             onClick={handleImageClick}
           >
             <input type="file" className="hidden" ref={fileInputRef} />
@@ -67,7 +73,7 @@ const ProfilePage: React.FC = () => {
               className="rounded-full"
             />
           </button>
-          <h1 className="text-center text-xl font-bold">
+          <h1 className="mt-20 text-center text-xl font-bold">
             {firstName} {lastName}
           </h1>
           <table>
@@ -83,21 +89,16 @@ const ProfilePage: React.FC = () => {
             </tbody>
           </table>
           <button
-            className={
-              "w-48 rounded-full py-2 font-bold uppercase text-white " +
-              mainGradient
-            }
+            className={"w-48 rounded-full bg-teal-600 py-2 text-white"}
             onClick={onSubmit}
           >
-            save profile
+            Save Profile
           </button>
           <button
-            className={
-              "-mt-2 w-48 rounded-full bg-red-600 py-2 font-bold uppercase text-white"
-            }
+            className={"-mt-2 w-48 rounded-full bg-red-600 py-2 text-white"}
             onClick={handleSignOut}
           >
-            logout
+            Log Out
           </button>
         </div>
       </Layout>
