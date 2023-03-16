@@ -1,3 +1,5 @@
+import { inferRouterOutputs } from "@trpc/server"
+import { eventsRouter } from "../../server/api/routers/events"
 import CalendarDay from "./CalendarDay"
 
 const CalendarWeeks: React.FC<{

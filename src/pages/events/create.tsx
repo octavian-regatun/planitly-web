@@ -11,8 +11,8 @@ import { api } from "../../utils/api"
 type CreateEventFormikValues = {
   name: string
   description: string
-  startDate: Date
-  endDate: Date
+  startDate: Date | null
+  endDate: Date | null
   allDay: boolean
   location: LocationItem | null
 }
@@ -38,9 +38,13 @@ const EventsCreatePage = () => {
 
     if (!values.location) return
 
+    if (!values.startDate || !values.endDate) return
+
     createEventMutation.mutate({
       ...values,
-      location: values.location
+      startDate: values.startDate,
+      endDate: values.endDate,
+      location: values.location,
     })
   }
 
@@ -73,7 +77,19 @@ const EventsCreatePage = () => {
                 </div>
                 <div className="flex w-full flex-col gap-2">
                   <label className="text-center text-xl font-bold">Date</label>
-                  <DateTimeRangePicker />
+                  <DateTimeRangePicker
+                    startDate={formik.values.startDate}
+                    endDate={formik.values.endDate}
+                    onChange={(dates) => {
+                      const [startDate, endDate] = dates
+
+                      formik.setValues({
+                        ...formik.values,
+                        startDate,
+                        endDate,
+                      })
+                    }}
+                  />
                 </div>
                 <div className="flex w-full flex-col items-center justify-center gap-2">
                   <label className="text-center text-xl font-bold">

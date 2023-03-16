@@ -3,7 +3,7 @@ import { api } from "../../utils/api"
 import useCalendarStore from "../../utils/store/calendar"
 import Icon from "../Icon"
 import CalendarHeader from "./CalendarHeader"
-import CalendarWeek from "./CalendarWeeks"
+import CalendarWeeks from "./CalendarWeeks"
 
 const Calendar: React.FC = () => {
   const date = useCalendarStore((state) => state.date)
@@ -17,7 +17,7 @@ const Calendar: React.FC = () => {
 
   return (
     <div className="flex h-full flex-col gap-4 text-center text-gray-200">
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <button
           className="rounded-full border border-gray-200 p-2 text-gray-200"
           onClick={prevMonth}
@@ -34,7 +34,7 @@ const Calendar: React.FC = () => {
       </div>
       <table className="flex flex-1 flex-col rounded border border-gray-200">
         <CalendarHeader />
-        <CalendarWeek weeks={calendar} />
+        <CalendarWeeks weeks={calendar} />
       </table>
     </div>
   )

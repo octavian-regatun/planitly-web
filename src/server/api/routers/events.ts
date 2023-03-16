@@ -36,11 +36,64 @@ export const eventsRouter = createTRPCRouter({
               longitude: location.longitude,
             },
           },
+          EventMember: {
+            create: {
+              userId: ctx.session.user.id,
+              status: "ACCEPTED",
+            },
+          },
         },
       })
     }),
 
-  getEvents: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.event.findMany({ include: { location: true } })
-  }),
+  getEvents: protectedProcedure
+    .input(
+      z.object({
+        date: z.date().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { date } = input
+      if (date) {
+        const data = await ctx.prisma.eventMember.findMany({
+          where: {
+            userId: ctx.session.user.id,
+            // status: "ACCEPTED",
+          },
+          include: {
+            event: {
+              include: {
+                location: true,
+              },
+            },
+          },
+        })
+
+        const filteredData = data.filter((eventMember) => {
+          const event = eventMember.event
+          return (
+            event.startDate.getTime() <= date.getTime() &&
+            event.endDate.getTime() >= date.getTime()
+          )
+        })
+
+        return filteredData.map((eventMember) => eventMember.event)
+      }
+
+      const data = await ctx.prisma.eventMember.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          // status: "ACCEPTED",
+        },
+        include: {
+          event: {
+            include: {
+              location: true,
+            },
+          },
+        },
+      })
+
+      return data.map((eventMember) => eventMember.event)
+    }),
 })

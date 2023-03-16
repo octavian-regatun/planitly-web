@@ -75,6 +75,7 @@ model Location {
 
 model EventMember {
   id        Int      @id @default(autoincrement())
+  status    Status   @default(PENDING)
   eventId   Int
   userId    String
   createdAt DateTime @default(now())

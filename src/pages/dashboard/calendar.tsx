@@ -7,12 +7,12 @@ import { EventsList } from "../../components/Events/EventsList"
 import { api } from "../../utils/api"
 
 const CalendarScreen: React.FC = () => {
-  const getEventsQuery = api.events.getEvents.useQuery()
+  const getEventsQuery = api.events.getEvents.useQuery({})
 
   return (
     <RequireAuth>
       <Layout className="bg-teal-600 !p-0">
-        <div className="flex flex-col gap-4 p-4 h-[calc(100vh-192px)]">
+        <div className="flex h-[calc(100vh-192px)] flex-col gap-4 p-4">
           <Buttons />
           <Calendar />
         </div>

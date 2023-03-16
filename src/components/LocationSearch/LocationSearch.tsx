@@ -29,7 +29,7 @@ export const LocationSearch: React.FC<{
   const [focused, setFocused] = useState(false)
 
   const onFocus = () => setFocused(true)
-  const onBlur = () => setTimeout(() => setFocused(false), 0)
+  const onBlur = () => setTimeout(() => setFocused(false), 200)
 
   const searchHereApiMutation = api.locations.searchHereApi.useMutation({
     onSuccess(data) {
