@@ -18,11 +18,7 @@ type CreateEventFormikValues = {
 }
 
 const EventsCreatePage = () => {
-  const createEventMutation = api.events.createEvent.useMutation({
-    onSuccess(data) {
-      console.log(data)
-    },
-  })
+  const createEventMutation = api.events.createEvent.useMutation({})
 
   const initialValues: CreateEventFormikValues = {
     name: "",

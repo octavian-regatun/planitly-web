@@ -31,8 +31,6 @@ export const RequestsTab: React.FC = () => {
         toast.success("Friend request deleted!", {
           id: "friend-request-deleted",
         })
-
-        console.log("deleted")
       },
     }
   )
