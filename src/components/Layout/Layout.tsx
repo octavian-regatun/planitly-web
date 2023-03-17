@@ -2,7 +2,7 @@ import BottomNav from "./BottomNav"
 import Navbar from "./Navbar"
 
 const Layout: React.FC<{
-  children: JSX.Element | (JSX.Element | undefined)[]
+  children: any
   className?: string
 }> = ({ children, className }) => {
   className ??= ""

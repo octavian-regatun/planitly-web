@@ -1,12 +1,11 @@
 import { signOut } from "next-auth/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import toast from "react-hot-toast"
 import Layout from "../components/Layout/Layout"
 import RequireAuth from "../components/RequireAuth"
 import { api } from "../utils/api"
-import { mainGradient } from "../utils/gradient"
 import { toBase64 } from "../utils/image"
 
 const ProfilePage: React.FC = () => {
