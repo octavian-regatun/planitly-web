@@ -1,6 +1,7 @@
-import { ErrorMessage, Field, Form, Formik } from "formik"
+import { Group } from "@prisma/client"
+import { ErrorMessage, Field, Form, Formik, FormikProps } from "formik"
 import { DateTimeRangePicker } from "../../components/DateRangePicker/DateRangePicker"
-
+import { SearchGroups } from "../../components/Events/SearchGroups"
 import Layout from "../../components/Layout/Layout"
 import type { LocationItem } from "../../components/LocationSearch/LocationSearch"
 import { LocationSearch } from "../../components/LocationSearch/LocationSearch"
@@ -15,6 +16,7 @@ type CreateEventFormikValues = {
   endDate: Date | null
   allDay: boolean
   location: LocationItem | null
+  groups: Group[]
 }
 
 const EventsCreatePage = () => {
@@ -27,6 +29,7 @@ const EventsCreatePage = () => {
     endDate: new Date(),
     allDay: true,
     location: null,
+    groups: [],
   }
 
   function onSubmit(values: CreateEventFormikValues) {
@@ -44,26 +47,38 @@ const EventsCreatePage = () => {
     })
   }
 
+  function onDateChange(
+    dates: [Date | null, Date | null],
+    formik: FormikProps<CreateEventFormikValues>
+  ) {
+    const [startDate, endDate] = dates
+
+    formik.setValues({
+      ...formik.values,
+      startDate,
+      endDate,
+    })
+  }
+
   return (
     <RequireAuth>
-      <Layout>
+      <Layout className="bg-teal-600 text-white">
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {(formik) => {
             return (
               <Form className="flex flex-col items-center gap-4">
                 <div className="flex w-full flex-col gap-2">
-                  <label className="text-center text-xl font-bold">Name</label>
+                  <label className="text-lg">Name</label>
                   <Field
                     type="text"
                     name="name"
-                    className="rounded-full border border-black p-2 text-center"
+                    placeholder="Event name"
+                    className="rounded-lg bg-teal-700 p-2 text-white placeholder-gray-200 outline-teal-300"
                   />
                   <ErrorMessage name="name" component="div" />
                 </div>
                 <div className="flex w-full flex-col gap-2">
-                  <label className="text-center text-xl font-bold">
-                    Description
-                  </label>
+                  <label className="text-lg">Description</label>
                   <RichTextEditor
                     value={formik.values.description}
                     onChange={(content) =>
@@ -71,36 +86,26 @@ const EventsCreatePage = () => {
                     }
                   />
                 </div>
-                <div className="flex w-full flex-col gap-2">
-                  <label className="text-center text-xl font-bold">Date</label>
-                  <DateTimeRangePicker
-                    startDate={formik.values.startDate}
-                    endDate={formik.values.endDate}
-                    onChange={(dates) => {
-                      const [startDate, endDate] = dates
-
-                      formik.setValues({
-                        ...formik.values,
-                        startDate,
-                        endDate,
-                      })
-                    }}
-                  />
-                </div>
-                <div className="flex w-full flex-col items-center justify-center gap-2">
-                  <label className="text-center text-xl font-bold">
-                    All Day
-                  </label>
-                  <Field
-                    type="checkbox"
-                    name="allDay"
-                    className="h-4 w-4 rounded-full border border-black text-center"
-                  />
+                <div className="flex w-full gap-4">
+                  <div className="flex flex-[2] flex-col gap-2">
+                    <label className="text-lg">Date</label>
+                    <DateTimeRangePicker
+                      startDate={formik.values.startDate}
+                      endDate={formik.values.endDate}
+                      onChange={(dates) => onDateChange(dates, formik)}
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-2">
+                    <label className="text-xl">All Day</label>
+                    <Field
+                      type="checkbox"
+                      name="allDay"
+                      className="h-[42px] w-[42px] rounded-lg border border-black text-center accent-teal-700"
+                    />
+                  </div>
                 </div>
                 <div className="flex w-full flex-col gap-2">
-                  <label className="text-center text-xl font-bold">
-                    Location
-                  </label>
+                  <label className="text-xl">Location</label>
                   <LocationSearch
                     onSelect={(location) =>
                       formik.setValues({ ...formik.values, location })
@@ -108,8 +113,19 @@ const EventsCreatePage = () => {
                   />
                   <ErrorMessage name="name" component="div" />
                 </div>
-                <button className="rounded-full bg-black px-8 py-2 text-lg font-bold uppercase text-white">
-                  Submit
+                <div className="flex w-full flex-col gap-2">
+                  <label className="text-xl">Groups</label>
+                  <SearchGroups
+                    onClick={(group) => {
+                      formik.setFieldValue("groups", [
+                        ...formik.values.groups,
+                        group,
+                      ])
+                    }}
+                  />
+                </div>
+                <button className="rounded bg-yellow-200 px-8 py-2 text-lg text-black">
+                  Create Event
                 </button>
               </Form>
             )

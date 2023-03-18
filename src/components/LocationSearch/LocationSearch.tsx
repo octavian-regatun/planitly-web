@@ -60,7 +60,7 @@ export const LocationSearch: React.FC<{
       <div className="relative flex flex-col items-center">
         <input
           type="text"
-          className="w-full rounded-full border border-black px-4 py-2 "
+          className="w-full rounded-lg bg-teal-700 p-2 text-white placeholder-gray-200 outline-teal-500"
           placeholder="Search location..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -71,7 +71,7 @@ export const LocationSearch: React.FC<{
           <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
         )}
         {focused && results && results.length > 0 && (
-          <div className="absolute top-[38px] z-[1001] w-[calc(100%-2rem)] rounded-b-3xl border border-t-0 border-black bg-white">
+          <div className="w-100% absolute top-[42px] z-[1001] rounded-b-3xl border border-black bg-teal-700 text-white">
             {results.map((item) => (
               <button
                 key={`location-search-${item.id}`}
@@ -87,7 +87,7 @@ export const LocationSearch: React.FC<{
                   })
                 }}
               >
-                <MapPinIcon className="box-content h-6 w-6 rounded-full bg-black p-1 text-white" />
+                <MapPinIcon className="box-content h-6 min-w-[1.5rem] rounded-full bg-yellow-200 p-1 text-black" />
                 <p> {item.title} </p>
               </button>
             ))}

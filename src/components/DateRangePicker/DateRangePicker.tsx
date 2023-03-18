@@ -1,4 +1,3 @@
-import { useState } from "react"
 import ReactDatePicker from "react-datepicker"
 
 export const DateTimeRangePicker: React.FC<{
@@ -7,18 +6,14 @@ export const DateTimeRangePicker: React.FC<{
   onChange: (dates: [Date | null, Date | null]) => void
 }> = ({ onChange, startDate, endDate }) => {
   return (
-    <div className="flex justify-center">
-      <ReactDatePicker
-        selected={startDate}
-        onChange={onChange}
-        startDate={startDate}
-        endDate={endDate}
-        selectsRange
-        showTimeInput
-        popperClassName="!z-[1002]"
-        wrapperClassName="!w-fit"
-        className="rounded-full border border-black px-4 py-2"
-      />
-    </div>
+    <ReactDatePicker
+      selected={startDate}
+      onChange={onChange}
+      startDate={startDate}
+      endDate={endDate}
+      selectsRange
+      popperClassName="!z-[1002]"
+      className="rounded-lg bg-teal-700 p-2 text-white placeholder-gray-200 outline-teal-500"
+    />
   )
 }

@@ -1,5 +1,4 @@
 import { Editor } from "@tinymce/tinymce-react"
-import { useRef } from "react"
 
 const RichTextEditor: React.FC<{
   onChange: (content: string) => void
@@ -15,13 +14,13 @@ const RichTextEditor: React.FC<{
       onEditorChange={(content) => onChange(content)}
       // onInit={(evt, editor: unknown) => (editorRef.current = editor)}
       init={{
-        height: 300,
+        height: 200,
         menubar: false,
-        plugins: [
-          "advlist autolink lists link image charmap print preview anchor",
-          "searchreplace visualblocks code fullscreen",
-          "insertdatetime media table paste code help wordcount",
-        ],
+        // plugins: [
+        //   "advlist autolink lists link image charmap print preview anchor",
+        //   "searchreplace visualblocks code fullscreen",
+        //   "insertdatetime media table paste code help wordcount",
+        // ],
         toolbar:
           "undo redo | formatselect | " +
           "bold italic backcolor | alignleft aligncenter " +

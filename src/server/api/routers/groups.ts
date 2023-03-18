@@ -5,6 +5,30 @@ import { TRPCError } from "@trpc/server"
 import { searchFriends } from "../../../utils/users"
 
 export const groupsRouter = createTRPCRouter({
+  search: protectedProcedure
+    .input(z.object({ query: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { query } = input
+
+      const data = await ctx.prisma.groupMember.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          status: "ACCEPTED",
+          group: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+        include: {
+          group: true,
+        },
+      })
+
+      return data.map((item) => item.group)
+    }),
+
   createGroup: protectedProcedure
     .input(
       z.object({
