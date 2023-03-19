@@ -15,12 +15,12 @@ const Navbar: React.FC = () => {
   const getMeQuery = api.users.getMe.useQuery()
 
   return (
-    <nav className="flex h-16 items-center justify-center p-4 text-2xl font-bold text-white bg-teal-600">
+    <nav className="flex h-16 items-center justify-center border-b border-gray-200 p-4 text-2xl">
       <button onClick={() => router.back()}>
-        <ArrowLeftIcon className="box-content h-6 w-6 rounded-full bg-yellow-200 p-2 text-black" />
+        <ArrowLeftIcon className="box-content h-6 w-6 rounded-full p-2 text-black" />
       </button>
       {/* offset the (ProfilePicture width)/2 so title can be absolutely centered */}
-      <h1 className="relative -right-[1px] mx-auto uppercase">
+      <h1 className="relative -right-[1px] mx-auto">
         {getNavbarTitle(router.pathname)}
       </h1>
       <Link href="/profile" className="transition-all hover:brightness-90">

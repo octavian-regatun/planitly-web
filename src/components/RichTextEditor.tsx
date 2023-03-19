@@ -2,25 +2,18 @@ import { Editor } from "@tinymce/tinymce-react"
 
 const RichTextEditor: React.FC<{
   onChange: (content: string) => void
-  value: string
+  value: string | null
 }> = ({ onChange, value }) => {
   if (!value) value = ""
 
   return (
     <Editor
       apiKey="eunl29hhc04gt2orlwnk09pu4ilto10yhzkx4irqsks7u6d5"
-      // ref={editorRef}
       value={value}
       onEditorChange={(content) => onChange(content)}
-      // onInit={(evt, editor: unknown) => (editorRef.current = editor)}
       init={{
         height: 200,
         menubar: false,
-        // plugins: [
-        //   "advlist autolink lists link image charmap print preview anchor",
-        //   "searchreplace visualblocks code fullscreen",
-        //   "insertdatetime media table paste code help wordcount",
-        // ],
         toolbar:
           "undo redo | formatselect | " +
           "bold italic backcolor | alignleft aligncenter " +

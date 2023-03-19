@@ -5,10 +5,16 @@ import NextNProgress from "nextjs-progressbar"
 
 import { api } from "../utils/api"
 
+import { Comfortaa, Montserrat, Roboto } from "next/font/google"
 import Head from "next/head"
+import "react-datepicker/dist/react-datepicker.css"
 import { Toaster } from "react-hot-toast"
 import "../styles/globals.scss"
-import "react-datepicker/dist/react-datepicker.css";
+
+const montserrat = Comfortaa({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+})
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -16,6 +22,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <>
+      <style jsx global>{`
+        html {
+          font-family: ${montserrat.style.fontFamily};
+        }
+      `}</style>
       <Head>
         <title>PlanITLY</title>
         <meta

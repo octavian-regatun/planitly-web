@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react"
 import type { User } from "@prisma/client"
 import type { Dispatch, SetStateAction } from "react"
-import { SearchUsers } from "../../SearchUsers/SearchUsers"
+import { SearchUsers } from "../SearchUsers/SearchUsers"
 
 export const SearchUsersModal: React.FC<{
   isOpen: boolean

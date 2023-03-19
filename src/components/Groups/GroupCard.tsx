@@ -1,11 +1,11 @@
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import { api } from "../../../utils/api"
-import { mainGradient } from "../../../utils/gradient"
-import { UsersList } from "./UsersList"
 import type { inferRouterOutputs } from "@trpc/server"
-import type { GroupsRouter } from "../../../server/api/routers/groups"
+import { GroupsRouter } from "../../server/api/routers/groups"
+import { api } from "../../utils/api"
+import { mainGradient } from "../../utils/gradient"
+import { UsersList } from "../UserList/UsersList"
 
 export const GroupCard: React.FC<{
   group: NonNullable<inferRouterOutputs<GroupsRouter>["getGroup"]>

@@ -1,8 +1,8 @@
 import type { User } from "@prisma/client"
-import ProfilePicture from "../../ProfilePicture"
 import { PlusIcon } from "@heroicons/react/24/outline"
-import { SearchUsersModal } from "./SearchUsersModal"
 import { useState } from "react"
+import ProfilePicture from "../ProfilePicture"
+import { SearchUsersModal } from "../Groups/SearchUsersModal"
 
 export const UsersListWithSearch: React.FC<{
   users: (User & {

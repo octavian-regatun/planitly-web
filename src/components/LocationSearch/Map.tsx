@@ -26,7 +26,7 @@ const Map: React.FC<{
       center={[0, 0]}
       zoom={12}
       scrollWheelZoom={true}
-      className="h-96 w-full rounded-xl"
+      className="h-48 w-full rounded-xl"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

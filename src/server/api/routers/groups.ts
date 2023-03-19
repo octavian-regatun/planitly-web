@@ -1,8 +1,9 @@
-import { z } from "zod"
-import { createTRPCRouter, protectedProcedure } from "../trpc"
-import { enforceGroupAdminProcedure } from "../middlewares/enforceGroupAdminProcedure"
+import { User } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
+import { z } from "zod"
 import { searchFriends } from "../../../utils/users"
+import { enforceGroupAdminProcedure } from "../middlewares/enforceGroupAdminProcedure"
+import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const groupsRouter = createTRPCRouter({
   search: protectedProcedure
@@ -27,6 +28,39 @@ export const groupsRouter = createTRPCRouter({
       })
 
       return data.map((item) => item.group)
+    }),
+
+  getParticipants: protectedProcedure
+    .input(z.object({ ids: z.array(z.number()) }))
+    .query(async ({ ctx, input }) => {
+      const { ids } = input
+
+      const data = await ctx.prisma.group.findMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+        include: {
+          GroupMember: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      })
+
+      const groupMembers = data.map((item) => item.GroupMember)
+
+      const mappedData = groupMembers
+        .flat()
+        .map((item) => ({ ...item.user, loading: false }))
+
+      const uniqueData = mappedData.filter(
+        (item, index) => mappedData.findIndex((i) => i.id === item.id) === index
+      )
+
+      return uniqueData
     }),
 
   createGroup: protectedProcedure

@@ -16,6 +16,7 @@ export const SearchUsers: React.FC<{
     { query: friendsQuery },
     {
       onSuccess: (data) => {
+        // FIXME: This might be a bug (data is unused)
         if (!friendsOnly) setUsers(users)
       },
     }

@@ -1,9 +1,9 @@
-import { mainGradient } from "../../../utils/gradient"
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
-import type { GroupsRouter } from "../../../server/api/routers/groups"
 import type { inferRouterOutputs } from "@trpc/server"
-import { api } from "../../../utils/api"
-import { UsersList } from "./UsersList"
+import { GroupsRouter } from "../../server/api/routers/groups"
+import { api } from "../../utils/api"
+import { mainGradient } from "../../utils/gradient"
+import { UsersList } from "../UserList/UsersList"
 
 export const Group: React.FC<{
   group: NonNullable<inferRouterOutputs<GroupsRouter>["getGroup"]>

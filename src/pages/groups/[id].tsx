@@ -1,10 +1,10 @@
 import type { inferRouterOutputs } from "@trpc/server"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { EditGroup } from "../../components/Groups/EditGroup"
+import { Group } from "../../components/Groups/Group"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-import { EditGroup } from "../../components/Social/Groups/EditGroup"
-import { Group } from "../../components/Social/Groups/Group"
 import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
 

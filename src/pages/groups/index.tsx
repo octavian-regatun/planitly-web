@@ -1,9 +1,13 @@
 import Link from "next/link"
+import CreateGroupButton from "../../components/Groups/CreateGroupButton"
+import { GroupCard } from "../../components/Groups/GroupCard"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-import { GroupsScreen } from "../../components/Social/Groups/GroupsScreen"
+import { api } from "../../utils/api"
 
 const GroupsPage = () => {
+  const getGroupsQuery = api.groups.getGroups.useQuery()
+
   return (
     <RequireAuth>
       <Layout>
@@ -22,7 +26,12 @@ const GroupsPage = () => {
               GROUPS
             </Link>
           </div>
-          <GroupsScreen />
+          <div className="flex w-full flex-col items-center gap-4 pb-20">
+            {getGroupsQuery.data?.map((group) => (
+              <GroupCard key={`group-${group.id}`} group={group} />
+            ))}
+            <CreateGroupButton />
+          </div>
         </div>
       </Layout>
     </RequireAuth>

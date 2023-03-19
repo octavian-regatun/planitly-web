@@ -1,9 +1,9 @@
 import type { User } from "@prisma/client"
-import ProfilePicture from "../../ProfilePicture"
+import ProfilePicture from "../ProfilePicture"
 
 export const UsersList: React.FC<{
   users: (User & {
-    loading: boolean
+    loading?: boolean
   })[]
   onUserClick?: (e: React.MouseEvent<HTMLButtonElement>, user: User) => void
 }> = ({ users, onUserClick }) => {

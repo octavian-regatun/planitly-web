@@ -13,7 +13,7 @@ export const DateTimeRangePicker: React.FC<{
       endDate={endDate}
       selectsRange
       popperClassName="!z-[1002]"
-      className="rounded-lg bg-teal-700 p-2 text-white placeholder-gray-200 outline-teal-500"
+      className="border-b-2 border-b-gray-200 py-2 outline-none"
     />
   )
 }

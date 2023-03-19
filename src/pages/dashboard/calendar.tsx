@@ -1,6 +1,6 @@
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-import AddEventButton from "../../components/Calendar/AddEventButton"
+import CreateEventButton from "../../components/Calendar/CreateEventButton"
 import Calendar from "../../components/Calendar/Calendar"
 import Link from "next/link"
 import { EventsList } from "../../components/Events/EventsList"
@@ -17,7 +17,7 @@ const CalendarScreen: React.FC = () => {
           <Calendar />
         </div>
         {getEventsQuery.data && <EventsList events={getEventsQuery.data} />}
-        <AddEventButton />
+        <CreateEventButton />
       </Layout>
     </RequireAuth>
   )
