@@ -103,50 +103,59 @@ export const EditGroup: React.FC<{
           <>
             <Form
               className={
-                "flex flex-col gap-4 rounded-3xl p-4 text-white " + mainGradient
+                "rounded-3x relative flex flex-col gap-4 p-4 text-white"
               }
             >
-              <div className="flex items-center">
-                <p className="relative -right-12 mx-auto rounded-full bg-gray-200 px-4 py-2 text-sm text-black">
+              <div className="flex items-center justify-center">
+                <p className="mx-auto rounded-full bg-yellow-200 px-4 py-2 text-sm text-black">
                   EDIT MODE
                 </p>
                 <button
-                  className="ml-auto"
+                  className="absolute right-4 top-4"
                   onClick={() => toggleEditingState()}
                 >
-                  <PencilSquareIcon className="ml-auto box-content h-6 w-6 rounded-full bg-white p-2 text-black" />
+                  <PencilSquareIcon className="ml-auto box-content h-6 w-6 rounded-full bg-yellow-200 p-2 text-black" />
                 </button>
               </div>
-              <Field
-                name="name"
-                type="text"
-                className="rounded-full p-2 text-center text-black"
-                placeholder="Title"
-              />
-              <RichTextEditor
-                value={formik.values.description}
-                onChange={(content) =>
-                  formik.setFieldValue("description", content)
-                }
-              />
-              <p className="w-full text-left text-lg">Members</p>
-              <UsersListWithSearch
-                users={formik.values.members}
-                onUserClick={onUserClick}
-                onSearchUserClick={(user) => onSearchUserClick(formik, user)}
-              />
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-gray-400">Name</label>
+                <Field
+                  name="name"
+                  type="text"
+                  className="border-b-2 border-b-gray-200 py-2 text-black  outline-none"
+                  placeholder="Title"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-gray-400">Description</label>
+                <RichTextEditor
+                  value={formik.values.description}
+                  onChange={(content) =>
+                    formik.setFieldValue("description", content)
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-gray-400">Members</label>
+                <UsersListWithSearch
+                  users={formik.values.members}
+                  onUserClick={onUserClick}
+                  onSearchUserClick={(user) => onSearchUserClick(formik, user)}
+                />
+              </div>
               <button
-                className="w-fit self-center rounded-full bg-red-600 px-8 py-2 transition-all hover:bg-red-700"
+                type="submit"
+                className="w-48 self-center rounded-full bg-teal-600 py-2 text-white"
+              >
+                Save Changes
+              </button>
+              <button
+                className="w-48 self-center rounded-full bg-red-600 py-2 transition-all hover:bg-red-700"
                 onClick={() => deleteGroupMutation.mutate({ id: group.id })}
                 type="button"
               >
-                DELETE GROUP
-              </button>
-              <button
-                type="submit"
-                className="w-fit self-center rounded-full bg-white px-8 py-2 text-black"
-              >
-                SAVE CHANGES
+                Delete Group
               </button>
             </Form>
             {selectedGroupMember && (

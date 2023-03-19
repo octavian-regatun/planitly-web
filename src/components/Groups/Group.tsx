@@ -2,7 +2,6 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import type { inferRouterOutputs } from "@trpc/server"
 import { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
-import { mainGradient } from "../../utils/gradient"
 import { UsersList } from "../UserList/UsersList"
 
 export const Group: React.FC<{
@@ -20,15 +19,15 @@ export const Group: React.FC<{
   return (
     <div
       className={
-        "flex flex-col gap-4 rounded-3xl p-4 text-white " + mainGradient
+        "relative flex flex-col gap-4 rounded-3xl bg-teal-600 bg-gradient-to-r p-4 text-white"
       }
     >
+      <p className="px-12 text-center text-2xl">{group.name}</p>
       {isGroupAdminQuery?.data && (
         <button onClick={() => toggleEditingState()}>
-          <PencilSquareIcon className="ml-auto box-content h-6 w-6 rounded-full border border-white p-2 text-white" />
+          <PencilSquareIcon className="p-2 absolute right-4 top-4 ml-auto box-content h-6 w-6 rounded-full bg-yellow-200 text-black" />
         </button>
       )}
-      <p className="text-center text-2xl">{group.name}</p>
       <p className="w-full text-left text-lg">Description</p>
       <div dangerouslySetInnerHTML={{ __html: group.description || "" }} />
       <p className="w-full text-left text-lg">Members</p>

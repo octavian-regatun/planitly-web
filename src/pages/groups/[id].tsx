@@ -9,10 +9,11 @@ import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
 
 const GroupPage: React.FC = () => {
+  const { id } = useRouter().query
+
   const [isEditing, setIsEditing] = useState(false)
   const [group, setGroup] =
     useState<inferRouterOutputs<GroupsRouter>["getGroup"]>(null)
-  const { id } = useRouter().query
 
   const getGroupQuery = api.groups.getGroup.useQuery(
     {

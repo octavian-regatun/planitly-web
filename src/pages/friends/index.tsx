@@ -31,13 +31,13 @@ const FriendsPage: React.FC = () => {
           <div className="flex gap-2">
             <Link
               href="/friends"
-              className="rounded-full border border-black bg-black px-8 py-2 text-lg text-white transition-all"
+              className="rounded-full border bg-teal-600 px-8 py-2 text-lg text-white transition-all"
             >
               FRIENDS
             </Link>
             <Link
               href="/groups"
-              className="rounded-full border border-black px-8 py-2 text-lg transition-all "
+              className="rounded-full border border-teal-600 px-8 py-2 text-lg text-teal-600 transition-all"
             >
               GROUPS
             </Link>

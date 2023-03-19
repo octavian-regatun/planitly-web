@@ -1,8 +1,8 @@
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import type { inferRouterOutputs } from "@trpc/server"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import type { inferRouterOutputs } from "@trpc/server"
-import { GroupsRouter } from "../../server/api/routers/groups"
+import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
 import { mainGradient } from "../../utils/gradient"
 import { UsersList } from "../UserList/UsersList"
@@ -41,8 +41,7 @@ export const GroupCard: React.FC<{
     <Link
       href={`/groups/${group.id}`}
       className={
-        "flex w-full flex-col gap-2 rounded-3xl p-4 text-white transition-all hover:opacity-90 " +
-        mainGradient
+        "flex w-full flex-col gap-2 rounded-3xl bg-teal-600 p-4 text-white transition-all hover:opacity-90"
       }
     >
       {myGroupMember?.status === "PENDING" && (
