@@ -1,12 +1,26 @@
+import { openPeeps } from "@dicebear/collection"
+import { createAvatar } from "@dicebear/core"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import Image from "next/image"
+import { useMemo } from "react"
 
 const ProfilePicture: React.FC<{
   size?: number
-  src: string
   className?: string
   loading?: boolean
-}> = ({ size, src, className, loading }) => {
+  firstName: string
+  lastName: string
+}> = ({ size, className, loading, firstName, lastName }) => {
+  const src = useMemo(
+    () =>
+      createAvatar(openPeeps, {
+        seed: firstName + " " + lastName,
+        size: size || 42,
+        backgroundType: ["gradientLinear"],
+      }).toDataUriSync(),
+    [firstName, lastName]
+  )
+
   if (loading)
     return (
       <div className="relative">

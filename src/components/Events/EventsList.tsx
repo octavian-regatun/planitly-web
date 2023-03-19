@@ -15,10 +15,12 @@ export const EventsList: React.FC<{
           className="flex flex-col gap-4 rounded-2xl bg-amber-200 p-4 "
         >
           <p className="text-lg font-bold text-gray-800">{event.name}</p>
-          <div className="flex items-center gap-2 text-sm opacity-75">
-            <MapPinIcon className="h-4 w-4 text-gray-800" />
-            <p>{event.location.name}</p>
-          </div>
+          {event.location && (
+            <div className="flex items-center gap-2 text-sm opacity-75">
+              <MapPinIcon className="h-4 w-4 text-gray-800" />
+              <p>{event.location.name}</p>
+            </div>
+          )}
           <div className="flex items-center gap-2 text-sm opacity-75">
             <ClockIcon className="h-4 w-4 text-gray-800" />
             <p>

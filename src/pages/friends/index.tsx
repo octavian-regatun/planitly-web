@@ -114,7 +114,11 @@ const FriendsTab: React.FC = () => {
             key={`friendship-${friendship.id}`}
             className="flex items-center gap-2 p-2"
           >
-            <ProfilePicture size={32} src={friend.image} />
+            <ProfilePicture
+              size={32}
+              firstName={friend.firstName}
+              lastName={friend.lastName}
+            />
             <p>
               {friend.firstName} {friend.lastName}
             </p>
@@ -186,7 +190,11 @@ export const RequestsTab: React.FC = () => {
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture size={32} src={friendship.requester.image} />
+          <ProfilePicture
+            size={32}
+            firstName={friendship.requester.firstName}
+            lastName={friendship.requester.lastName}
+          />
           <p>
             {friendship.requester.firstName} {friendship.requester.lastName}
           </p>
@@ -215,7 +223,11 @@ export const RequestsTab: React.FC = () => {
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture size={32} src={friendship.recipient.image} />
+          <ProfilePicture
+            size={32}
+            firstName={friendship.recipient.firstName}
+            lastName={friendship.recipient.lastName}
+          />
           <p className="text-sm">
             {friendship.recipient.firstName} {friendship.recipient.lastName}
           </p>
@@ -319,7 +331,11 @@ export const SearchTab: React.FC = () => {
                   key={`friends-list-friend-${user.id}`}
                   className="flex items-center gap-2 p-2"
                 >
-                  <ProfilePicture size={32} src={user.image!} />
+                  <ProfilePicture
+                    size={32}
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                  />
                   <h1
                     key={`friends-list-friend-${user.id}`}
                     className="text-sm font-bold"
@@ -338,7 +354,11 @@ export const SearchTab: React.FC = () => {
                 key={`friends-list-friend-${user.id}`}
                 className="flex items-center gap-2 p-2"
               >
-                <ProfilePicture size={32} src={user.image!} />
+                <ProfilePicture
+                  size={32}
+                  firstName={user.firstName}
+                  lastName={user.lastName}
+                />
                 <h1
                   key={`friends-list-friend-${user.id}`}
                   className="text-sm font-bold"

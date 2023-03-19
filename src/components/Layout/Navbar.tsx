@@ -1,13 +1,9 @@
+import { ArrowLeftIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
 import { useRouter } from "next/router"
+import { api } from "../../utils/api"
 import { getNavbarTitle } from "../../utils/navbar"
 import ProfilePicture from "../ProfilePicture"
-import Link from "next/link"
-import { api } from "../../utils/api"
-import {
-  ArrowLeftIcon,
-  BackspaceIcon,
-  BackwardIcon,
-} from "@heroicons/react/24/outline"
 
 const Navbar: React.FC = () => {
   const router = useRouter()
@@ -24,8 +20,11 @@ const Navbar: React.FC = () => {
         {getNavbarTitle(router.pathname)}
       </h1>
       <Link href="/profile" className="transition-all hover:brightness-90">
-        {getMeQuery.data?.image && (
-          <ProfilePicture src={getMeQuery.data?.image} />
+        {getMeQuery.data && (
+          <ProfilePicture
+            firstName={getMeQuery.data.firstName}
+            lastName={getMeQuery.data.lastName}
+          />
         )}
       </Link>
     </nav>

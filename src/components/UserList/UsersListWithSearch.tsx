@@ -23,7 +23,12 @@ export const UsersListWithSearch: React.FC<{
           type="button"
           key={`members-profile-picture-${user.id}`}
         >
-          <ProfilePicture src={user.image} size={36} loading={user.loading} />
+          <ProfilePicture
+            firstName={user.firstName}
+            lastName={user.lastName}
+            size={36}
+            loading={user.loading}
+          />
         </button>
       ))}
       <button type="button" onClick={() => setIsOpen(true)}>

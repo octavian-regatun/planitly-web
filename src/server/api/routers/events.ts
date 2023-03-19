@@ -1,4 +1,8 @@
+import { Event } from "@prisma/client"
+import { endOfDay, startOfDay } from "date-fns"
 import { z } from "zod"
+import { removeDuplicates } from "../../../utils/array"
+import { prisma } from "../../db"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const eventsRouter = createTRPCRouter({
@@ -6,44 +10,56 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        description: z.string(),
+        description: z.string().nullable(),
         startDate: z.date(),
         endDate: z.date(),
         allDay: z.boolean(),
-        location: z.object({
-          name: z.string(),
-          address: z.string(),
-          latitude: z.number(),
-          longitude: z.number(),
-        }),
+        location: z
+          .object({
+            name: z.string(),
+            address: z.string(),
+            latitude: z.number(),
+            longitude: z.number(),
+          })
+          .nullable(),
+        groupsId: z.array(z.number()).min(1),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const { name, description, startDate, endDate, allDay, location } = input
+      const {
+        name,
+        description,
+        startDate,
+        endDate,
+        allDay,
+        location,
+        groupsId,
+      } = input
 
-      return await ctx.prisma.event.create({
+      const locationData = location ? { location: { create: location } } : {}
+
+      const participants = await getGroupParticipants(groupsId)
+
+      const event = await ctx.prisma.event.create({
         data: {
           name,
           description,
           startDate,
           endDate,
           allDay,
-          location: {
-            create: {
-              name: location.name,
-              address: location.address,
-              latitude: location.latitude,
-              longitude: location.longitude,
-            },
-          },
-          EventMember: {
-            create: {
-              userId: ctx.session.user.id,
-              status: "ACCEPTED",
-            },
-          },
+          ...locationData,
         },
       })
+
+      for (const participant of participants) {
+        await ctx.prisma.eventMember.create({
+          data: {
+            eventId: event.id,
+            userId: participant.id,
+            status: "ACCEPTED",
+          },
+        })
+      }
     }),
 
   getEvents: protectedProcedure
@@ -69,15 +85,9 @@ export const eventsRouter = createTRPCRouter({
           },
         })
 
-        const filteredData = data.filter((eventMember) => {
-          const event = eventMember.event
-          return (
-            event.startDate.getTime() <= date.getTime() &&
-            event.endDate.getTime() >= date.getTime()
-          )
-        })
+        const events = data.map((eventMember) => eventMember.event)
 
-        return filteredData.map((eventMember) => eventMember.event)
+        return filterEventsHappeningOnDate(events, date)
       }
 
       const data = await ctx.prisma.eventMember.findMany({
@@ -97,3 +107,36 @@ export const eventsRouter = createTRPCRouter({
       return data.map((eventMember) => eventMember.event)
     }),
 })
+
+async function getGroupParticipants(groupsId: number[]) {
+  const participants = await prisma.group.findMany({
+    where: {
+      id: {
+        in: groupsId,
+      },
+    },
+    include: {
+      GroupMember: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  })
+
+  const groupMembers = participants.map((group) => group.GroupMember).flat()
+  const users = groupMembers.map((groupMember) => groupMember.user)
+  return removeDuplicates(users, "id")
+}
+
+function filterEventsHappeningOnDate<
+  T extends { startDate: Date; endDate: Date; allDay: boolean }
+>(events: T[], date: Date) {
+  return events.filter((event) => {
+    return (
+      event.allDay &&
+      date >= startOfDay(event.startDate) &&
+      date <= endOfDay(event.endDate)
+    )
+  })
+}

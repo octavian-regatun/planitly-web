@@ -1,18 +1,32 @@
 import { initials } from "@dicebear/collection"
 import { createAvatar } from "@dicebear/core"
 import { zodResolver } from "@hookform/resolvers/zod"
-import type { Group, User } from "@prisma/client"
+import type { Group } from "@prisma/client"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { useMemo } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
 import { z } from "zod"
 import { DateTimeRangePicker } from "../../components/DateRangePicker/DateRangePicker"
 import { SearchGroups } from "../../components/Events/SearchGroups"
 import Layout from "../../components/Layout/Layout"
 import { LocationSearch } from "../../components/LocationSearch/LocationSearch"
+import ProfilePicture from "../../components/ProfilePicture"
 import RequireAuth from "../../components/RequireAuth"
 import RichTextEditor from "../../components/RichTextEditor"
 import { api } from "../../utils/api"
+import { removeDuplicates } from "../../utils/array"
+
+const userZod = z.object({
+  id: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().nullable(),
+  emailVerified: z.boolean().nullable(),
+  image: z.string(),
+  username: z.string(),
+})
 
 const validationSchema = z.object({
   name: z.string().nonempty(),
@@ -37,22 +51,14 @@ const validationSchema = z.object({
       updatedAt: z.date(),
     })
   ),
-  participants: z.array(
-    z.object({
-      id: z.string(),
-      firstName: z.string(),
-      lastName: z.string(),
-      email: z.string().nullable(),
-      emailVerified: z.boolean().nullable(),
-      image: z.string(),
-      username: z.string(),
-    })
-  ),
+  participants: z.array(userZod),
 })
 
 type FormValues = z.infer<typeof validationSchema>
 
 const EventsCreatePage = () => {
+  const router = useRouter()
+
   const {
     formState: { errors },
     register,
@@ -63,6 +69,7 @@ const EventsCreatePage = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
+      description: null,
       groups: [],
       startDate: new Date(),
       endDate: new Date(),
@@ -74,24 +81,15 @@ const EventsCreatePage = () => {
 
   watch()
 
-  api.users.getMe.useQuery(undefined, {
-    onSuccess(data) {
-      if (!data) return
-
-      if (getValues().participants.length === 0)
-        setValue("participants", [...getValues().participants, data])
-    },
-  })
-
   api.groups.getParticipants.useQuery(
     {
       ids: getValues().groups.map((group) => group.id),
     },
     {
       onSuccess(data) {
-        const participants = [...getValues().participants, ...data].filter(
-          (user, index, self) =>
-            index === self.findIndex((t) => t.id === user.id)
+        const participants = removeDuplicates(
+          [...getValues().participants, ...data],
+          "id"
         )
 
         setValue("participants", participants)
@@ -99,9 +97,22 @@ const EventsCreatePage = () => {
     }
   )
 
-  const createEventMutation = api.events.createEvent.useMutation({})
+  const createEventMutation = api.events.createEvent.useMutation({
+    onSuccess() {
+      toast.success("Event created successfully!", {
+        id: "event-created",
+      })
 
-  const onSubmit = handleSubmit((data) => console.log(data))
+      void router.push("/dashboard/calendar")
+    },
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    createEventMutation.mutate({
+      ...data,
+      groupsId: data.groups.map((group) => group.id),
+    })
+  })
 
   function onDateChange(dates: [Date | null, Date | null]) {
     const [startDate, endDate] = dates
@@ -187,14 +198,15 @@ const EventsCreatePage = () => {
             <label className="text-sm text-gray-400">Participants</label>
             <div className="flex">
               {getValues().participants.map((participant) => (
-                <UserChip
-                  key={`user-chip-${participant.id}`}
-                  user={participant}
+                <ProfilePicture
+                  key={`participant-${participant.id}`}
+                  firstName={participant.firstName}
+                  lastName={participant.lastName}
                 />
               ))}
             </div>
           </div>
-          <button className="rounded bg-teal-600 px-8 py-2 text-lg text-white">
+          <button className="mt-8 rounded bg-teal-600 px-8 py-2 text-lg text-white">
             Create Event
           </button>
         </form>
@@ -225,30 +237,6 @@ const GroupChip: React.FC<{ group: Group }> = ({ group }) => {
       />
       <p className="text-xs">{group.name}</p>
     </div>
-  )
-}
-
-const UserChip: React.FC<{
-  user: User
-}> = ({ user }) => {
-  const avatarSrc = useMemo(
-    () =>
-      createAvatar(initials, {
-        seed: user.firstName + " " + user.lastName,
-        size: 32,
-        backgroundType: ["gradientLinear"],
-      }).toDataUriSync(),
-    [user.firstName, user.lastName]
-  )
-
-  return (
-    <Image
-      width={32}
-      height={32}
-      src={avatarSrc}
-      alt="user avatar"
-      className="rounded-full"
-    />
   )
 }
 

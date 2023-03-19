@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useRef } from "react"
 import toast from "react-hot-toast"
 import Layout from "../components/Layout/Layout"
+import ProfilePicture from "../components/ProfilePicture"
 import RequireAuth from "../components/RequireAuth"
 import { api } from "../utils/api"
 import { toBase64 } from "../utils/image"
@@ -47,7 +48,7 @@ const ProfilePage: React.FC = () => {
 
   if (!getMeQuery.data) return null
 
-  const { username, email, firstName, lastName, image } = getMeQuery.data
+  const { username, email, firstName, lastName } = getMeQuery.data
 
   return (
     <RequireAuth>
@@ -62,14 +63,14 @@ const ProfilePage: React.FC = () => {
           <button
             className="absolute -top-16 rounded-full transition-all hover:brightness-75"
             onClick={handleImageClick}
+            disabled
           >
             <input type="file" className="hidden" ref={fileInputRef} />
-            <Image
-              width={128}
-              height={128}
-              src={image}
-              alt="profile"
-              className="rounded-full"
+            <ProfilePicture
+              size={128}
+              firstName={firstName}
+              lastName={lastName}
+              className="rounded-full bg-white"
             />
           </button>
           <h1 className="mt-20 text-center text-xl font-bold">

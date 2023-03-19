@@ -52,7 +52,7 @@ model Event {
   id          Int           @id @default(autoincrement())
   name        String
   description String?
-  location    Location      @relation(fields: [locationId], references: [id])
+  location    Location?      @relation(fields: [locationId], references: [id])
   startDate   DateTime
   endDate     DateTime
   allDay      Boolean
