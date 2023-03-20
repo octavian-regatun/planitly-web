@@ -1,0 +1,23 @@
+.rbc-month-view {
+  @apply rounded-xl;
+}
+
+.rbc-header {
+  @apply py-2 text-white #{!important};
+}
+
+.rbc-off-range-bg {
+  @apply bg-teal-700 #{!important};
+}
+
+.rbc-off-range > .rbc-button-link {
+  @apply text-gray-400 #{!important};
+}
+
+.rbc-button-link {
+  @apply text-white #{!important};
+}
+
+.rbc-today {
+  @apply bg-teal-500 #{!important};
+}

@@ -10,6 +10,7 @@ import Head from "next/head"
 import "react-datepicker/dist/react-datepicker.css"
 import { Toaster } from "react-hot-toast"
 import "../styles/globals.scss"
+import "../styles/main.scss"
 
 const montserrat = Comfortaa({
   subsets: ["latin"],

@@ -1,9 +1,10 @@
+import Link from "next/link"
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import { CalendarWrapper } from "../../components/Calendar/CalendarWrapper"
+import CreateEventButton from "../../components/Calendar/CreateEventButton"
+import { EventsList } from "../../components/Events/EventsList"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
-import CreateEventButton from "../../components/Calendar/CreateEventButton"
-import Calendar from "../../components/Calendar/Calendar"
-import Link from "next/link"
-import { EventsList } from "../../components/Events/EventsList"
 import { api } from "../../utils/api"
 
 const CalendarScreen: React.FC = () => {
@@ -14,7 +15,7 @@ const CalendarScreen: React.FC = () => {
       <Layout className="bg-teal-600 !p-0">
         <div className="flex h-[calc(100vh-192px)] flex-col gap-4 p-4">
           <Buttons />
-          <Calendar />
+          <CalendarWrapper events={getEventsQuery.data} />
         </div>
         {getEventsQuery.data && <EventsList events={getEventsQuery.data} />}
         <CreateEventButton />
