@@ -7,11 +7,11 @@ const CreateEventButton: React.FC = () => {
     <Link
       href="/events/create"
       className={
-        "absolute bottom-20 right-4 rounded-full bg-black p-4 text-white " +
+        "fixed bottom-20 right-4 rounded-full bg-black p-4 text-white " +
         mainGradient
       }
     >
-      <PlusIcon className="h-8 w-8" />
+      <PlusIcon className="h-6 w-6" />
     </Link>
   )
 }

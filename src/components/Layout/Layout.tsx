@@ -9,11 +9,7 @@ const Layout: React.FC<{
   return (
     <div className="mx-auto max-w-screen-sm">
       <Navbar />
-      <main
-        className={`h-[calc(100vh-128px)] overflow-y-auto p-4 ${className}`}
-      >
-        {children}
-      </main>
+      <main className={`p-4 pb-28 ${className}`}>{children}</main>
       <BottomNav />
     </div>
   )

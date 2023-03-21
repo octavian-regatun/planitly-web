@@ -10,7 +10,7 @@ export const EventsList: React.FC<{
   events: Event[]
 }> = ({ events }) => {
   return (
-    <div className="flex flex-col gap-4 rounded-t-3xl bg-white p-4">
+    <div className="flex flex-col gap-4 rounded-t-3xl bg-white p-4 relative -top-6">
       <p className="font-bold text-gray-800">Upcoming</p>
       {events.map((event) => (
         <EventCard event={event} key={`event-card-${event.id}`} />

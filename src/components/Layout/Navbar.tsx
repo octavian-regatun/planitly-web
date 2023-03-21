@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
   const getMeQuery = api.users.getMe.useQuery()
 
   return (
-    <nav className="flex h-16 items-center justify-center border-b border-gray-200 p-4 text-2xl">
+    <nav className="sticky top-0 z-[9999999] flex h-12 items-center justify-center border-gray-200 p-4 text-2xl backdrop-blur-lg">
       <button onClick={() => router.back()}>
         <ArrowLeftIcon className="box-content h-6 w-6 rounded-full p-2 text-black" />
       </button>
@@ -22,6 +22,7 @@ const Navbar: React.FC = () => {
       <Link href="/profile" className="transition-all hover:brightness-90">
         {getMeQuery.data && (
           <ProfilePicture
+            size={32}
             firstName={getMeQuery.data.firstName}
             lastName={getMeQuery.data.lastName}
           />
