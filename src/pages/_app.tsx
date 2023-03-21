@@ -5,7 +5,7 @@ import NextNProgress from "nextjs-progressbar"
 
 import { api } from "../utils/api"
 
-import { Comfortaa, Montserrat, Roboto } from "next/font/google"
+import { Comfortaa } from "next/font/google"
 import Head from "next/head"
 import "react-datepicker/dist/react-datepicker.css"
 import { Toaster } from "react-hot-toast"

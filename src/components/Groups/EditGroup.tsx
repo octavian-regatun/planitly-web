@@ -1,16 +1,16 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import type { User } from "@prisma/client"
 import type { inferRouterOutputs } from "@trpc/server"
-import { Field, Form, Formik, FormikProps } from "formik"
+import type { FormikProps } from "formik";
+import { Field, Form, Formik } from "formik"
 import { useRouter } from "next/router"
-import { toast } from "react-hot-toast"
-import { GroupMemberModal } from "./GroupMemberModal"
 import { useState } from "react"
-import { GroupsRouter } from "../../server/api/routers/groups"
+import { toast } from "react-hot-toast"
+import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
-import { mainGradient } from "../../utils/gradient"
 import RichTextEditor from "../RichTextEditor"
 import { UsersListWithSearch } from "../UserList/UsersListWithSearch"
+import { GroupMemberModal } from "./GroupMemberModal"
 
 type EditGroupFormikValues = {
   name: string

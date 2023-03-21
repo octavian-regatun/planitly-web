@@ -77,7 +77,7 @@ const GroupsCreatePage: React.FC = () => {
       <Layout>
         <Formik
           initialValues={initialValues}
-          validate={(values) => {
+          validate={() => {
             const errors = {}
 
             return errors
@@ -89,7 +89,7 @@ const GroupsCreatePage: React.FC = () => {
         >
           {(formik) => {
             const members = formik.values.members.map((member) => {
-              if (member.id === getMeQuery.data!.id)
+              if (member.id === getMeQuery.data?.id)
                 return { ...member, loading: false }
               return {
                 ...member,

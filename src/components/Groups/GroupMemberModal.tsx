@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react"
 import type { User } from "@prisma/client"
 import type { Dispatch, SetStateAction } from "react"
-import { UserWithLoading } from "../../types/user"
+import type { UserWithLoading } from "../../types/user"
 import ProfilePicture from "../ProfilePicture"
 
 export const GroupMemberModal: React.FC<{

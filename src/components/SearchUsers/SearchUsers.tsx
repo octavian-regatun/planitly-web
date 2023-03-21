@@ -15,14 +15,14 @@ export const SearchUsers: React.FC<{
   const searchUsersQuery = api.users.search.useQuery(
     { query: friendsQuery },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         // FIXME: This might be a bug (data is unused)
         if (!friendsOnly) setUsers(users)
       },
     }
   )
 
-  const searchFriendsQuery = api.users.searchFriends.useQuery(
+  api.users.searchFriends.useQuery(
     {
       query: friendsQuery,
     },

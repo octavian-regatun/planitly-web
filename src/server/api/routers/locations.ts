@@ -3,14 +3,14 @@ import axios from "axios"
 import { z } from "zod"
 import { env } from "../../../env/server.mjs"
 import type { HereApiData } from "../../../types/hereApi"
-import { IpApiData } from "../../../types/ipApi.js"
+import type { IpApiData } from "../../../types/ipApi.js"
 import { getLatLonFromIp } from "../../../utils/location"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const locationsRouter = createTRPCRouter({
   searchHereApi: protectedProcedure
     .input(z.object({ query: z.string().min(1), ip: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const { query, ip } = input
 
       let ipApiData: IpApiData

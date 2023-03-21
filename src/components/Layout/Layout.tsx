@@ -2,7 +2,7 @@ import BottomNav from "./BottomNav"
 import Navbar from "./Navbar"
 
 const Layout: React.FC<{
-  children: any
+  children: React.ReactNode
   className?: string
 }> = ({ children, className }) => {
   className ??= ""

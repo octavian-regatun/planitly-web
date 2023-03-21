@@ -1,11 +1,11 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline"
-import { inferRouterOutputs } from "@trpc/server"
+import type { inferRouterOutputs } from "@trpc/server"
 import { format, getDay, parse, startOfWeek } from "date-fns"
 import { enUS } from "date-fns/locale"
 import { useRouter } from "next/router"
-import { useMemo } from "react"
-import { Calendar, dateFnsLocalizer, ToolbarProps } from "react-big-calendar"
-import { eventsRouter } from "../../server/api/routers/events"
+import type { ToolbarProps } from "react-big-calendar"
+import { Calendar, dateFnsLocalizer } from "react-big-calendar"
+import type { eventsRouter } from "../../server/api/routers/events"
 
 const localizer = dateFnsLocalizer({
   format: format,

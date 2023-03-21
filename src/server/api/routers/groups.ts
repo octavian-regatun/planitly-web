@@ -1,4 +1,3 @@
-import { User } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
 import { z } from "zod"
 import { searchFriends } from "../../../utils/users"

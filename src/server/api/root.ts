@@ -1,11 +1,10 @@
-import { createTRPCRouter } from "./trpc"
-import { calendarRouter } from "./routers/calendar"
-import { usersRouter } from "./routers/users"
-import { friendshipsRouter } from "./routers/friendships"
-import { groupsRouter } from "./routers/groups"
-import { groupMembersRouter } from "./routers/groupMembers"
-import { locationsRouter } from "./routers/locations"
 import { eventsRouter } from "./routers/events"
+import { friendshipsRouter } from "./routers/friendships"
+import { groupMembersRouter } from "./routers/groupMembers"
+import { groupsRouter } from "./routers/groups"
+import { locationsRouter } from "./routers/locations"
+import { usersRouter } from "./routers/users"
+import { createTRPCRouter } from "./trpc"
 
 /**
  * This is the primary router for your server.
@@ -13,7 +12,6 @@ import { eventsRouter } from "./routers/events"
  * All routers added in /api/routers should be manually added here
  */
 export const appRouter = createTRPCRouter({
-  calendar: calendarRouter,
   friendships: friendshipsRouter,
   users: usersRouter,
   groups: groupsRouter,

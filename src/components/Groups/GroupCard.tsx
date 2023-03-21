@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
-import { mainGradient } from "../../utils/gradient"
 import { UsersList } from "../UserList/UsersList"
 
 export const GroupCard: React.FC<{

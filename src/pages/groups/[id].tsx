@@ -15,7 +15,7 @@ const GroupPage: React.FC = () => {
   const [group, setGroup] =
     useState<inferRouterOutputs<GroupsRouter>["getGroup"]>(null)
 
-  const getGroupQuery = api.groups.getGroup.useQuery(
+  api.groups.getGroup.useQuery(
     {
       id: parseInt(id as string),
     },

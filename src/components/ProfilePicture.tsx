@@ -18,7 +18,7 @@ const ProfilePicture: React.FC<{
         size: size || 42,
         backgroundType: ["gradientLinear"],
       }).toDataUriSync(),
-    [firstName, lastName]
+    [firstName, lastName, size]
   )
 
   if (loading)

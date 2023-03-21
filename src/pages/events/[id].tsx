@@ -1,16 +1,12 @@
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline"
-import type { inferRouterOutputs } from "@trpc/server"
 import { format, isSameDay as isSameDayDateFns } from "date-fns"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { EventParticipants } from "../../components/Events/EventParticipantsList"
 import Layout from "../../components/Layout/Layout"
-import ProfilePicture from "../../components/ProfilePicture"
 import RequireAuth from "../../components/RequireAuth"
-import type { eventsRouter } from "../../server/api/routers/events"
 import { api } from "../../utils/api"
 
-type Event = inferRouterOutputs<typeof eventsRouter>["getEvents"][number]
 
 const EventPage: React.FC = () => {
   const router = useRouter()

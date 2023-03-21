@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server"
 import { z } from "zod"
-import { protectedProcedure, t } from "../trpc"
+import { protectedProcedure } from "../trpc"
 
 const inputSchema = z.object({ id: z.number() })
 

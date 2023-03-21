@@ -1,6 +1,6 @@
 import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import type { inferRouterOutputs } from "@trpc/server"
-import { GroupsRouter } from "../../server/api/routers/groups"
+import type { GroupsRouter } from "../../server/api/routers/groups"
 import { api } from "../../utils/api"
 import { UsersList } from "../UserList/UsersList"
 
