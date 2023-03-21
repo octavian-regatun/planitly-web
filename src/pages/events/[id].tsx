@@ -51,7 +51,7 @@ const EventPage: React.FC = () => {
               <>
                 <p className="">About Event</p>
                 <div
-                  className="-mt-2 text-sm text-gray-600"
+                  className="-mt-2 text-sm text-gray-600 break-words"
                   dangerouslySetInnerHTML={{
                     __html: getEventQuery.data.description,
                   }}
