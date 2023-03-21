@@ -9,11 +9,10 @@ import { api } from "../../utils/api"
 
 const CalendarScreen: React.FC = () => {
   const getEventsQuery = api.events.getEvents.useQuery({})
-
   return (
     <RequireAuth>
       <Layout className="!px-0 !pt-0">
-        <div className="flex h-[calc(100vh-6rem)] flex-col gap-4 p-4 bg-teal-600 pb-10">
+        <div className="flex h-[calc(100vh-6rem)] flex-col gap-4 bg-teal-600 p-4 pb-10">
           <Buttons />
           <CalendarWrapper events={getEventsQuery.data} />
         </div>
@@ -29,13 +28,13 @@ const Buttons: React.FC = () => {
     <div className="flex gap-4">
       <Link
         href="/dashboard/today"
-        className="rounded-full border border-gray-200 px-6 py-2 text-lg text-gray-200"
+        className="rounded-full border border-gray-200 px-6 py-2 text-gray-200"
       >
         Today
       </Link>
       <Link
         href="/dashboard/calendar"
-        className="rounded-full bg-yellow-200 px-6 py-2 text-lg text-black"
+        className="rounded-full bg-yellow-200 px-6 py-2 text-black"
       >
         Calendar
       </Link>

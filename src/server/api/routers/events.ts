@@ -72,40 +72,36 @@ export const eventsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { date } = input
       if (date) {
-        const data = await ctx.prisma.eventMember.findMany({
+        const events = await ctx.prisma.event.findMany({
           where: {
-            userId: ctx.session.user.id,
-            // status: "ACCEPTED",
-          },
-          include: {
-            event: {
-              include: {
-                location: true,
+            EventMember: {
+              some: {
+                userId: ctx.session.user.id,
               },
             },
           },
+          include: {
+            EventMember: true,
+            location: true,
+          },
         })
-
-        const events = data.map((eventMember) => eventMember.event)
 
         return filterEventsHappeningOnDate(events, date)
       }
 
-      const data = await ctx.prisma.eventMember.findMany({
+      return await ctx.prisma.event.findMany({
         where: {
-          userId: ctx.session.user.id,
-          // status: "ACCEPTED",
-        },
-        include: {
-          event: {
-            include: {
-              location: true,
+          EventMember: {
+            some: {
+              userId: ctx.session.user.id,
             },
           },
         },
+        include: {
+          EventMember: true,
+          location: true,
+        },
       })
-
-      return data.map((eventMember) => eventMember.event)
     }),
 
   getEvent: protectedProcedure
@@ -150,13 +146,7 @@ export const eventsRouter = createTRPCRouter({
       const { eventId } = input
 
       try {
-        const event = await ctx.prisma.event.findUnique({
-          where: {
-            id: eventId,
-          },
-        })
-
-        const participants = await ctx.prisma.eventMember.findMany({
+        return await ctx.prisma.eventMember.findMany({
           where: {
             eventId,
           },
@@ -164,14 +154,97 @@ export const eventsRouter = createTRPCRouter({
             user: true,
           },
         })
-
-        return participants.map((participant) => participant.user)
       } catch (e) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Event not found",
         })
       }
+    }),
+
+  acceptEventInvitation: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { eventId } = input
+
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: eventId,
+        },
+        select: {
+          EventMember: true,
+        },
+      })
+
+      if (!event)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event not found",
+        })
+
+      const eventMember = event.EventMember.find(
+        (eventMember) => eventMember.userId === ctx.session.user.id
+      )
+
+      if (!eventMember)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event not found",
+        })
+
+      return await ctx.prisma.eventMember.update({
+        where: {
+          id: eventMember.id,
+        },
+        data: {
+          status: "ACCEPTED",
+        },
+      })
+    }),
+
+  declineEventInvitation: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { eventId } = input
+
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: eventId,
+        },
+        select: {
+          EventMember: true,
+        },
+      })
+
+      if (!event)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event not found",
+        })
+
+      const eventMember = event.EventMember.find(
+        (eventMember) => eventMember.userId === ctx.session.user.id
+      )
+
+      if (!eventMember)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event member not found",
+        })
+
+      return await ctx.prisma.eventMember.delete({
+        where: {
+          id: eventMember.id,
+        },
+      })
     }),
 })
 

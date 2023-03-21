@@ -57,9 +57,8 @@ const Home: NextPage = () => {
             <SocialLoginButton type="apple" />
           </div>
         </div>
-        <div className="absolute -bottom-0">
+        <div className="absolute -z-10 -bottom-0">
           <Image
-            className=""
             alt="bottom illustration"
             src="/assets/images/pages/index/bottom-illustration.svg"
             width={768}
