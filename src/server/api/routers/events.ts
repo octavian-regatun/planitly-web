@@ -1,4 +1,3 @@
-import { Event } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
 import { endOfDay, startOfDay } from "date-fns"
 import { z } from "zod"
@@ -57,7 +56,8 @@ export const eventsRouter = createTRPCRouter({
           data: {
             eventId: event.id,
             userId: participant.id,
-            status: "ACCEPTED",
+            status:
+              participant.id === ctx.session.user.id ? "ACCEPTED" : "PENDING",
           },
         })
       }
