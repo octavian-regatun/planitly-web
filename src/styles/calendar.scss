@@ -3,7 +3,7 @@
 }
 
 .rbc-header {
-  @apply py-2 text-white #{!important};
+  @apply py-2 text-sm text-white #{!important};
 }
 
 .rbc-off-range-bg {
@@ -15,9 +15,17 @@
 }
 
 .rbc-button-link {
-  @apply text-white #{!important};
+  @apply text-sm text-white #{!important};
 }
 
 .rbc-today {
   @apply bg-teal-500 #{!important};
+}
+
+.rbc-event-content {
+  @apply text-xs;
+}
+
+.rbc-show-more {
+  @apply text-xs #{!important};
 }
