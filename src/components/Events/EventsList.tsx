@@ -1,6 +1,7 @@
 import { ClockIcon, MapPinIcon } from "@heroicons/react/24/solid"
 import type { inferRouterOutputs } from "@trpc/server"
 import { format } from "date-fns"
+import Link from "next/link"
 import type { eventsRouter } from "../../server/api/routers/events"
 
 type Event = inferRouterOutputs<typeof eventsRouter>["getEvents"][number]
@@ -20,7 +21,8 @@ export const EventsList: React.FC<{
 
 const EventCard: React.FC<{ event: Event }> = ({ event }) => {
   return (
-    <div
+    <Link
+      href={`/events/${event.id}`}
       key={event.id}
       className="flex flex-col gap-4 rounded-2xl bg-amber-200 p-4 "
     >
@@ -38,6 +40,6 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
           {format(event.endDate, "E, MMMM d, y")}
         </p>
       </div>
-    </div>
+    </Link>
   )
 }

@@ -1,4 +1,5 @@
 import { Event } from "@prisma/client"
+import { TRPCError } from "@trpc/server"
 import { endOfDay, startOfDay } from "date-fns"
 import { z } from "zod"
 import { removeDuplicates } from "../../../utils/array"
@@ -105,6 +106,72 @@ export const eventsRouter = createTRPCRouter({
       })
 
       return data.map((eventMember) => eventMember.event)
+    }),
+
+  getEvent: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { id } = input
+
+      try {
+        const event = await ctx.prisma.event.findUnique({
+          where: {
+            id,
+          },
+          include: {
+            location: true,
+            EventMember: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        })
+        return event
+      } catch (e) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event not found",
+        })
+      }
+    }),
+
+  getEventParticipants: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { eventId } = input
+
+      try {
+        const event = await ctx.prisma.event.findUnique({
+          where: {
+            id: eventId,
+          },
+        })
+
+        const participants = await ctx.prisma.eventMember.findMany({
+          where: {
+            eventId,
+          },
+          include: {
+            user: true,
+          },
+        })
+
+        return participants.map((participant) => participant.user)
+      } catch (e) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Event not found",
+        })
+      }
     }),
 })
 
