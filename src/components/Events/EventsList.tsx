@@ -1,8 +1,10 @@
+import { UserGroupIcon } from "@heroicons/react/24/outline"
 import { ClockIcon, MapPinIcon } from "@heroicons/react/24/solid"
 import type { inferRouterOutputs } from "@trpc/server"
 import { format } from "date-fns"
 import Link from "next/link"
 import type { eventsRouter } from "../../server/api/routers/events"
+import { EventParticipants } from "./EventParticipantsList"
 
 type Event = inferRouterOutputs<typeof eventsRouter>["getEvents"][number]
 
@@ -10,7 +12,7 @@ export const EventsList: React.FC<{
   events: Event[]
 }> = ({ events }) => {
   return (
-    <div className="flex flex-col gap-4 rounded-t-3xl bg-white p-4 relative -top-6">
+    <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-4">
       <p className="font-bold text-gray-800">Upcoming</p>
       {events.map((event) => (
         <EventCard event={event} key={`event-card-${event.id}`} />
@@ -39,6 +41,10 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
           {format(event.startDate, "E, MMMM d, y")} -{" "}
           {format(event.endDate, "E, MMMM d, y")}
         </p>
+      </div>
+      <div className="flex items-center gap-2 text-sm opacity-75">
+        <UserGroupIcon className="h-4 w-4 text-gray-800 " />
+        <EventParticipants eventId={event.id} />
       </div>
     </Link>
   )

@@ -3,6 +3,7 @@ import type { inferRouterOutputs } from "@trpc/server"
 import { format, isSameDay as isSameDayDateFns } from "date-fns"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import { EventParticipants } from "../../components/Events/EventParticipantsList"
 import Layout from "../../components/Layout/Layout"
 import ProfilePicture from "../../components/ProfilePicture"
 import RequireAuth from "../../components/RequireAuth"
@@ -42,7 +43,10 @@ const EventPage: React.FC = () => {
                 endDate={getEventQuery.data.endDate}
               />
             </div>
-            <EventParticipants eventId={getEventQuery.data.id} />
+            <div className="flex flex-col gap-2">
+              <p>Participants</p>
+              <EventParticipants eventId={getEventQuery.data.id} />
+            </div>
             {getEventQuery.data.description && (
               <>
                 <p className="">About Event</p>
@@ -58,28 +62,6 @@ const EventPage: React.FC = () => {
         )}
       </Layout>
     </RequireAuth>
-  )
-}
-
-const EventParticipants: React.FC<{ eventId: number }> = ({ eventId }) => {
-  const getEventParticipantsQuery = api.events.getEventParticipants.useQuery({
-    eventId,
-  })
-
-  return (
-    <div className="flex flex-col gap-2">
-      <p>Participants</p>
-      <div className="flex">
-        {getEventParticipantsQuery.data?.map((participant) => (
-          <ProfilePicture
-          size={32}
-            key={`participant-${participant.id}`}
-            firstName={participant.firstName}
-            lastName={participant.lastName}
-          />
-        ))}
-      </div>
-    </div>
   )
 }
 
