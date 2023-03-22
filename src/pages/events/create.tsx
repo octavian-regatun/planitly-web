@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { z } from "zod"
 import { DateTimeRangePicker } from "../../components/DateRangePicker/DateRangePicker"
+import { GroupChip } from "../../components/Groups/GroupChip"
 import { SearchGroups } from "../../components/Groups/SearchGroups"
 import Layout from "../../components/Layout/Layout"
 import { LocationSearch } from "../../components/LocationSearch/LocationSearch"
@@ -122,6 +123,12 @@ const EventsCreatePage = () => {
     setValue("endDate", endDate as Date)
   }
 
+  const onGroupChipCloseClick = (group: Group) => {
+    const groups = getValues().groups.filter((g) => g.id !== group.id)
+
+    setValue("groups", groups)
+  }
+
   return (
     <RequireAuth>
       <Layout>
@@ -190,7 +197,11 @@ const EventsCreatePage = () => {
             />
             <div className="flex flex-wrap">
               {getValues().groups.map((group) => (
-                <GroupChip key={`group-chip-${group.id}`} group={group} />
+                <GroupChip
+                  key={`group-chip-${group.id}`}
+                  group={group}
+                  onCloseClick={onGroupChipCloseClick}
+                />
               ))}
             </div>
           </div>
@@ -212,31 +223,6 @@ const EventsCreatePage = () => {
         </form>
       </Layout>
     </RequireAuth>
-  )
-}
-
-const GroupChip: React.FC<{ group: Group }> = ({ group }) => {
-  const avatarSrc = useMemo(
-    () =>
-      createAvatar(initials, {
-        seed: group.name,
-        size: 32,
-        backgroundType: ["gradientLinear"],
-      }).toDataUriSync(),
-    [group.name]
-  )
-
-  return (
-    <div className="flex w-fit items-center gap-2 rounded-full border border-gray-200 p-2">
-      <Image
-        width={24}
-        height={24}
-        src={avatarSrc}
-        alt="group avatar"
-        className="rounded-full"
-      />
-      <p className="text-xs">{group.name}</p>
-    </div>
   )
 }
 
