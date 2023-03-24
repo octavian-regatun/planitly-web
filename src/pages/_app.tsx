@@ -1,16 +1,16 @@
 import { type Session } from "next-auth"
 import { SessionProvider } from "next-auth/react"
 import { type AppType } from "next/app"
-import NextNProgress from "nextjs-progressbar"
-
-import { api } from "../utils/api"
-
 import { Comfortaa } from "next/font/google"
 import Head from "next/head"
+import NextNProgress from "nextjs-progressbar"
 import "react-datepicker/dist/react-datepicker.css"
 import { Toaster } from "react-hot-toast"
+import { api } from "../utils/api"
+
 import "../styles/globals.scss"
 import "../styles/main.scss"
+import { PresenceWrapper } from "../components/PresenceWrapper"
 
 const montserrat = Comfortaa({
   subsets: ["latin"],
@@ -46,10 +46,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
           content="9DFNcZdMN8_VKIEGVoMyRCJskAFzkWutCWGWUNBfXig"
         />
       </Head>
+      <NextNProgress />
+      <Toaster position="top-center" />
       <SessionProvider session={session}>
-        <NextNProgress />
-        <Toaster position="top-center" />
+        {/* <PresenceWrapper> */}
         <Component {...pageProps} />
+        {/* </PresenceWrapper> */}
       </SessionProvider>
     </>
   )

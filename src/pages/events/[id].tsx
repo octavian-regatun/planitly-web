@@ -7,7 +7,6 @@ import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
 
-
 const EventPage: React.FC = () => {
   const router = useRouter()
   const { id } = router.query
@@ -47,7 +46,7 @@ const EventPage: React.FC = () => {
               <>
                 <p className="">About Event</p>
                 <div
-                  className="-mt-2 text-sm text-gray-600 break-words"
+                  className="-mt-2 break-words text-sm text-gray-600"
                   dangerouslySetInnerHTML={{
                     __html: getEventQuery.data.description,
                   }}
