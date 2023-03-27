@@ -20,13 +20,7 @@ const Navbar: React.FC = () => {
         {getNavbarTitle(router.pathname)}
       </h1>
       <Link href="/profile" className="transition-all hover:brightness-90">
-        {getMeQuery.data && (
-          <ProfilePicture
-            size={32}
-            firstName={getMeQuery.data.firstName}
-            lastName={getMeQuery.data.lastName}
-          />
-        )}
+        {getMeQuery.data && <ProfilePicture size={32} user={getMeQuery.data} />}
       </Link>
     </nav>
   )

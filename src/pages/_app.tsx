@@ -10,7 +10,7 @@ import { api } from "../utils/api"
 
 import "../styles/globals.scss"
 import "../styles/main.scss"
-import { PresenceWrapper } from "../components/PresenceWrapper"
+import { SocketWrapper } from "../components/SocketWrapper"
 
 const montserrat = Comfortaa({
   subsets: ["latin"],
@@ -47,11 +47,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
       </Head>
       <NextNProgress />
-      <Toaster position="top-center" />
+      <Toaster position="top-center" containerClassName="!z-[99999999]"/>
       <SessionProvider session={session}>
-        {/* <PresenceWrapper> */}
+        <SocketWrapper>
         <Component {...pageProps} />
-        {/* </PresenceWrapper> */}
+        </SocketWrapper>
       </SessionProvider>
     </>
   )

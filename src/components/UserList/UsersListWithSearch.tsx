@@ -3,6 +3,7 @@ import { PlusIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 import ProfilePicture from "../ProfilePicture"
 import { SearchUsersModal } from "../Groups/SearchUsersModal"
+import { shallow } from "zustand/shallow"
 
 export const UsersListWithSearch: React.FC<{
   users: (User & {
@@ -12,10 +13,10 @@ export const UsersListWithSearch: React.FC<{
   onSearchUserClick: (user: User) => void
 }> = ({ users, onUserClick, onSearchUserClick }) => {
   const [isOpen, setIsOpen] = useState(false)
-
+  shallow
   return (
     <div className="flex flex-wrap">
-      {users.map((user) => (
+      {users.map(user => (
         <button
           onClick={() => {
             onUserClick(user)
@@ -23,12 +24,7 @@ export const UsersListWithSearch: React.FC<{
           type="button"
           key={`members-profile-picture-${user.id}`}
         >
-          <ProfilePicture
-            firstName={user.firstName}
-            lastName={user.lastName}
-            size={36}
-            loading={user.loading}
-          />
+          <ProfilePicture user={user} size={36} loading={user.loading} />
         </button>
       ))}
       <button type="button" onClick={() => setIsOpen(true)}>
@@ -37,7 +33,7 @@ export const UsersListWithSearch: React.FC<{
       <SearchUsersModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        onClick={(user) => onSearchUserClick(user)}
+        onClick={user => onSearchUserClick(user)}
         excludeUsersFromSearch={users}
       />
     </div>

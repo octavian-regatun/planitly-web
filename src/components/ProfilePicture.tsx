@@ -1,60 +1,59 @@
 import { openPeeps } from "@dicebear/collection"
 import { createAvatar } from "@dicebear/core"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
+import type { User } from "@prisma/client"
 import Image from "next/image"
 import { useMemo } from "react"
+import { useSocketStore } from "../store/socket"
 
 const ProfilePicture: React.FC<{
-  size?: number
   className?: string
+  size?: number
+  user: User
   loading?: boolean
-  firstName: string
-  lastName: string
-}> = ({ size, className, loading, firstName, lastName }) => {
+  shouldDisplayOnline?: boolean
+}> = ({ size, className, loading, shouldDisplayOnline, user }) => {
+  const onlineUsers = useSocketStore(x => x.onlineUsers)
+
   const src = useMemo(
     () =>
       createAvatar(openPeeps, {
-        seed: firstName + " " + lastName,
+        seed: user.firstName + " " + user.lastName,
         size: size || 42,
         backgroundType: ["gradientLinear"],
       }).toDataUriSync(),
-    [firstName, lastName, size]
+    [user.firstName, user.lastName, size]
   )
 
-  if (loading)
-    return (
-      <div className="relative">
-        <Image
-          src={src}
-          width={size || 42}
-          height={size || 42}
-          alt="Profile Picture"
-          className={`rounded-full ${className || ""}`}
-          style={{
-            width: size || 42,
-            height: size || 42,
-          }}
-        />
-        <ArrowPathIcon
-          className="absolute top-0 animate-spin rounded-full bg-black bg-opacity-50 p-2"
-          width={size || 42}
-          height={size || 42}
-        />
-      </div>
-    )
+  const isOnline = onlineUsers.some(x => x.id === user.id)
 
   return (
-    <Image
-      src={src}
-      width={size || 42}
-      height={size || 42}
-      alt="Profile Picture"
-      className={`rounded-full ${className || ""}`}
-      style={{
-        width: size || 42,
-        height: size || 42,
-      }}
-    />
+    <div className="relative">
+      <Image
+        src={src}
+        width={size || 42}
+        height={size || 42}
+        alt="Profile Picture"
+        className={`rounded-full ${className || ""}`}
+        style={{
+          width: size || 42,
+          height: size || 42,
+        }}
+      />
+      {loading && (
+        <ArrowPathIcon
+          className="absolute -bottom-2 -right-2 box-content h-3 w-3 animate-spin rounded-full bg-black p-1 text-white"
+          width={size || 42}
+          height={size || 42}
+        />
+      )}
+      {!loading && shouldDisplayOnline && isOnline && (
+        <span className="absolute bottom-0 right-0 flex">
+          <span className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-green-600" />
+          <span className="absolute -bottom-1 -right-1 h-3 w-3 animate-ping rounded-full bg-green-600" />
+        </span>
+      )}
+    </div>
   )
 }
 

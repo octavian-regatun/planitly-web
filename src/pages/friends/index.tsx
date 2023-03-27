@@ -2,9 +2,9 @@ import {
   ArrowPathIcon,
   CheckIcon,
   UserPlusIcon,
-  XMarkIcon,
+  XMarkIcon
 } from "@heroicons/react/24/outline"
-import type { User } from "next-auth"
+import type { User } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useState } from "react"
@@ -104,7 +104,7 @@ const FriendsTab: React.FC = () => {
 
   return (
     <div className="w-[calc(100%-42px)] rounded-b-3xl border border-black p-2">
-      {friendshipsQuery.data?.map((friendship) => {
+      {friendshipsQuery.data?.map(friendship => {
         const friend =
           friendship.requester.id === session.data?.user.id
             ? friendship.recipient
@@ -114,11 +114,7 @@ const FriendsTab: React.FC = () => {
             key={`friendship-${friendship.id}`}
             className="flex items-center gap-2 p-2"
           >
-            <ProfilePicture
-              size={32}
-              firstName={friend.firstName}
-              lastName={friend.lastName}
-            />
+            <ProfilePicture size={32} user={friend} />
             <p>
               {friend.firstName} {friend.lastName}
             </p>
@@ -185,16 +181,12 @@ export const RequestsTab: React.FC = () => {
         incomingFriendshipsQuery.data.length > 0 && (
           <p className="text-center font-bold">Incoming</p>
         )}
-      {incomingFriendshipsQuery.data?.map((friendship) => (
+      {incomingFriendshipsQuery.data?.map(friendship => (
         <div
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture
-            size={32}
-            firstName={friendship.requester.firstName}
-            lastName={friendship.requester.lastName}
-          />
+          <ProfilePicture size={32} user={friendship.requester} />
           <p>
             {friendship.requester.firstName} {friendship.requester.lastName}
           </p>
@@ -218,16 +210,12 @@ export const RequestsTab: React.FC = () => {
         outgoingFriendshipsQuery.data?.length > 0 && (
           <p className="text-center font-bold">Outgoing</p>
         )}
-      {outgoingFriendshipsQuery.data?.map((friendship) => (
+      {outgoingFriendshipsQuery.data?.map(friendship => (
         <div
           key={`friendship-${friendship.id}`}
           className="flex items-center gap-2 p-2"
         >
-          <ProfilePicture
-            size={32}
-            firstName={friendship.recipient.firstName}
-            lastName={friendship.recipient.lastName}
-          />
+          <ProfilePicture size={32} user={friendship.recipient} />
           <p className="text-sm">
             {friendship.recipient.firstName} {friendship.recipient.lastName}
           </p>
@@ -271,7 +259,7 @@ export const SearchTab: React.FC = () => {
   const usersQuery = api.users.search.useQuery(
     { query: friendsQuery },
     {
-      onSuccess: (data) => setUsers(data),
+      onSuccess: data => setUsers(data),
     }
   )
 
@@ -295,7 +283,7 @@ export const SearchTab: React.FC = () => {
           placeholder="Search friend..."
           className="w-full rounded-full border border-black px-4 py-2 outline-black"
           value={friendsQuery}
-          onChange={(e) => setFriendsQuery(e.target.value)}
+          onChange={e => setFriendsQuery(e.target.value)}
         />
         {usersQuery.isFetching && (
           <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
@@ -303,12 +291,12 @@ export const SearchTab: React.FC = () => {
       </div>
       {users && (
         <div className="flex w-[calc(100%-42px)] flex-col rounded-b-3xl border border-t-0 border-black">
-          {users.map((user) => {
+          {users.map(user => {
             // if we are already friends display nothing
             if (
               getFriendsQuery.data &&
               getFriendsQuery.data.some(
-                (friendship) =>
+                friendship =>
                   friendship.requester.id === user.id ||
                   friendship.recipient.id === user.id
               )
@@ -319,11 +307,11 @@ export const SearchTab: React.FC = () => {
             if (
               (incomingFriendshipsQuery.data &&
                 incomingFriendshipsQuery.data.some(
-                  (friendship) => friendship.requester.id === user.id
+                  friendship => friendship.requester.id === user.id
                 )) ||
               (outgoingFriendshipsQuery.data &&
                 outgoingFriendshipsQuery.data.some(
-                  (friendship) => friendship.recipient.id === user.id
+                  friendship => friendship.recipient.id === user.id
                 ))
             )
               return (
@@ -331,11 +319,7 @@ export const SearchTab: React.FC = () => {
                   key={`friends-list-friend-${user.id}`}
                   className="flex items-center gap-2 p-2"
                 >
-                  <ProfilePicture
-                    size={32}
-                    firstName={user.firstName}
-                    lastName={user.lastName}
-                  />
+                  <ProfilePicture size={32} user={user} />
                   <h1
                     key={`friends-list-friend-${user.id}`}
                     className="text-sm font-bold"
@@ -354,11 +338,7 @@ export const SearchTab: React.FC = () => {
                 key={`friends-list-friend-${user.id}`}
                 className="flex items-center gap-2 p-2"
               >
-                <ProfilePicture
-                  size={32}
-                  firstName={user.firstName}
-                  lastName={user.lastName}
-                />
+                <ProfilePicture size={32} user={user} />
                 <h1
                   key={`friends-list-friend-${user.id}`}
                   className="text-sm font-bold"

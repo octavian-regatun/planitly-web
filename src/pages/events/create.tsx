@@ -1,10 +1,6 @@
-import { initials } from "@dicebear/collection"
-import { createAvatar } from "@dicebear/core"
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { Group } from "@prisma/client"
-import Image from "next/image"
 import { useRouter } from "next/router"
-import { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { z } from "zod"
@@ -84,7 +80,7 @@ const EventsCreatePage = () => {
 
   api.groups.getParticipants.useQuery(
     {
-      ids: getValues().groups.map((group) => group.id),
+      ids: getValues().groups.map(group => group.id),
     },
     {
       onSuccess(data) {
@@ -108,10 +104,10 @@ const EventsCreatePage = () => {
     },
   })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(data => {
     createEventMutation.mutate({
       ...data,
-      groupsId: data.groups.map((group) => group.id),
+      groupsId: data.groups.map(group => group.id),
     })
   })
 
@@ -124,7 +120,7 @@ const EventsCreatePage = () => {
   }
 
   const onGroupChipCloseClick = (group: Group) => {
-    const groups = getValues().groups.filter((g) => g.id !== group.id)
+    const groups = getValues().groups.filter(g => g.id !== group.id)
 
     setValue("groups", groups)
   }
@@ -148,7 +144,7 @@ const EventsCreatePage = () => {
             <label className="text-sm text-gray-400">Description</label>
             <RichTextEditor
               value={getValues().description}
-              onChange={(content) => setValue("description", content)}
+              onChange={content => setValue("description", content)}
             />
           </div>
           <div className="flex w-full gap-4">
@@ -157,7 +153,7 @@ const EventsCreatePage = () => {
               <DateTimeRangePicker
                 startDate={getValues().startDate}
                 endDate={getValues().endDate}
-                onChange={(dates) => onDateChange(dates)}
+                onChange={dates => onDateChange(dates)}
               />
               {errors.startDate && (
                 <p className="text-xs text-red-600">
@@ -181,7 +177,7 @@ const EventsCreatePage = () => {
           <div className="flex w-full flex-col gap-2">
             <label className="text-sm text-gray-400">Search Location</label>
             <LocationSearch
-              onSelect={(location) => setValue("location", location)}
+              onSelect={location => setValue("location", location)}
             />
             {errors.name && (
               <p className="text-xs text-red-600">{errors.location?.message}</p>
@@ -190,13 +186,13 @@ const EventsCreatePage = () => {
           <div className="flex w-full flex-col gap-2">
             <label className="text-sm text-gray-400">Search Groups</label>
             <SearchGroups
-              onClick={(group) => {
+              onClick={group => {
                 setValue("groups", [...getValues().groups, group])
               }}
-              exclude={getValues().groups.map((group) => group.id)}
+              exclude={getValues().groups.map(group => group.id)}
             />
             <div className="flex flex-wrap">
-              {getValues().groups.map((group) => (
+              {getValues().groups.map(group => (
                 <GroupChip
                   key={`group-chip-${group.id}`}
                   group={group}
@@ -208,11 +204,10 @@ const EventsCreatePage = () => {
           <div className="flex w-full flex-col gap-2">
             <label className="text-sm text-gray-400">Participants</label>
             <div className="flex">
-              {getValues().participants.map((participant) => (
+              {getValues().participants.map(participant => (
                 <ProfilePicture
                   key={`participant-${participant.id}`}
-                  firstName={participant.firstName}
-                  lastName={participant.lastName}
+                  user={participant}
                 />
               ))}
             </div>

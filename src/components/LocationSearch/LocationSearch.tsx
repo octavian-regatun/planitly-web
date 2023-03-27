@@ -52,7 +52,6 @@ export const LocationSearch: React.FC<{
       }
     }, 250)
     return () => clearTimeout(debounce)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, ip])
 
   return (

@@ -58,6 +58,7 @@ export const eventsRouter = createTRPCRouter({
             userId: participant.id,
             status:
               participant.id === ctx.session.user.id ? "ACCEPTED" : "PENDING",
+            role: participant.id === ctx.session.user.id ? "ADMIN" : "MEMBER",
           },
         })
       }

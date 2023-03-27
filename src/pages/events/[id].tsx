@@ -1,5 +1,10 @@
-import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline"
+import {
+  CalendarIcon,
+  MapPinIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline"
 import { format, isSameDay as isSameDayDateFns } from "date-fns"
+import { useSession } from "next-auth/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { EventParticipants } from "../../components/Events/EventParticipantsList"
@@ -8,12 +13,18 @@ import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
 
 const EventPage: React.FC = () => {
+  const session = useSession()
   const router = useRouter()
   const { id } = router.query
 
   const getEventQuery = api.events.getEvent.useQuery(
     { id: parseInt(id as string) },
     { enabled: typeof id === "string" }
+  )
+
+  const currentUserIsAdmin = getEventQuery.data?.EventMember.find(
+    (member) =>
+      member.userId === session.data?.user.id && member.role === "ADMIN"
   )
 
   return (
@@ -26,8 +37,11 @@ const EventPage: React.FC = () => {
           src="https://picsum.photos/2560/1440"
         />
         {getEventQuery.data && (
-          <div className="relative -top-6 flex flex-col gap-4 rounded-3xl bg-white p-8">
-            <p className="text-center text-xl">{getEventQuery.data?.name}</p>
+          <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-8">
+            <p className="text-xl">{getEventQuery.data?.name}</p>
+            {currentUserIsAdmin && (
+              <PencilSquareIcon className="absolute -top-6 right-0 box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
+            )}
             <div className="flex flex-col gap-2 text-gray-600">
               <div className="flex gap-2">
                 <MapPinIcon className="h-5 w-5" />
@@ -39,7 +53,7 @@ const EventPage: React.FC = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <p>Participants</p>
+              <p>Participants ({getEventQuery.data?.EventMember.length})</p>
               <EventParticipants eventId={getEventQuery.data.id} />
             </div>
             {getEventQuery.data.description && (

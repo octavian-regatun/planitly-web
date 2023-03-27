@@ -52,7 +52,7 @@ model Event {
   id          Int           @id @default(autoincrement())
   name        String
   description String?
-  location    Location?      @relation(fields: [locationId], references: [id])
+  location    Location?     @relation(fields: [locationId], references: [id])
   startDate   DateTime
   endDate     DateTime
   allDay      Boolean
@@ -74,14 +74,15 @@ model Location {
 }
 
 model EventMember {
-  id        Int      @id @default(autoincrement())
-  status    Status   @default(PENDING)
+  id        Int             @id @default(autoincrement())
+  status    Status          @default(PENDING)
+  role      EventMemberRole @default(MEMBER)
   eventId   Int
   userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  event     Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth
@@ -141,6 +142,11 @@ enum Status {
 }
 
 enum GroupMemberRole {
+  MEMBER
+  ADMIN
+}
+
+enum EventMemberRole {
   MEMBER
   ADMIN
 }

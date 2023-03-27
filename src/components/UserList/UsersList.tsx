@@ -9,18 +9,13 @@ export const UsersList: React.FC<{
 }> = ({ users, onUserClick }) => {
   return (
     <div className="flex flex-wrap">
-      {users.map((user) => (
+      {users.map(user => (
         <button
-          onClick={(e) => onUserClick?.(e, user)}
+          onClick={e => onUserClick?.(e, user)}
           type="button"
           key={`members-profile-picture-${user.id}`}
         >
-          <ProfilePicture
-            firstName={user.firstName}
-            lastName={user.lastName}
-            size={36}
-            loading={user.loading}
-          />
+          <ProfilePicture user={user} size={36} loading={user.loading} />
         </button>
       ))}
     </div>

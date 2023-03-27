@@ -22,11 +22,7 @@ export const GroupMemberModal: React.FC<{
               </p>
             )}
             <div className="flex items-center gap-2">
-              <ProfilePicture
-                firstName={user.firstName}
-                lastName={user.lastName}
-                size={36}
-              />
+              <ProfilePicture user={user} size={36} />
               <p className="text-xl font-bold">
                 {user.firstName} {user.lastName}
               </p>

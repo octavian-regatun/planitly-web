@@ -47,7 +47,6 @@ const CenterToUserLocation = () => {
         map.setView([data.lat, data.lon], 12)
       })
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return null
@@ -62,7 +61,6 @@ const PickedLocationMarker: React.FC<{
     map.setView([location.position.lat, location.position.lng], 12, {
       animate: true,
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
   return (

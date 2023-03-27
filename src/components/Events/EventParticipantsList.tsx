@@ -11,13 +11,13 @@ export const EventParticipants: React.FC<{
 
   return (
     <div className="flex gap-2">
-      {getEventParticipantsQuery.data?.map((participant) => (
+      {getEventParticipantsQuery.data?.map(participant => (
         <ProfilePicture
           size={size}
           key={`participant-${participant.id}`}
-          firstName={participant.user.firstName}
-          lastName={participant.user.lastName}
+          user={participant.user}
           loading={participant.status === "PENDING"}
+          shouldDisplayOnline
         />
       ))}
     </div>

@@ -11,11 +11,7 @@ export const UserItem: React.FC<{
       type="button"
       onClick={() => onClick(user)}
     >
-      <ProfilePicture
-        size={32}
-        firstName={user.firstName}
-        lastName={user.lastName}
-      />
+      <ProfilePicture size={32} user={user} />
       <h1 key={`friends-list-friend-${user.id}`} className="text-sm font-bold">
         {user.firstName} {user.lastName}
       </h1>

@@ -4,7 +4,7 @@ import type { inferRouterOutputs } from "@trpc/server"
 import { format } from "date-fns"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import type { FC, MouseEvent} from "react";
+import type { FC, MouseEvent } from "react"
 import { useMemo } from "react"
 import type { eventsRouter } from "../../server/api/routers/events"
 import { api } from "../../utils/api"
@@ -43,19 +43,19 @@ const EventCard: FC<{ event: Event }> = ({ event }) => {
       )}
       <p className="text-lg font-bold text-gray-800">{event.name}</p>
       {event.location && (
-        <div className="flex items-center gap-2 text-left text-sm opacity-75">
+        <div className="flex items-center gap-2 text-left text-sm">
           <MapPinIcon className="h-4 w-4 text-gray-800" />
           <p>{event.location.name}</p>
         </div>
       )}
-      <div className="flex items-center gap-2 text-sm opacity-75">
+      <div className="flex items-center gap-2 text-sm">
         <ClockIcon className="h-4 w-4 text-gray-800" />
         <p>
           {format(event.startDate, "E, MMMM d, y")} -{" "}
           {format(event.endDate, "E, MMMM d, y")}
         </p>
       </div>
-      <div className="flex items-center gap-2 text-sm opacity-75">
+      <div className="flex items-center gap-2 text-sm">
         <UserGroupIcon className="h-4 w-4 text-gray-800 " />
         <EventParticipants eventId={event.id} size={36} />
       </div>

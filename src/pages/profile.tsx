@@ -9,7 +9,6 @@ import { api } from "../utils/api"
 import { toBase64 } from "../utils/image"
 
 const ProfilePage: React.FC = () => {
-
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const getMeQuery = api.users.getMe.useQuery()
@@ -39,7 +38,7 @@ const ProfilePage: React.FC = () => {
 
     if (!file) return
 
-    void toBase64(file).then((base64) => {
+    void toBase64(file).then(base64 => {
       updateMeMutation.mutate({ image: base64 })
     })
   }
@@ -66,8 +65,7 @@ const ProfilePage: React.FC = () => {
             <input type="file" className="hidden" ref={fileInputRef} />
             <ProfilePicture
               size={128}
-              firstName={firstName}
-              lastName={lastName}
+              user={getMeQuery.data}
               className="rounded-full bg-white"
             />
           </button>
