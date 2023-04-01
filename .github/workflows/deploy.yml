@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker build
-        run: docker build . -t octavianregatun/planitly:dev
+        run: docker build --build-arg NEXT_PUBLIC_REALTIME_URL=http://planitly.com:8080 . -t octavianregatun/planitly:dev
 
       - name: Docker push
         run: docker push octavianregatun/planitly:dev
