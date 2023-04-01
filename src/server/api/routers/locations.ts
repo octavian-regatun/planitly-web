@@ -1,11 +1,11 @@
 import { TRPCError } from "@trpc/server"
 import axios from "axios"
 import { z } from "zod"
-import { env } from "../../../env/server.mjs"
 import type { HereApiData } from "../../../types/hereApi"
 import type { IpApiData } from "../../../types/ipApi.js"
 import { getLatLonFromIp } from "../../../utils/location"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
+import { env } from "../../../env/server.mjs"
 
 export const locationsRouter = createTRPCRouter({
   searchHereApi: protectedProcedure

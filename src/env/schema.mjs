@@ -29,7 +29,6 @@ export const serverSchema = z.object({
   FIREBASE_APP_ID: z.string(),
   FIREBASE_MEASUREMENT_ID: z.string(),
   HERE_API_KEY: z.string(),
-  REALTIME_URL: z.string(),
 })
 
 /**
@@ -52,7 +51,6 @@ export const serverEnv = {
   FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
   FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
   HERE_API_KEY: process.env.HERE_API_KEY,
-  REALTIME_URL: process.env.REALTIME_URL,
 }
 
 /**
@@ -61,7 +59,7 @@ export const serverEnv = {
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string(),
+  NEXT_PUBLIC_REALTIME_URL: z.string(),
 })
 
 /**
@@ -71,5 +69,5 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.input<typeof clientSchema>]: string | undefined }}
  */
 export const clientEnv = {
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_REALTIME_URL: process.env.NEXT_PUBLIC_REALTIME_URL || "8080",
 }

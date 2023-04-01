@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { io } from "socket.io-client"
 import { shallow } from "zustand/shallow"
 import { useSocketStore } from "../store/socket"
-import { env } from "../env/server.mjs"
+import { env } from "../env/client.mjs"
 
 export const SocketWrapper: FC<{ children: ReactElement }> = ({ children }) => {
   const session = useSession()
@@ -16,7 +16,7 @@ export const SocketWrapper: FC<{ children: ReactElement }> = ({ children }) => {
   useEffect(() => {
     if (session.status !== "authenticated") return
 
-    const socket = io(env.REALTIME_URL, {
+    const socket = io(env.NEXT_PUBLIC_REALTIME_URL, {
       auth: {
         user: session.data.user,
       },
