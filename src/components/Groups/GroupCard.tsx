@@ -26,14 +26,14 @@ export const GroupCard: React.FC<{
       },
     })
 
-  const members = group.GroupMember.map((member) => {
+  const members = group.GroupMember.map(member => {
     let loading = false
     if (member.status === "PENDING") loading = true
     return { ...member.user, loading }
   })
 
   const myGroupMember = group.GroupMember.find(
-    (member) => member.userId === myUser?.data?.user.id
+    member => member.userId === myUser?.data?.user.id
   )
 
   return (

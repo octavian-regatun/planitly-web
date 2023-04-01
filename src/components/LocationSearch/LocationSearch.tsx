@@ -50,7 +50,7 @@ export const LocationSearch: React.FC<{
       if (query.length > 0 && ip) {
         searchHereApiMutation.mutate({ query, ip })
       }
-    }, 250)
+    }, 200)
     return () => clearTimeout(debounce)
   }, [query, ip])
 

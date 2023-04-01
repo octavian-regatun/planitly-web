@@ -5,7 +5,7 @@ import { enforceGroupAdminProcedure } from "../middlewares/enforceGroupAdminProc
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 
 export const groupsRouter = createTRPCRouter({
-  search: protectedProcedure
+  searchGroups: protectedProcedure
     .input(z.object({ query: z.string() }))
     .query(async ({ ctx, input }) => {
       const { query } = input
@@ -26,7 +26,7 @@ export const groupsRouter = createTRPCRouter({
         },
       })
 
-      return data.map((item) => item.group)
+      return data.map(item => item.group)
     }),
 
   getParticipants: protectedProcedure
@@ -49,14 +49,14 @@ export const groupsRouter = createTRPCRouter({
         },
       })
 
-      const groupMembers = data.map((item) => item.GroupMember)
+      const groupMembers = data.map(item => item.GroupMember)
 
       const mappedData = groupMembers
         .flat()
-        .map((item) => ({ ...item.user, loading: false }))
+        .map(item => ({ ...item.user, loading: false }))
 
       const uniqueData = mappedData.filter(
-        (item, index) => mappedData.findIndex((i) => i.id === item.id) === index
+        (item, index) => mappedData.findIndex(i => i.id === item.id) === index
       )
 
       return uniqueData
@@ -76,7 +76,7 @@ export const groupsRouter = createTRPCRouter({
         data: {
           name,
           GroupMember: {
-            create: membersIds.map((id) => {
+            create: membersIds.map(id => {
               if (id === ctx.session.user.id)
                 return { userId: id, role: "ADMIN", status: "ACCEPTED" }
               return {
@@ -107,20 +107,34 @@ export const groupsRouter = createTRPCRouter({
       })
     }),
 
-  getGroups: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.group.findMany({
-      where: {
-        GroupMember: {
-          some: {
-            userId: ctx.session.user.id,
+  getGroups: protectedProcedure
+    .input(z.object({ ids: z.array(z.number()).nullish() }))
+    .query(async ({ input, ctx }) => {
+      if (!input.ids)
+        return await ctx.prisma.group.findMany({
+          where: {
+            GroupMember: {
+              some: {
+                userId: ctx.session.user.id,
+              },
+            },
+          },
+          include: {
+            GroupMember: { include: { user: true } },
+          },
+        })
+
+      return await ctx.prisma.group.findMany({
+        where: {
+          id: {
+            in: input.ids,
           },
         },
-      },
-      include: {
-        GroupMember: { include: { user: true } },
-      },
-    })
-  }),
+        include: {
+          GroupMember: { include: { user: true } },
+        },
+      })
+    }),
 
   isGroupAdmin: protectedProcedure
     .input(z.object({ id: z.number() }))
@@ -186,20 +200,20 @@ export const groupsRouter = createTRPCRouter({
         })
 
       const membersIdCurrent = groupMembers?.GroupMember.map(
-        (member) => member.userId
+        member => member.userId
       )
 
       const membersIdToDelete = membersIdCurrent.filter(
-        (id) => !membersIdUpdated.includes(id)
+        id => !membersIdUpdated.includes(id)
       )
 
       const membersIdToAdd = membersIdUpdated.filter(
-        (id) => !membersIdCurrent.includes(id)
+        id => !membersIdCurrent.includes(id)
       )
 
       // add the new members to the group
       await ctx.prisma.groupMember.createMany({
-        data: membersIdToAdd.map((userId) => {
+        data: membersIdToAdd.map(userId => {
           return {
             userId,
             groupId,
@@ -353,10 +367,10 @@ export const groupsRouter = createTRPCRouter({
       })
 
       const groupMembersId = groupMembers?.GroupMember.map(
-        (member) => member.userId
+        member => member.userId
       )
 
-      return friends.filter((friend) => !groupMembersId?.includes(friend.id))
+      return friends.filter(friend => !groupMembersId?.includes(friend.id))
     }),
 })
 

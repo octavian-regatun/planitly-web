@@ -6,13 +6,15 @@ import {
 import { format, isSameDay as isSameDayDateFns } from "date-fns"
 import { useSession } from "next-auth/react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
+import type { FC } from "react"
 import { EventParticipants } from "../../components/Events/EventParticipantsList"
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
 
-const EventPage: React.FC = () => {
+const EventPage: FC = () => {
   const session = useSession()
   const router = useRouter()
   const { id } = router.query
@@ -23,8 +25,7 @@ const EventPage: React.FC = () => {
   )
 
   const currentUserIsAdmin = getEventQuery.data?.EventMember.find(
-    (member) =>
-      member.userId === session.data?.user.id && member.role === "ADMIN"
+    member => member.userId === session.data?.user.id && member.role === "ADMIN"
   )
 
   return (
@@ -40,7 +41,9 @@ const EventPage: React.FC = () => {
           <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-8">
             <p className="text-xl">{getEventQuery.data?.name}</p>
             {currentUserIsAdmin && (
-              <PencilSquareIcon className="absolute -top-6 right-0 box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
+              <Link href={`/events/edit/${getEventQuery.data.id}`}>
+                <PencilSquareIcon className="absolute -top-6 right-0 box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
+              </Link>
             )}
             <div className="flex flex-col gap-2 text-gray-600">
               <div className="flex gap-2">

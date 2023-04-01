@@ -6,7 +6,7 @@ export const EventParticipants: React.FC<{
   size?: number
 }> = ({ eventId, size }) => {
   const getEventParticipantsQuery = api.events.getEventParticipants.useQuery({
-    eventId,
+    eventIds: [eventId],
   })
 
   return (

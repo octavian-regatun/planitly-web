@@ -39,15 +39,7 @@ const validationSchema = z.object({
       longitude: z.number(),
     })
     .nullable(),
-  groups: z.array(
-    z.object({
-      id: z.number(),
-      name: z.string(),
-      description: z.string().nullable(),
-      createdAt: z.date(),
-      updatedAt: z.date(),
-    })
-  ),
+  groups: z.array(z.number()),
   participants: z.array(userZod),
 })
 
@@ -80,7 +72,7 @@ const EventsCreatePage = () => {
 
   api.groups.getParticipants.useQuery(
     {
-      ids: getValues().groups.map(group => group.id),
+      ids: getValues().groups,
     },
     {
       onSuccess(data) {
@@ -94,6 +86,10 @@ const EventsCreatePage = () => {
     }
   )
 
+  const getGroupsQuery = api.groups.getGroups.useQuery({
+    ids: getValues().groups,
+  })
+
   const createEventMutation = api.events.createEvent.useMutation({
     onSuccess() {
       toast.success("Event created successfully!", {
@@ -105,9 +101,14 @@ const EventsCreatePage = () => {
   })
 
   const onSubmit = handleSubmit(data => {
+    if (!data.location) return
+
     createEventMutation.mutate({
       ...data,
-      groupsId: data.groups.map(group => group.id),
+      location: {
+        ...data.location,
+      },
+      groupsId: data.groups,
     })
   })
 
@@ -120,7 +121,7 @@ const EventsCreatePage = () => {
   }
 
   const onGroupChipCloseClick = (group: Group) => {
-    const groups = getValues().groups.filter(g => g.id !== group.id)
+    const groups = getValues().groups.filter(g => g !== group.id)
 
     setValue("groups", groups)
   }
@@ -187,12 +188,12 @@ const EventsCreatePage = () => {
             <label className="text-sm text-gray-400">Search Groups</label>
             <SearchGroups
               onClick={group => {
-                setValue("groups", [...getValues().groups, group])
+                setValue("groups", [...getValues().groups, group.id])
               }}
-              exclude={getValues().groups.map(group => group.id)}
+              exclude={getValues().groups}
             />
             <div className="flex flex-wrap">
-              {getValues().groups.map(group => (
+              {getGroupsQuery.data?.map(group => (
                 <GroupChip
                   key={`group-chip-${group.id}`}
                   group={group}

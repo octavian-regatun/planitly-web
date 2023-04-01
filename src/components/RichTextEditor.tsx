@@ -10,10 +10,11 @@ const RichTextEditor: React.FC<{
     <Editor
       apiKey="eunl29hhc04gt2orlwnk09pu4ilto10yhzkx4irqsks7u6d5"
       value={value}
-      onEditorChange={(content) => onChange(content)}
+      onEditorChange={content => onChange(content)}
       init={{
         height: 200,
         menubar: false,
+        plugins: ["autolink", "wordcount"],
         toolbar:
           "undo redo | formatselect | " +
           "bold italic backcolor | alignleft aligncenter " +

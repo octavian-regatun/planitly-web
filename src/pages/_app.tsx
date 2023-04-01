@@ -11,6 +11,8 @@ import { api } from "../utils/api"
 import "../styles/globals.scss"
 import "../styles/main.scss"
 import { SocketWrapper } from "../components/SocketWrapper"
+import { StyleProvider } from "@ant-design/cssinjs"
+import { ConfigProvider } from "antd"
 
 const montserrat = Comfortaa({
   subsets: ["latin"],
@@ -47,12 +49,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
       </Head>
       <NextNProgress />
-      <Toaster position="top-center" containerClassName="!z-[99999999]"/>
-      <SessionProvider session={session}>
-        <SocketWrapper>
-        <Component {...pageProps} />
-        </SocketWrapper>
-      </SessionProvider>
+      <Toaster position="top-center" containerClassName="!z-[99999999]" />
+      <StyleProvider hashPriority="high">
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#0F9488",
+            },
+          }}
+        >
+          <SessionProvider session={session}>
+            <SocketWrapper>
+              <Component {...pageProps} />
+            </SocketWrapper>
+          </SessionProvider>
+        </ConfigProvider>
+      </StyleProvider>
     </>
   )
 }

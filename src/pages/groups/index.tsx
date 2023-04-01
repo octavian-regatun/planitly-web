@@ -6,7 +6,7 @@ import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
 
 const GroupsPage = () => {
-  const getGroupsQuery = api.groups.getGroups.useQuery()
+  const getGroupsQuery = api.groups.getGroups.useQuery({})
 
   return (
     <RequireAuth>
@@ -27,7 +27,7 @@ const GroupsPage = () => {
             </Link>
           </div>
           <div className="flex w-full flex-col items-center gap-4 pb-20">
-            {getGroupsQuery.data?.map((group) => (
+            {getGroupsQuery.data?.map(group => (
               <GroupCard key={`group-${group.id}`} group={group} />
             ))}
             <CreateGroupButton />

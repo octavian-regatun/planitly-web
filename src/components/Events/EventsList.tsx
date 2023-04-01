@@ -18,7 +18,7 @@ export const EventsList: FC<{
   return (
     <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-4">
       <p className="font-bold text-gray-800">Upcoming</p>
-      {events.map((event) => (
+      {events.map(event => (
         <EventCard event={event} key={`event-card-${event.id}`} />
       ))}
     </div>
@@ -29,7 +29,7 @@ const EventCard: FC<{ event: Event }> = ({ event }) => {
   const session = useSession()
 
   const currentUserEventMember = useMemo(
-    () => event.EventMember.find((x) => x.userId === session.data?.user.id),
+    () => event.EventMember.find(x => x.userId === session.data?.user.id),
     [event.EventMember, session.data?.user.id]
   )
 
@@ -70,14 +70,18 @@ const EventPendingInvitation: FC<{ eventId: number }> = ({ eventId }) => {
     api.events.acceptEventInvitation.useMutation({
       onSuccess() {
         void apiContext.events.getEvents.invalidate({})
-        void apiContext.events.getEventParticipants.invalidate({ eventId })
+        void apiContext.events.getEventParticipants.invalidate({
+          eventIds: [eventId],
+        })
       },
     })
 
   const declineEventInvitationMutation =
     api.events.declineEventInvitation.useMutation({
       onSuccess() {
-        void apiContext.events.getEventParticipants.invalidate({ eventId })
+        void apiContext.events.getEventParticipants.invalidate({
+          eventIds: [eventId],
+        })
         void apiContext.events.getEvents.invalidate({})
       },
     })

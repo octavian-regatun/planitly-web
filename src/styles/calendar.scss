@@ -29,3 +29,15 @@
 .rbc-show-more {
   @apply text-xs #{!important};
 }
+
+@media (max-width: 576px) {
+  .ant-picker-datetime-panel {
+    flex-direction: column;
+  }
+  .ant-picker-content {
+    height: 100px !important;
+  }
+  .ant-picker-body {
+    padding: 0px 18px !important;
+  }
+}

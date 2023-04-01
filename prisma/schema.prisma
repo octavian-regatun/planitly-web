@@ -17,12 +17,13 @@ datasource db {
 }
 
 model Group {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  GroupMember GroupMember[]
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  description             String?
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  GroupMember             GroupMember[]
+  EventParticipatingGroup EventParticipatingGroup[]
 }
 
 model GroupMember {
@@ -49,17 +50,18 @@ model Friendship {
 }
 
 model Event {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String?
-  location    Location?     @relation(fields: [locationId], references: [id])
-  startDate   DateTime
-  endDate     DateTime
-  allDay      Boolean
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  EventMember EventMember[]
-  locationId  Int
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  description             String?
+  location                Location                  @relation(fields: [locationId], references: [id])
+  startDate               DateTime
+  endDate                 DateTime
+  allDay                  Boolean
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  EventMember             EventMember[]
+  locationId              Int
+  EventParticipatingGroup EventParticipatingGroup[]
 }
 
 model Location {
@@ -71,6 +73,17 @@ model Location {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Event     Event[]
+}
+
+model EventParticipatingGroup {
+  id        Int      @id @default(autoincrement())
+  status    Status   @default(PENDING)
+  eventId   Int
+  groupId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
 }
 
 model EventMember {

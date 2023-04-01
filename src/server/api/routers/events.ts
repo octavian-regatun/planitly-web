@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server"
 import { endOfDay, startOfDay } from "date-fns"
 import { z } from "zod"
+import { Optional } from "../../../types/utilityTypes"
 import { removeDuplicates } from "../../../utils/array"
 import { prisma } from "../../db"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
@@ -14,14 +15,12 @@ export const eventsRouter = createTRPCRouter({
         startDate: z.date(),
         endDate: z.date(),
         allDay: z.boolean(),
-        location: z
-          .object({
-            name: z.string(),
-            address: z.string(),
-            latitude: z.number(),
-            longitude: z.number(),
-          })
-          .nullable(),
+        location: z.object({
+          name: z.string(),
+          address: z.string(),
+          latitude: z.number(),
+          longitude: z.number(),
+        }),
         groupsId: z.array(z.number()).min(1),
       })
     )
@@ -36,9 +35,9 @@ export const eventsRouter = createTRPCRouter({
         groupsId,
       } = input
 
-      const locationData = location ? { location: { create: location } } : {}
+      const locationData = { location: { create: location } }
 
-      const participants = await getGroupParticipants(groupsId)
+      const participants = await getGroupsParticipants(groupsId)
 
       const event = await ctx.prisma.event.create({
         data: {
@@ -59,6 +58,16 @@ export const eventsRouter = createTRPCRouter({
             status:
               participant.id === ctx.session.user.id ? "ACCEPTED" : "PENDING",
             role: participant.id === ctx.session.user.id ? "ADMIN" : "MEMBER",
+          },
+        })
+      }
+
+      for (const groupId of groupsId) {
+        await ctx.prisma.eventParticipatingGroup.create({
+          data: {
+            eventId: event.id,
+            groupId: groupId,
+            status: "ACCEPTED",
           },
         })
       }
@@ -84,6 +93,7 @@ export const eventsRouter = createTRPCRouter({
           include: {
             EventMember: true,
             location: true,
+            EventParticipatingGroup: true,
           },
         })
 
@@ -126,6 +136,7 @@ export const eventsRouter = createTRPCRouter({
                 user: true,
               },
             },
+            EventParticipatingGroup: true,
           },
         })
         return event
@@ -140,16 +151,18 @@ export const eventsRouter = createTRPCRouter({
   getEventParticipants: protectedProcedure
     .input(
       z.object({
-        eventId: z.number(),
+        eventIds: z.array(z.number()),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { eventId } = input
+      const { eventIds } = input
 
       try {
         return await ctx.prisma.eventMember.findMany({
           where: {
-            eventId,
+            eventId: {
+              in: eventIds,
+            },
           },
           include: {
             user: true,
@@ -159,6 +172,48 @@ export const eventsRouter = createTRPCRouter({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Event not found",
+        })
+      }
+    }),
+
+  updateEvent: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        description: z.string().nullish(),
+        startDate: z.date(),
+        endDate: z.date(),
+        allDay: z.boolean(),
+        location: z.object({
+          name: z.string(),
+          address: z.string(),
+          latitude: z.number(),
+          longitude: z.number(),
+        }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input
+
+      const { ["id"]: _, ...data }: Optional<typeof input, "id"> = input
+
+      try {
+        return await ctx.prisma.event.update({
+          where: {
+            id,
+          },
+          data: {
+            ...data,
+            location: {
+              update: data.location,
+            },
+          },
+        })
+      } catch (e) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Group not found",
         })
       }
     }),
@@ -188,7 +243,7 @@ export const eventsRouter = createTRPCRouter({
         })
 
       const eventMember = event.EventMember.find(
-        (eventMember) => eventMember.userId === ctx.session.user.id
+        eventMember => eventMember.userId === ctx.session.user.id
       )
 
       if (!eventMember)
@@ -232,7 +287,7 @@ export const eventsRouter = createTRPCRouter({
         })
 
       const eventMember = event.EventMember.find(
-        (eventMember) => eventMember.userId === ctx.session.user.id
+        eventMember => eventMember.userId === ctx.session.user.id
       )
 
       if (!eventMember)
@@ -249,7 +304,7 @@ export const eventsRouter = createTRPCRouter({
     }),
 })
 
-async function getGroupParticipants(groupsId: number[]) {
+async function getGroupsParticipants(groupsId: number[]) {
   const participants = await prisma.group.findMany({
     where: {
       id: {
@@ -265,15 +320,15 @@ async function getGroupParticipants(groupsId: number[]) {
     },
   })
 
-  const groupMembers = participants.map((group) => group.GroupMember).flat()
-  const users = groupMembers.map((groupMember) => groupMember.user)
+  const groupMembers = participants.map(group => group.GroupMember).flat()
+  const users = groupMembers.map(groupMember => groupMember.user)
   return removeDuplicates(users, "id")
 }
 
 function filterEventsHappeningOnDate<
   T extends { startDate: Date; endDate: Date; allDay: boolean }
 >(events: T[], date: Date) {
-  return events.filter((event) => {
+  return events.filter(event => {
     return (
       event.allDay &&
       date >= startOfDay(event.startDate) &&

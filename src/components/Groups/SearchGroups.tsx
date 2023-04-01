@@ -17,7 +17,7 @@ export const SearchGroups: React.FC<{
   const onFocus = () => setFocused(true)
   const onBlur = () => setTimeout(() => setFocused(false), 200)
 
-  const searchGroupsQuery = api.groups.search.useQuery(
+  const searchGroupsQuery = api.groups.searchGroups.useQuery(
     { query: groupsQuery },
     {
       onSuccess: (data) => {
