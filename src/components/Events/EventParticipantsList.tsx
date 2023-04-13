@@ -1,3 +1,4 @@
+import { Avatar, Tooltip } from "antd"
 import { api } from "../../utils/api"
 import ProfilePicture from "../ProfilePicture"
 
@@ -10,16 +11,22 @@ export const EventParticipants: React.FC<{
   })
 
   return (
-    <div className="flex gap-2">
+    <Avatar.Group
+      maxCount={5}
+      maxStyle={{ color: "white", backgroundColor: "#115E59" }}
+    >
       {getEventParticipantsQuery.data?.map(participant => (
-        <ProfilePicture
-          size={size}
-          key={`participant-${participant.id}`}
-          user={participant.user}
-          loading={participant.status === "PENDING"}
-          shouldDisplayOnline
-        />
+        <Tooltip
+          title={`${participant.user.firstName} ${participant.user.lastName}`}
+          placement="top"
+          key={`event-participant-${participant.id}`}
+        >
+          <Avatar style={{ backgroundColor: "#115E59" }}>
+            {participant.user.firstName.charAt(0)}
+            {participant.user.lastName.charAt(0)}
+          </Avatar>
+        </Tooltip>
       ))}
-    </div>
+    </Avatar.Group>
   )
 }

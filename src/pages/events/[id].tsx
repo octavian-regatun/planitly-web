@@ -13,6 +13,13 @@ import { EventParticipants } from "../../components/Events/EventParticipantsList
 import Layout from "../../components/Layout/Layout"
 import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
+import { Button } from "antd"
+import dynamic from "next/dynamic"
+
+const LocationPreview = dynamic(
+  () => import("../../components/Events/LocationPreview"),
+  { ssr: false }
+)
 
 const EventPage: FC = () => {
   const session = useSession()
@@ -38,11 +45,11 @@ const EventPage: FC = () => {
           src="https://picsum.photos/2560/1440"
         />
         {getEventQuery.data && (
-          <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-8">
-            <p className="text-xl">{getEventQuery.data?.name}</p>
+          <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-4">
+            <p className="text-xl font-bold">{getEventQuery.data?.name}</p>
             {currentUserIsAdmin && (
-              <Link href={`/events/edit/${getEventQuery.data.id}`}>
-                <PencilSquareIcon className="absolute -top-6 right-0 box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
+              <Link className="absolute -top-6 right-0" href={`/events/edit/${getEventQuery.data.id}`}>
+                <PencilSquareIcon className="box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
               </Link>
             )}
             <div className="flex flex-col gap-2 text-gray-600">
@@ -55,9 +62,19 @@ const EventPage: FC = () => {
                 endDate={getEventQuery.data.endDate}
               />
             </div>
-            <div className="flex flex-col gap-2">
-              <p>Participants ({getEventQuery.data?.EventMember.length})</p>
-              <EventParticipants eventId={getEventQuery.data.id} />
+            <div className="flex bg-gray-100 drop-shadow-lg border p-4 rounded-xl">
+              <div className="flex flex-1 flex-col gap-2">
+                <p>Participants ({getEventQuery.data?.EventMember.length})</p>
+                <EventParticipants eventId={getEventQuery.data.id} />
+              </div>
+              {getEventQuery.data && (
+                <LocationPreview
+                  location={{
+                    lat: getEventQuery.data.location.latitude,
+                    lon: getEventQuery.data.location.longitude,
+                  }}
+                />
+              )}
             </div>
             {getEventQuery.data.description && (
               <>
