@@ -1,9 +1,6 @@
-import { openPeeps } from "@dicebear/collection"
-import { createAvatar } from "@dicebear/core"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import type { User } from "@prisma/client"
 import Image from "next/image"
-import { useMemo } from "react"
 import { useSocketStore } from "../store/socket"
 
 const ProfilePicture: React.FC<{
@@ -24,7 +21,7 @@ const ProfilePicture: React.FC<{
         width={size || 42}
         height={size || 42}
         alt="Profile Picture"
-        className={`rounded-full ${className || ""}`}
+        className={`rounded-full ${className || ""} object-cover`}
         style={{
           width: size || 42,
           height: size || 42,
