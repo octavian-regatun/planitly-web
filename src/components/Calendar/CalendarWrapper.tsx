@@ -24,6 +24,7 @@ export const CalendarWrapper: React.FC<{
 
   return (
     <Calendar
+      className="rounded-3xl bg-green-100"
       localizer={localizer}
       components={{ toolbar: Toolbar }}
       startAccessor="startDate"
@@ -32,29 +33,29 @@ export const CalendarWrapper: React.FC<{
       events={events}
       formats={{
         weekdayFormat: (date, culture) =>
-          localizer.format(date, "EEE", culture),
+          localizer.format(date, "EEEEE", culture),
       }}
       views={["month"]}
-      onSelectEvent={(event) => router.push(`/events/${event.id}`)}
+      onSelectEvent={event => router.push(`/events/${event.id}`)}
     />
   )
 }
 
-const Toolbar: React.FC<ToolbarProps> = (props) => {
+const Toolbar: React.FC<ToolbarProps> = props => {
   const { onNavigate, date } = props
   return (
-    <div className="mb-4 flex items-center justify-center">
+    <div className="mb-4 flex items-center justify-center p-4">
       <button
-        className="rounded-full border border-gray-200 p-2 text-gray-200"
+        className="rounded-full p-2 text-zinc-700"
         onClick={() => onNavigate("PREV")}
       >
         <ArrowLeftIcon className="h-6 w-6" />
       </button>
-      <p className="flex-1 text-center text-xl text-white">
+      <p className="flex-1 text-center text-xl font-bold uppercase text-zinc-700">
         {format(date, "MMMM, y")}
       </p>
       <button
-        className="rounded-full border border-gray-200 p-2 text-gray-200"
+        className="rounded-full p-2 text-zinc-700"
         onClick={() => onNavigate("NEXT")}
       >
         <ArrowRightIcon className="h-6 w-6" />

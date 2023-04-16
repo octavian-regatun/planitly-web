@@ -11,7 +11,7 @@ const CalendarScreen: React.FC = () => {
   return (
     <RequireAuth>
       <Layout className="!px-0 !pt-0">
-        <div className="flex h-[calc(100vh-6rem)] flex-col gap-4 bg-teal-600 p-4 pb-10">
+        <div className="flex h-[calc(100vh-6rem)] flex-col gap-4 p-4 pb-10">
           <CalendarWrapper events={getEventsQuery.data} />
         </div>
         {getEventsQuery.data && <EventsList events={getEventsQuery.data} />}
