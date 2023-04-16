@@ -60,7 +60,6 @@ const ProfilePage: React.FC = () => {
           <button
             className="absolute -top-16 rounded-full transition-all hover:brightness-75"
             onClick={handleImageClick}
-            disabled
           >
             <input type="file" className="hidden" ref={fileInputRef} />
             <ProfilePicture

@@ -4,11 +4,12 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
  * This is especially useful for Docker builds.
  */
-!process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
+!process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"))
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: false,
+  
 
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
@@ -18,16 +19,16 @@ const config = {
    */
   i18n: {
     locales: ["en"],
-    defaultLocale: "en"
+    defaultLocale: "en",
   },
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**"
-      }
-    ]
+        hostname: "**",
+      },
+    ],
   },
-  output: "standalone"
-};
-export default config;
+  output: "standalone",
+}
+export default config

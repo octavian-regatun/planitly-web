@@ -21,7 +21,10 @@ export const EventParticipants: React.FC<{
           placement="top"
           key={`event-participant-${participant.id}`}
         >
-          <Avatar style={{ backgroundColor: "#115E59" }}>
+          <Avatar
+            src={participant.user.image}
+            onClick={(e: React.MouseEvent | undefined) => e?.preventDefault()}
+          >
             {participant.user.firstName.charAt(0)}
             {participant.user.lastName.charAt(0)}
           </Avatar>

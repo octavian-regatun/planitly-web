@@ -4,6 +4,7 @@ import { z } from "zod"
 import { firebaseStorage } from "../../firebase"
 import { createTRPCRouter, protectedProcedure } from "../trpc"
 import { searchFriends } from "../../../utils/users"
+import sharp from "sharp"
 
 export const usersRouter = createTRPCRouter({
   getMe: protectedProcedure.query(({ ctx }) => {
@@ -47,6 +48,18 @@ export const usersRouter = createTRPCRouter({
       let imageUrl
 
       if (image) {
+        const imageMetadata = image.split(";base64,")[0] as string
+
+        const imageBuffer = Buffer.from(
+          image.split(";base64,")[1] as string,
+          "base64"
+        )
+
+        const compressedImage = await sharp(imageBuffer)
+          .webp({ quality: 10 })
+          .toBuffer()
+          .then(x => x.toString("base64"))
+
         const imageRef = ref(
           firebaseStorage,
           `images/users/${ctx.session.user.id}/${customAlphabet(
@@ -55,7 +68,13 @@ export const usersRouter = createTRPCRouter({
           )()}`
         )
 
-        await uploadString(imageRef, image, "data_url")
+        console.log(imageMetadata)
+
+        await uploadString(
+          imageRef,
+          imageMetadata + ";base64," + compressedImage,
+          "data_url"
+        )
 
         imageUrl = await getDownloadURL(imageRef)
       }

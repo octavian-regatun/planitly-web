@@ -15,22 +15,12 @@ const ProfilePicture: React.FC<{
 }> = ({ size, className, loading, shouldDisplayOnline, user }) => {
   const onlineUsers = useSocketStore(x => x.onlineUsers)
 
-  const src = useMemo(
-    () =>
-      createAvatar(openPeeps, {
-        seed: user.firstName + " " + user.lastName,
-        size: size || 42,
-        backgroundType: ["gradientLinear"],
-      }).toDataUriSync(),
-    [user.firstName, user.lastName, size]
-  )
-
   const isOnline = onlineUsers.some(x => x.id === user.id)
 
   return (
     <div className="relative">
       <Image
-        src={src}
+        src={user.image}
         width={size || 42}
         height={size || 42}
         alt="Profile Picture"
