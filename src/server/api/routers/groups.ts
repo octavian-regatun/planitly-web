@@ -372,6 +372,34 @@ export const groupsRouter = createTRPCRouter({
 
       return friends.filter(friend => !groupMembersId?.includes(friend.id))
     }),
+
+  leaveGroup: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input
+
+      const groupMemberId = await ctx.prisma.group.findFirst({
+        where: {
+          id,
+        },
+        select: {
+          GroupMember: {
+            where: {
+              userId: ctx.session.user.id,
+            },
+            select: {
+              id: true,
+            },
+          },
+        },
+      })
+
+      return ctx.prisma.groupMember.delete({
+        where: {
+          id: groupMemberId?.GroupMember[0]?.id,
+        },
+      })
+    }),
 })
 
 export type GroupsRouter = typeof groupsRouter
