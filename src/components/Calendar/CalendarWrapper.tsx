@@ -24,7 +24,7 @@ export const CalendarWrapper: React.FC<{
 
   return (
     <Calendar
-      className="rounded-3xl bg-green-100"
+      className="!rounded-3xl bg-green-100"
       localizer={localizer}
       components={{ toolbar: Toolbar }}
       startAccessor="startDate"

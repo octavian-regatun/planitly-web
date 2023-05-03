@@ -36,7 +36,7 @@ const EventCard: FC<{ event: Event }> = ({ event }) => {
   return (
     <Link
       href={`/events/${event.id}`}
-      className="flex flex-col gap-4 rounded-2xl bg-amber-200 p-4 "
+      className="flex flex-col gap-4 rounded-2xl bg-amber-200 p-4 drop-shadow-lg"
     >
       {currentUserEventMember?.status === "PENDING" && (
         <EventPendingInvitation eventId={event.id} />
