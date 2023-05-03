@@ -27,14 +27,14 @@ export const SearchUsers: React.FC<{
       query: friendsQuery,
     },
     {
-      onSuccess: (data) => {
+      onSuccess: data => {
         if (friendsOnly) setUsers(data)
       },
     }
   )
 
   const filteredData = users.filter(
-    (user) => !excludeUsersFromSearch.some((u) => u.id === user.id)
+    user => !excludeUsersFromSearch.some(u => u.id === user.id)
   )
 
   return (
@@ -44,7 +44,7 @@ export const SearchUsers: React.FC<{
           placeholder="Search friend..."
           className="w-full rounded-full border border-black px-4 py-2 outline-black"
           value={friendsQuery}
-          onChange={(e) => setFriendsQuery(e.target.value)}
+          onChange={e => setFriendsQuery(e.target.value)}
         />
         {searchUsersQuery.isFetching && (
           <ArrowPathIcon className="absolute top-[calc(50%-8px)] right-8 h-4 w-4 animate-spin" />
@@ -52,7 +52,7 @@ export const SearchUsers: React.FC<{
       </div>
       {filteredData && (
         <div className="flex w-[calc(100%-42px)] flex-col rounded-b-3xl border border-t-0 border-black">
-          {filteredData.map((user) => (
+          {filteredData.map(user => (
             <UserItem
               key={`friends-list-friend-${user.id}`}
               user={user}

@@ -6,4 +6,5 @@ export function getNavbarTitle(route: string) {
   if (route.startsWith("/groups")) return "Groups"
   if (route.startsWith("/events/create")) return "Create Event"
   if (route.startsWith("/events")) return "Events"
+  if (route.startsWith("/users")) return "User"
 }

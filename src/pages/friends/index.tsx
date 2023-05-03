@@ -2,7 +2,7 @@ import {
   ArrowPathIcon,
   CheckIcon,
   UserPlusIcon,
-  XMarkIcon
+  XMarkIcon,
 } from "@heroicons/react/24/outline"
 import type { User } from "@prisma/client"
 import { useSession } from "next-auth/react"
@@ -13,6 +13,7 @@ import Layout from "../../components/Layout/Layout"
 import ProfilePicture from "../../components/ProfilePicture"
 import RequireAuth from "../../components/RequireAuth"
 import { api } from "../../utils/api"
+import UserCard from "../../components/UserCard"
 
 type Tabs = "friends" | "requests" | "search"
 
@@ -110,25 +111,22 @@ const FriendsTab: React.FC = () => {
             ? friendship.recipient
             : friendship.requester
         return (
-          <div
-            key={`friendship-${friendship.id}`}
-            className="flex items-center gap-2 p-2"
-          >
-            <ProfilePicture size={32} user={friend} />
-            <p>
-              {friend.firstName} {friend.lastName}
-            </p>
-            <button
-              className="ml-auto"
-              onClick={() => {
-                deleteFriendshipMutation.mutate({
-                  friendshipId: friendship.id,
-                })
-              }}
-            >
-              <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-500" />
-            </button>
-          </div>
+          <UserCard
+            user={friend}
+            key={friend.id}
+            actionButton={
+              <button
+                className="ml-auto"
+                onClick={() => {
+                  deleteFriendshipMutation.mutate({
+                    friendshipId: friendship.id,
+                  })
+                }}
+              >
+                <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-500" />
+              </button>
+            }
+          />
         )
       })}
     </div>
@@ -182,29 +180,26 @@ export const RequestsTab: React.FC = () => {
           <p className="text-center font-bold">Incoming</p>
         )}
       {incomingFriendshipsQuery.data?.map(friendship => (
-        <div
-          key={`friendship-${friendship.id}`}
-          className="flex items-center gap-2 p-2"
-        >
-          <ProfilePicture size={32} user={friendship.requester} />
-          <p>
-            {friendship.requester.firstName} {friendship.requester.lastName}
-          </p>
-          <div className="ml-auto flex gap-2">
-            <button
-              onClick={() => {
-                acceptFriendMutation.mutate({
-                  requesterId: friendship.requesterId,
-                })
-              }}
-            >
-              <CheckIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-green-500" />
-            </button>
-            <button>
-              <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-500" />
-            </button>
-          </div>
-        </div>
+        <UserCard
+          user={friendship.requester}
+          key={friendship.id}
+          actionButton={
+            <div className="ml-auto flex gap-2">
+              <button
+                onClick={() => {
+                  acceptFriendMutation.mutate({
+                    requesterId: friendship.requesterId,
+                  })
+                }}
+              >
+                <CheckIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-green-500" />
+              </button>
+              <button>
+                <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-500" />
+              </button>
+            </div>
+          }
+        />
       ))}
       {outgoingFriendshipsQuery.data &&
         outgoingFriendshipsQuery.data?.length > 0 && (
@@ -334,21 +329,18 @@ export const SearchTab: React.FC = () => {
 
             // else display user with the add button
             return (
-              <div
+              <UserCard
                 key={`friends-list-friend-${user.id}`}
-                className="flex items-center gap-2 p-2"
-              >
-                <ProfilePicture size={32} user={user} />
-                <h1
-                  key={`friends-list-friend-${user.id}`}
-                  className="text-sm font-bold"
-                >
-                  {user.firstName} {user.lastName}
-                </h1>
-                <button className="ml-auto" onClick={() => addFriend(user.id)}>
-                  <UserPlusIcon className="h-6 w-6" />
-                </button>
-              </div>
+                user={user}
+                actionButton={
+                  <button
+                    className="ml-auto"
+                    onClick={() => addFriend(user.id)}
+                  >
+                    <UserPlusIcon className="h-6 w-6" />
+                  </button>
+                }
+              />
             )
           })}
         </div>

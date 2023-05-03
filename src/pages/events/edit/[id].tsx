@@ -124,7 +124,7 @@ const EditEventPage: FC = () => {
                   placement="top"
                   key={`event-participant-${participant.id}`}
                 >
-                  <Avatar style={{ backgroundColor: "#0F9488" }}>
+                  <Avatar src={participant.user.image} style={{ backgroundColor: "#0F9488" }}>
                     {participant.user.firstName.charAt(0) +
                       participant.user.lastName.charAt(0)}
                   </Avatar>

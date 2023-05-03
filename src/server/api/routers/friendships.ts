@@ -110,4 +110,30 @@ export const friendshipsRouter = createTRPCRouter({
         },
       })
     }),
+
+  isFriend: protectedProcedure
+    .input(z.object({ userId: z.string().nullish() }))
+    .query(async ({ input, ctx }) => {
+      const { userId } = input
+      const { id: myId } = ctx.session.user
+
+      const friendship = await ctx.prisma.friendship.findFirst({
+        where: {
+          OR: [
+            {
+              requesterId: userId,
+              recipientId: myId,
+              status: "ACCEPTED",
+            },
+            {
+              requesterId: myId,
+              recipientId: userId,
+              status: "ACCEPTED",
+            },
+          ],
+        },
+      })
+
+      return !!friendship
+    }),
 })

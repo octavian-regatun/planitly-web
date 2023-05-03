@@ -1,6 +1,5 @@
 import { Avatar, Tooltip } from "antd"
 import { api } from "../../utils/api"
-import ProfilePicture from "../ProfilePicture"
 
 export const EventParticipants: React.FC<{
   eventId: number
