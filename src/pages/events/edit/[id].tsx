@@ -1,7 +1,10 @@
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
 import type { Group } from "@prisma/client"
 import { Avatar, Button, DatePicker, Input, Select, Tag, Tooltip } from "antd"
 import dayjs from "dayjs"
+import { useSession } from "next-auth/react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import type { CustomTagProps } from "rc-select/lib/BaseSelect"
 import type { FC } from "react"
@@ -38,11 +41,12 @@ const validationSchema = z.object({
 type FormValues = z.infer<typeof validationSchema>
 
 const EditEventPage: FC = () => {
+  const session = useSession()
   const router = useRouter()
 
   const { id } = router.query
 
-  api.events.getEvent.useQuery(
+  const getEventQuery = api.events.getEvent.useQuery(
     { id: parseInt(id as string) },
     {
       enabled: typeof id === "string",
@@ -72,6 +76,10 @@ const EditEventPage: FC = () => {
     },
   })
 
+  const currentUserIsAdmin = getEventQuery.data?.EventMember.find(
+    member => member.userId === session.data?.user.id && member.role === "ADMIN"
+  )
+
   const form = useForm<FormValues>()
   const { handleSubmit, setValue, watch, reset } = form
 
@@ -80,6 +88,8 @@ const EditEventPage: FC = () => {
   })
 
   const formData = watch()
+
+  if (!getEventQuery.data) return null
 
   return (
     <RequireAuth>
@@ -90,7 +100,18 @@ const EditEventPage: FC = () => {
           height={1440}
           src="https://picsum.photos/2560/1440"
         />
-        <form className="flex flex-col gap-2 !p-4" onSubmit={onSubmit}>
+        <form
+          className="relative flex -top-6 rounded-3xl flex-col gap-2 p-4 py-8"
+          onSubmit={onSubmit}
+        >
+          {currentUserIsAdmin && (
+            <Link
+              className="absolute -top-8 right-0 z-10"
+              href={`/events/${getEventQuery.data.id}`}
+            >
+              <PencilSquareIcon className="box-content h-6 w-6 rounded-full bg-teal-600 p-4 text-white" />
+            </Link>
+          )}
           <Input
             value={formData.name}
             placeholder="Name"
@@ -124,7 +145,10 @@ const EditEventPage: FC = () => {
                   placement="top"
                   key={`event-participant-${participant.id}`}
                 >
-                  <Avatar src={participant.user.image} style={{ backgroundColor: "#0F9488" }}>
+                  <Avatar
+                    src={participant.user.image}
+                    style={{ backgroundColor: "#0F9488" }}
+                  >
                     {participant.user.firstName.charAt(0) +
                       participant.user.lastName.charAt(0)}
                   </Avatar>
@@ -134,7 +158,7 @@ const EditEventPage: FC = () => {
           </div>
           <div className="flex justify-center ">
             <Button type="primary" htmlType="submit" size="large">
-              Submit
+              Save
             </Button>
           </div>
         </form>

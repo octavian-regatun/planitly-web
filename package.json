@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
@@ -37,7 +37,7 @@
     "leaflet": "^1.9.3",
     "lodash": "^4.17.21",
     "nanoid": "^3.3.4",
-    "next": "^13.3.4",
+    "next": "^13.4.0",
     "next-auth": "^4.19.0",
     "nextjs-progressbar": "^0.0.16",
     "public-ip": "^6.0.1",

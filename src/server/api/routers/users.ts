@@ -45,7 +45,7 @@ export const usersRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { image } = input
 
-      let imageUrl
+      let imageUrl, data
 
       if (image) {
         const imageMetadata = image.split(";base64,")[0] as string
@@ -67,8 +67,6 @@ export const usersRouter = createTRPCRouter({
             16
           )()}`
         )
-
-        console.log(imageMetadata)
 
         await uploadString(
           imageRef,

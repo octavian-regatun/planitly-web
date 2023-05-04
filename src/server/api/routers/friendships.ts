@@ -112,7 +112,7 @@ export const friendshipsRouter = createTRPCRouter({
     }),
 
   isFriend: protectedProcedure
-    .input(z.object({ userId: z.string().nullish() }))
+    .input(z.object({ userId: z.string() }))
     .query(async ({ input, ctx }) => {
       const { userId } = input
       const { id: myId } = ctx.session.user

@@ -206,27 +206,26 @@ export const RequestsTab: React.FC = () => {
           <p className="text-center font-bold">Outgoing</p>
         )}
       {outgoingFriendshipsQuery.data?.map(friendship => (
-        <div
-          key={`friendship-${friendship.id}`}
-          className="flex items-center gap-2 p-2"
-        >
-          <ProfilePicture size={32} user={friendship.recipient} />
-          <p className="text-sm">
-            {friendship.recipient.firstName} {friendship.recipient.lastName}
-          </p>
-          <p className="ml-auto rounded-full bg-gray-200 p-2 text-xs">
-            PENDING
-          </p>
-          <button
-            onClick={() =>
-              deleteFriendshipMutation.mutate({
-                friendshipId: friendship.id,
-              })
-            }
-          >
-            <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-600" />
-          </button>
-        </div>
+        <UserCard
+          user={friendship.recipient}
+          key={friendship.id}
+          actionButton={
+            <>
+              <p className="ml-auto rounded-full bg-gray-200 p-2 text-xs">
+                PENDING
+              </p>
+              <button
+                onClick={() =>
+                  deleteFriendshipMutation.mutate({
+                    friendshipId: friendship.id,
+                  })
+                }
+              >
+                <XMarkIcon className="box-content h-6 w-6 rounded-full bg-gray-200 p-1 text-red-600" />
+              </button>
+            </>
+          }
+        />
       ))}
     </div>
   )
@@ -310,21 +309,15 @@ export const SearchTab: React.FC = () => {
                 ))
             )
               return (
-                <div
+                <UserCard
                   key={`friends-list-friend-${user.id}`}
-                  className="flex items-center gap-2 p-2"
-                >
-                  <ProfilePicture size={32} user={user} />
-                  <h1
-                    key={`friends-list-friend-${user.id}`}
-                    className="text-sm font-bold"
-                  >
-                    {user.firstName} {user.lastName}
-                  </h1>
-                  <p className="ml-auto rounded-full bg-gray-200 p-2 text-xs">
-                    PENDING
-                  </p>
-                </div>
+                  user={user}
+                  actionButton={
+                    <p className="ml-auto rounded-full bg-gray-200 p-2 text-xs">
+                      PENDING
+                    </p>
+                  }
+                />
               )
 
             // else display user with the add button

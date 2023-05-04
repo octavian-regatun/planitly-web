@@ -12,20 +12,7 @@ import { EventParticipants } from "./EventParticipantsList"
 
 type Event = inferRouterOutputs<typeof eventsRouter>["getEvents"][number]
 
-export const EventsList: FC<{
-  events: Event[]
-}> = ({ events }) => {
-  return (
-    <div className="relative -top-6 flex flex-col gap-4 rounded-t-3xl bg-white p-4">
-      <p className="font-bold text-gray-800">Upcoming</p>
-      {events.map(event => (
-        <EventCard event={event} key={`event-card-${event.id}`} />
-      ))}
-    </div>
-  )
-}
-
-const EventCard: FC<{ event: Event }> = ({ event }) => {
+export const EventCard: FC<{ event: Event }> = ({ event }) => {
   const session = useSession()
 
   const currentUserEventMember = useMemo(

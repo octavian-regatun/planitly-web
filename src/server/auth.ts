@@ -24,6 +24,7 @@ declare module "next-auth" {
       id: string
       firstName: string
       lastName: string
+      username: string
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"]
@@ -32,6 +33,7 @@ declare module "next-auth" {
   interface User {
     firstName: string
     lastName: string
+    username: string
     // ...other properties
     // role: UserRole;
   }
@@ -57,6 +59,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id
         session.user.firstName = user.firstName
         session.user.lastName = user.lastName
+        session.user.username = user.username
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return session

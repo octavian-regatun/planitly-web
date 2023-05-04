@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+import type { User } from "@prisma/client"
 import Link from "next/link"
 import ProfilePicture from "./ProfilePicture"
 
