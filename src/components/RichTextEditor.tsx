@@ -1,13 +1,14 @@
-import { Editor } from "@tinymce/tinymce-react"
+import { Editor } from "@tinymce/tinymce-react";
 
 const RichTextEditor: React.FC<{
-  onChange: (content: string) => void
-  value: string | null
+  onChange: (content: string) => void;
+  value: string | null;
 }> = ({ onChange, value }) => {
-  if (!value) value = ""
+  if (!value) value = "";
 
   return (
     <Editor
+      id="tinymce-rich-text-editor"
       apiKey="eunl29hhc04gt2orlwnk09pu4ilto10yhzkx4irqsks7u6d5"
       value={value}
       onEditorChange={content => onChange(content)}
@@ -24,7 +25,7 @@ const RichTextEditor: React.FC<{
           "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
       }}
     />
-  )
-}
+  );
+};
 
-export default RichTextEditor
+export default RichTextEditor;

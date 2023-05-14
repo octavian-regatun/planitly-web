@@ -1,81 +1,34 @@
-# PlanITLY - https://planitly.com
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-<div style="text-align:center">
-<img src="https://planitly.com/logo.svg" width="300" style=""/>
-</div>
+## Getting Started
 
-# About
+First, run the development server:
 
-**<u>PlanITLY</u>** it's an app that makes it easier for users to organize and plan meetings and trips for groups of
-people. With various features it enables people to easily find common available dates for groups of people, help them
-take a common advantageous decision about the location, place to stay, time-frame, budget and easily share and keep
-track of the money spent and other various aspects of related to the trip.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-# Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## MVP
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- sign in with:
-    - ~~google~~
-    - vanilla
-- create events
-    - title
-    - description
-    - start date - end date
-    - location name
-    - add particiapnts
-- modify event details
-- ~~see a list of upcoming events~~
-- see the upcoming events on the small calendar
-- ~~change username~~
-- ~~friends~~
-    - ~~add~~
-    - ~~delete~~
-    - ~~accept~~
-    - ~~reject~~
-- groups
-    - ~~create~~
-    - ~~invite people~~
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## **To be available in the future**
+## Learn More
 
-- create events
-    - add location coordinates
-    - pick location from a map
-    - display a map with the location
-    - warning/information (things to be aware of)
-    - description wysiwyg editor
-    - when picking the day, display if the days are available or not for all participants
-    - add task/subtask
-- rate events anonymously
-- keep event version history
-- public events
-- feedback system
-- counter page (days until next event)
-- sign in with:
-    - facebook
-    - apple
-    - discord
-- integrations with:
-    - booking
-    - discord
-    - google calendar
-- notifications
-    - desktop
-    - mobile
-- statistics
-    - per person
-    - per group
-- total price of meeting and price per participant
-- add intervals of time when available for events or not
-- suggest meeting and add pools/voting system (location, date)
-- events settings
-    - allow others to invite people or not
+To learn more about Next.js, take a look at the following resources:
 
-# Technologies
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- Next.js
-- tRPC
-- Prisma
-- TailwindCSS
-- PostgreSQL
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

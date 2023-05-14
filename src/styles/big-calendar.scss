@@ -1,0 +1,64 @@
+.rbc-month-view {
+    @apply rounded-xl border-none bg-green-100 drop-shadow-xl rounded-3xl #{!important};
+  }
+  
+  .rbc-day-bg:last-child{
+    @apply rounded-3xl #{!important};
+  }
+  
+  .rbc-header {
+    @apply border-none py-2 text-sm text-black #{!important};
+  }
+  
+  .rbc-day-bg + .rbc-day-bg {
+    @apply border-none #{!important};
+  }
+  
+  .rbc-month-row + .rbc-month-row {
+    @apply border-none #{!important};
+  }
+  
+  .rbc-header + .rbc-header {
+    @apply border-none #{!important};
+  }
+  
+  .rbc-date-cell {
+    @apply flex justify-center;
+  }
+  
+  .rbc-off-range-bg {
+    @apply bg-green-100 #{!important};
+  }
+  
+  .rbc-off-range > .rbc-button-link {
+    @apply text-gray-400 #{!important};
+  }
+  
+  .rbc-button-link {
+    @apply text-sm text-zinc-700 #{!important};
+  }
+  
+  .rbc-today {
+    @apply bg-green-200 #{!important};
+  }
+  
+  .rbc-event-content {
+    @apply text-xs;
+  }
+  
+  .rbc-show-more {
+    @apply text-xs #{!important};
+  }
+  
+  @media (max-width: 576px) {
+    .ant-picker-datetime-panel {
+      flex-direction: column;
+    }
+    .ant-picker-content {
+      height: 100px !important;
+    }
+    .ant-picker-body {
+      padding: 0px 18px !important;
+    }
+  }
+  

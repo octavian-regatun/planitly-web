@@ -2,28 +2,22 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider      = "prisma-client-js"
-  engineType    = "binary"
-  binaryTargets = ["linux-musl-openssl-3.0.x", "windows", "debian-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Group {
-  id                      Int                       @id @default(autoincrement())
-  name                    String
-  description             String?
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  GroupMember             GroupMember[]
-  EventParticipatingGroup EventParticipatingGroup[]
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?       @db.Text
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  GroupMember GroupMember[]
 }
 
 model GroupMember {
@@ -36,6 +30,9 @@ model GroupMember {
   updatedAt DateTime        @updatedAt
   group     Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
   user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([groupId])
+  @@index([userId])
 }
 
 model Friendship {
@@ -47,21 +44,25 @@ model Friendship {
   recipient   User     @relation("recipient", fields: [recipientId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([requesterId])
+  @@index([recipientId])
 }
 
 model Event {
-  id                      Int                       @id @default(autoincrement())
-  name                    String
-  description             String?
-  location                Location                  @relation(fields: [locationId], references: [id])
-  startDate               DateTime
-  endDate                 DateTime
-  allDay                  Boolean
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  EventMember             EventMember[]
-  locationId              Int
-  EventParticipatingGroup EventParticipatingGroup[]
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?       @db.Text
+  location    Location      @relation(fields: [locationId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
+  allDay      Boolean
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  EventMember EventMember[]
+  locationId  Int
+
+  @@index([locationId])
 }
 
 model Location {
@@ -75,17 +76,6 @@ model Location {
   Event     Event[]
 }
 
-model EventParticipatingGroup {
-  id        Int      @id @default(autoincrement())
-  status    Status   @default(PENDING)
-  eventId   Int
-  groupId   Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-}
-
 model EventMember {
   id        Int             @id @default(autoincrement())
   status    Status          @default(PENDING)
@@ -96,6 +86,9 @@ model EventMember {
   updatedAt DateTime        @updatedAt
   event     Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@index([userId])
 }
 
 // Necessary for Next auth
@@ -115,43 +108,27 @@ model Account {
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
 }
 
 model User {
   id                     String        @id @default(cuid())
   firstName              String
   lastName               String
-  email                  String?       @unique
-  emailVerified          Boolean?
-  image                  String
+  email                  String        @unique
+  image                  String        @db.Text
   username               String        @unique
   accounts               Account[]
-  sessions               Session[]
   friendshipsAsRecipient Friendship[]  @relation("recipient")
   friendshipsAsRequester Friendship[]  @relation("requester")
   GroupMember            GroupMember[]
   EventMember            EventMember[]
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
 enum Status {
   PENDING
   ACCEPTED
+  REJECTED
 }
 
 enum GroupMemberRole {
