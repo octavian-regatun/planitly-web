@@ -1,6 +1,15 @@
-import { createEventApi } from "@/server/api/events";
+import { createEventApi, getEventsApi } from "@/server/api/events";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+
+export async function GET(req: NextRequest) {
+  try {
+    return NextResponse.json(await getEventsApi());
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const schema = z.object({

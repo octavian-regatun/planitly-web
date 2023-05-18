@@ -1,4 +1,39 @@
+import { getServerAuthSession } from "../auth";
 import { prisma } from "../db";
+
+export async function getEventApi({ id }: { id: number }) {
+  return await prisma.event.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      eventMembers: {
+        include: {
+          user: true,
+        },
+      },
+      location: true,
+    },
+  });
+}
+
+export async function getEventsApi() {
+  const session = await getServerAuthSession();
+
+  return await prisma.event.findMany({
+    where: {
+      eventMembers: {
+        some: {
+          userId: session?.user.id,
+        },
+      },
+    },
+    include: {
+      eventMembers: true,
+      location: true,
+    },
+  });
+}
 
 export async function createEventApi({
   name,

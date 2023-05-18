@@ -1,4 +1,18 @@
-import { createEventApi } from "@/server/api/events";
+import { createEventApi, getEventsApi } from "@/server/api/events";
+
+export async function getEvents() {
+  const res = await fetch("/api/events");
+
+  if (!res.ok) {
+    const data = await res.json();
+
+    throw new Error(data.error);
+  }
+
+  const data = (await res.json()) as Awaited<ReturnType<typeof getEventsApi>>;
+
+  return data;
+}
 
 export async function createEvent({
   name,

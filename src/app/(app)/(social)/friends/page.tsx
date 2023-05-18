@@ -8,7 +8,6 @@ import { Session } from "next-auth";
 export default async function FriendsPage() {
   const session = (await getServerAuthSession()) as Session;
   const searchUsers = await searchUsersApi("");
-  const friendships = await getFriendshipsApi();
 
   if (searchUsers === null) return null;
 
