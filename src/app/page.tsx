@@ -14,7 +14,7 @@ export default async function Home() {
         <p className="bg-gradient-to-r from-teal-600 to-green-400 bg-clip-text text-center text-5xl/tight font-bold text-transparent">
           The App that Takes the Hassle Out of Group Planning
         </p>
-        <div className="min-h-[416px]">
+        <div className="min-h-[512px]">
           <Calendar3D />
         </div>
         <CTAButton isLoggedIn={!!session} />

@@ -11,8 +11,6 @@ interface Props {
 }
 
 export default async function EventPage({ params: { id } }: Props) {
-  console.log(id);
-
   const event = await getEventApi({ id: parseInt(id) });
 
   if (!event) return null;

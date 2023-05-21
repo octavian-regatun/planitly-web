@@ -112,17 +112,31 @@ model Account {
 }
 
 model User {
-  id                     String        @id @default(cuid())
+  id                     String         @id @default(cuid())
   firstName              String
   lastName               String
-  email                  String        @unique
-  image                  String        @db.Text
-  username               String        @unique
+  email                  String         @unique
+  image                  String         @db.Text
+  username               String         @unique
   accounts               Account[]
-  friendshipsAsRecipient Friendship[]  @relation("recipient")
-  friendshipsAsRequester Friendship[]  @relation("requester")
+  friendshipsAsRecipient Friendship[]   @relation("recipient")
+  friendshipsAsRequester Friendship[]   @relation("requester")
   GroupMember            GroupMember[]
   EventMember            EventMember[]
+  Availability           Availability[]
+}
+
+model Availability {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  isAvailable Boolean
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum Status {
