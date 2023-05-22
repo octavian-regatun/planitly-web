@@ -5,6 +5,7 @@ import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
   areIntervalsOverlapping,
+  endOfDay,
   isWithinInterval,
   startOfDay,
 } from "date-fns";
@@ -24,37 +25,37 @@ export default function SettingsPage() {
   const [unavailableDates, setUnavailableDates] = useState<AvailableDate[]>([]);
   const [opened, { open, close }] = useDisclosure(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const onChange = (dates: any) => {
     const [start, end] = dates;
 
     setStartDate(startOfDay(start));
-    setEndDate(end);
+    if (end) setEndDate(endOfDay(end));
+    else setEndDate(null);
   };
 
   function onClearInterval() {
     if (!endDate) return;
 
     let isOverlapping = false;
+    const datesToClear: AvailableDate[] = [];
+
     for (const unavailableDate of unavailableDates) {
       isOverlapping = areIntervalsOverlapping(
         { start: startDate, end: endDate },
         { start: unavailableDate.startDate, end: unavailableDate.endDate }
       );
 
-      if (isOverlapping) {
-        console.log("overlapping");
+      if (isOverlapping) datesToClear.push(unavailableDate);
 
-        // unavailableDates.forEach(date => {
-        //   console.log(isEqual(date, unavailableDate));
-        // });
+      const clearedDates = unavailableDates.filter(date => {
+        for (const dateToClear of datesToClear) {
+          if (isEqual(date, dateToClear)) return false;
+        }
+        return true;
+      });
 
-        console.log(
-          unavailableDates.filter(date => !isEqual(date, unavailableDate))
-        );
-
-        // setUnavailableDates(newArr);
-      }
+      setUnavailableDates(clearedDates);
     }
   }
 
