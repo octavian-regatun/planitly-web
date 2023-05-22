@@ -9,7 +9,7 @@ import {
   isWithinInterval,
   startOfDay,
 } from "date-fns";
-import { isEqual, remove } from "lodash";
+import { isEqual } from "lodash";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
