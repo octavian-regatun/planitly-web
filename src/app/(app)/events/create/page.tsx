@@ -44,8 +44,12 @@ type FormValues = z.infer<typeof validationSchema>;
 export default function EventsCreatePage() {
   const [locationQuery, setLocationQuery] = useState("");
   const [pickedLocationId, setPickedLocationId] = useState<string | null>(null);
+  const [searchLocationData, setSearchLocationData] = useState<
+    typeof searchLocationQuery.data
+  >([]);
 
   const router = useRouter();
+  const session_token = useMemo(nanoid, []);
 
   const {
     register,
@@ -64,8 +68,6 @@ export default function EventsCreatePage() {
       allDay: true,
     },
   });
-
-  const session_token = useMemo(nanoid, []);
 
   function onDateChange(dates: [Date | null, Date | null]) {
     const [startDate, endDate] = dates;
@@ -159,9 +161,13 @@ export default function EventsCreatePage() {
         }}
         searchable
         onSearchChange={value => {
+          console.log({ searchChange: value });
           searchLocationOnChange(value);
         }}
         onChange={value => {
+          console.log({ value });
+          if (searchLocationQuery.data)
+            setSearchLocationData(searchLocationQuery.data);
           setPickedLocationId(value);
         }}
         filter={() => true}
@@ -169,7 +175,11 @@ export default function EventsCreatePage() {
           searchLocationQuery.data?.map(location => ({
             value: location.id,
             label: location.name,
-          })) || []
+          })) ||
+          searchLocationData!.map(location => ({
+            value: location.id,
+            label: location.name,
+          }))
         }
       />
       <div className="h-64 w-full">
@@ -195,7 +205,14 @@ export default function EventsCreatePage() {
         valueComponent={SelectUserGroupValue}
         itemComponent={SelectUserGroupItem}
       />
-      <Button type="submit">Create Event</Button>
+      <Button
+        type="submit"
+        onClick={() => {
+          console.log(getValues());
+        }}
+      >
+        Create Event
+      </Button>
     </form>
   );
 }
