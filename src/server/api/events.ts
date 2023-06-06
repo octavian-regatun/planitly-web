@@ -57,6 +57,8 @@ export async function createEventApi({
   endDate: Date;
   allDay: boolean;
 }) {
+  const session = await getServerAuthSession();
+
   const event = await prisma.event.create({
     data: {
       name,
@@ -76,11 +78,58 @@ export async function createEventApi({
   });
 
   await prisma.eventMember.createMany({
-    data: userIds.map(userId => ({
-      userId,
-      eventId: event.id,
-    })),
+    data: userIds.map(userId => {
+      if (userId === session?.user.id) {
+        return {
+          userId,
+          eventId: event.id,
+          role: "ADMIN",
+        };
+      }
+      return {
+        userId,
+        eventId: event.id,
+      };
+    }),
   });
 
   return event;
+}
+
+export async function getEventMemberApi({
+  eventId,
+  userId,
+}: {
+  eventId: number;
+  userId: string;
+}) {
+  return await prisma.eventMember.findFirst({
+    where: {
+      eventId,
+      userId,
+    },
+  });
+}
+
+export async function deleteEventApi({ id }: { id: number }) {
+  const session = await getServerAuthSession();
+
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
+
+  const eventMember = await getEventMemberApi({
+    userId: session.user.id,
+    eventId: id,
+  });
+
+  if (eventMember?.role !== "ADMIN") {
+    throw new Error("Not authorized");
+  }
+
+  return await prisma.event.delete({
+    where: {
+      id,
+    },
+  });
 }

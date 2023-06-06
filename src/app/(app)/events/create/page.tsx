@@ -84,6 +84,7 @@ export default function EventsCreatePage() {
       });
 
       router.push("/calendar");
+      router.refresh();
     },
   });
 
@@ -161,11 +162,9 @@ export default function EventsCreatePage() {
         }}
         searchable
         onSearchChange={value => {
-          console.log({ searchChange: value });
           searchLocationOnChange(value);
         }}
         onChange={value => {
-          console.log({ value });
           if (searchLocationQuery.data)
             setSearchLocationData(searchLocationQuery.data);
           setPickedLocationId(value);
@@ -205,14 +204,7 @@ export default function EventsCreatePage() {
         valueComponent={SelectUserGroupValue}
         itemComponent={SelectUserGroupItem}
       />
-      <Button
-        type="submit"
-        onClick={() => {
-          console.log(getValues());
-        }}
-      >
-        Create Event
-      </Button>
+      <Button type="submit">Create Event</Button>
     </form>
   );
 }

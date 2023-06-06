@@ -34,7 +34,7 @@
     "mantine-contextmenu": "^1.2.8",
     "maplibre-gl": "^2.4.0",
     "nanoid": "3.3.6",
-    "next": "13.4.2",
+    "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "postcss": "8.4.23",
     "react": "18.2.0",

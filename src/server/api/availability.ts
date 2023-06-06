@@ -20,3 +20,11 @@ export async function createAvailability({
     },
   });
 }
+
+export const getAvailabilities = async () => {
+  return await prisma.availability.findMany({
+    orderBy: {
+      startDate: "asc",
+    },
+  });
+};

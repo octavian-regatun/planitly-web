@@ -59,3 +59,19 @@ export async function createEvent({
 
   return data;
 }
+
+export async function deleteEvent({ eventId }: { eventId: number }) {
+  const res = await fetch(`/api/events/${eventId}`, {
+    method: "DELETE",
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+
+    throw new Error(data.error);
+  }
+
+  const data = (await res.json()) as Awaited<ReturnType<typeof createEventApi>>;
+
+  return data;
+}

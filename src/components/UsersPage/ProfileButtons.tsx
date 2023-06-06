@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "react-toastify";
 import Button from "../UI/Button";
 
 export default function ProfileButtons() {
@@ -7,7 +8,13 @@ export default function ProfileButtons() {
       <Button variant="outlined" onClick={() => {}}>
         Edit Profile
       </Button>
-      <Button variant="outlined" onClick={() => {}}>
+      <Button
+        variant="outlined"
+        onClick={() => {
+          navigator.clipboard.writeText(location.href);
+          toast.success("Copied profile link to clipboard");
+        }}
+      >
         Share Profile
       </Button>
     </div>

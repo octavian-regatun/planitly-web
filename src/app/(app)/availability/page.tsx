@@ -1,0 +1,125 @@
+"use client";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  areIntervalsOverlapping,
+  endOfDay,
+  isWithinInterval,
+  startOfDay,
+} from "date-fns";
+import { isEqual } from "lodash";
+import { FC, useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+export interface AvailableDate {
+  startDate: Date;
+  endDate: Date;
+}
+
+export default function AvailabilityPage() {
+  const [availableDates, setAvailableDates] = useState<AvailableDate[]>([]);
+  const [unavailableDates, setUnavailableDates] = useState<AvailableDate[]>([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+
+    setStartDate(startOfDay(start));
+    if (end) setEndDate(endOfDay(end));
+    else setEndDate(null);
+  };
+
+  function onClearInterval() {
+    if (!endDate) return;
+
+    let isOverlapping = false;
+    const datesToClear: AvailableDate[] = [];
+
+    for (const unavailableDate of unavailableDates) {
+      isOverlapping = areIntervalsOverlapping(
+        { start: startDate, end: endDate },
+        { start: unavailableDate.startDate, end: unavailableDate.endDate }
+      );
+
+      if (isOverlapping) datesToClear.push(unavailableDate);
+
+      const clearedDates = unavailableDates.filter(date => {
+        for (const dateToClear of datesToClear) {
+          if (isEqual(date, dateToClear)) return false;
+        }
+        return true;
+      });
+
+      setUnavailableDates(clearedDates);
+    }
+  }
+
+  function onSetUnavailable() {
+    if (endDate === null) return;
+    setUnavailableDates([...unavailableDates, { startDate, endDate }]);
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center gap-4 p-4">
+      <ReactDatePicker
+        selected={startDate}
+        onChange={onChange}
+        startDate={startDate}
+        endDate={endDate}
+        inline
+        selectsRange
+        renderDayContents={(dayNumber, date) => (
+          <DatePickerDay
+            dayNumber={dayNumber}
+            date={date}
+            unavailableDates={unavailableDates}
+          />
+        )}
+      />
+      <div className="flex w-full flex-wrap gap-2">
+        <button
+          onClick={onSetUnavailable}
+          className="flex-1 rounded border border-teal-500 px-4 py-2 text-teal-500 transition-colors hover:border-teal-600 hover:text-teal-600"
+        >
+          Set Unavailable
+        </button>
+        <button
+          onClick={onClearInterval}
+          className="flex-1 rounded border border-teal-500 px-4 py-2 text-teal-500 transition-colors hover:border-teal-600 hover:text-teal-600"
+        >
+          Clear Interval
+        </button>
+        <button className="w-full rounded border border-teal-500 bg-teal-500 px-4 py-2 text-white transition-colors hover:bg-teal-600">
+          Save
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const DatePickerDay: FC<{
+  dayNumber: number;
+  date: Date | undefined;
+  unavailableDates: AvailableDate[];
+}> = ({ date, dayNumber, unavailableDates }) => {
+  if (!date) return null;
+
+  let isUnavailable = false;
+
+  for (const { startDate, endDate } of unavailableDates) {
+    isUnavailable = isWithinInterval(date, {
+      start: startDate,
+      end: endDate,
+    });
+
+    if (isUnavailable) break;
+  }
+
+  return (
+    <div className="flex h-12 flex-col items-center">
+      <span>{dayNumber}</span>
+
+      {isUnavailable && <XMarkIcon className="h-4 w-4 text-red-600" />}
+    </div>
+  );
+};

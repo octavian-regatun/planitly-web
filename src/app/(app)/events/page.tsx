@@ -5,7 +5,7 @@ export default async function EventsPage() {
   const events = await getEventsApi();
 
   return (
-    <div className="px-4 pt-4">
+    <div className="px-4 pb-24 pt-4">
       <h1 className="text-xl">Upcoming Events</h1>
       <div className="mt-4 flex flex-col gap-4">
         {events.map(event => (

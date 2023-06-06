@@ -8,9 +8,7 @@ export default async function Navbar() {
 
   return (
     <nav className="fixed z-10 flex h-20 w-screen items-center gap-4 bg-white/50 px-4 drop-shadow-lg backdrop-blur">
-      <p className="text-2xl font-bold text-teal-500 hover:underline">
-        PlanITLY
-      </p>
+      <p className="text-2xl font-bold text-teal-500">PlanITLY</p>
       {me && (
         <Link href={`/users/${me.username}`} className="ml-auto">
           <ProfilePicture user={me} height={48} width={48} />
