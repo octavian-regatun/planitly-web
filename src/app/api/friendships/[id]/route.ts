@@ -1,7 +1,4 @@
-import {
-  deleteFriendshipApi,
-  updateFriendshipApi,
-} from "@/server/api/friendships";
+import { serverApi } from "@/server/api";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -29,7 +26,7 @@ export async function PATCH(
   try {
     if (status === "ACCEPTED")
       return NextResponse.json(
-        updateFriendshipApi({ id: parseInt(id), status })
+        serverApi.friendships.updateFriendship({ id: parseInt(id), status })
       );
   } catch (error: any) {
     console.log(error);
@@ -44,7 +41,9 @@ export async function DELETE(
   const { id } = params;
 
   try {
-    return NextResponse.json(await deleteFriendshipApi({ id: parseInt(id) }));
+    return NextResponse.json(
+      await serverApi.friendships.deleteFriendship({ id: parseInt(id) })
+    );
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

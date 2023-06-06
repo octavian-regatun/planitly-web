@@ -1,10 +1,10 @@
-import { createEventApi, getEventsApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET(req: NextRequest) {
   try {
-    return NextResponse.json(await getEventsApi());
+    return NextResponse.json(await serverApi.events.getEvents());
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
   try {
     return NextResponse.json(
-      await createEventApi({
+      await serverApi.events.createEvent({
         name,
         description,
         location,

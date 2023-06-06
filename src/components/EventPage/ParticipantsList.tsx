@@ -1,10 +1,12 @@
 "use client";
 
-import { getEventApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 import { Avatar, Tooltip } from "@mantine/core";
 
 interface Props {
-  event: NonNullable<Awaited<ReturnType<typeof getEventApi>>>;
+  event: NonNullable<
+    Awaited<ReturnType<(typeof serverApi)["events"]["getEvent"]>>
+  >;
 }
 
 export default function ParticipantsList({ event }: Props) {

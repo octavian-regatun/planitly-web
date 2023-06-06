@@ -1,8 +1,8 @@
 import BigCalendar from "@/components/BigCalendar";
-import { getEventsApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 
 export default async function CalendarPage() {
-  const events = await getEventsApi();
+  const events = await serverApi.events.getEvents();
 
   return (
     <div className="flex flex-col gap-8 px-4 pb-24 pt-4">

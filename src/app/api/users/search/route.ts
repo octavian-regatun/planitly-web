@@ -1,4 +1,4 @@
-import { searchUsersApi } from "@/server/api/users";
+import { serverApi } from "@/server/api";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "No query provided" }, { status: 400 });
 
   try {
-    return NextResponse.json(await searchUsersApi(query));
+    return NextResponse.json(await serverApi.users.searchUsers(query));
   } catch (error: any) {
     console.log(error)
     return NextResponse.json({ error: error.message }, { status: 500 });

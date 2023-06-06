@@ -1,10 +1,10 @@
 import { User } from "@prisma/client";
 import Link from "next/link";
 import ProfilePicture from "../ProfilePicture";
-import { getMeUserApi } from "@/server/api/users";
+import { serverApi } from "@/server/api";
 
 export default async function Navbar() {
-  const me = (await getMeUserApi()) as User;
+  const me = (await serverApi.users.getMeUser()) as User;
 
   return (
     <nav className="fixed z-10 flex h-20 w-screen items-center gap-4 bg-white/50 px-4 drop-shadow-lg backdrop-blur">

@@ -1,10 +1,10 @@
-import { getEventsApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { format, isSameDay } from "date-fns";
 import Link from "next/link";
 
 interface Props {
-  event: Awaited<ReturnType<typeof getEventsApi>>[number];
+  event: Awaited<ReturnType<(typeof serverApi)["events"]["getEvents"]>>[number];
 }
 
 export default function EventCard({ event }: Props) {
@@ -30,7 +30,10 @@ export default function EventCard({ event }: Props) {
           </p>
         </div>
       </div>
-      <Link href={`/events/${event.id}`} className="bg-teal-700/50 rounded text-center py-2 hover:bg-teal-700 hover:text-white transition-colors">
+      <Link
+        href={`/events/${event.id}`}
+        className="rounded bg-teal-700/50 py-2 text-center transition-colors hover:bg-teal-700 hover:text-white"
+      >
         View Event
       </Link>
     </div>

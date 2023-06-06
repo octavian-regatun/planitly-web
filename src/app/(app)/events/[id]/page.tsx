@@ -1,10 +1,10 @@
 import AdminButtons from "@/components/EventPage/AdminButtons";
 import ParticipantsList from "@/components/EventPage/ParticipantsList";
-import { getEventApi, getEventMemberApi } from "@/server/api/events";
 import { getServerAuthSession } from "@/server/auth";
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { format, isSameDay } from "date-fns";
 import Image from "next/image";
+import { serverApi } from "@/server/api";
 
 interface Props {
   params: {
@@ -14,11 +14,11 @@ interface Props {
 
 export default async function EventPage({ params: { id } }: Props) {
   const session = await getServerAuthSession();
-  const event = await getEventApi({ id: parseInt(id) });
+  const event = await serverApi.events.getEvent({ id: parseInt(id) });
 
   if (!event || !session) return null;
 
-  const meEventMember = await getEventMemberApi({
+  const meEventMember = await serverApi.events.getEventMember({
     eventId: parseInt(id),
     userId: session?.user.id,
   });

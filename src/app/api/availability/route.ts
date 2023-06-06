@@ -1,4 +1,4 @@
-import { createAvailability } from "@/server/api/availability";
+import { serverApi } from "@/server/api";
 import { getServerAuthSession } from "@/server/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   try {
     return NextResponse.json(
-      await createAvailability({
+      await serverApi.availabilities.create({
         startDate,
         endDate,
         isAvailable: false,

@@ -1,14 +1,9 @@
-import {
-  createFriendshipApi,
-  deleteFriendshipApi,
-  getFriendshipsApi,
-  updateFriendshipApi,
-} from "@/server/api/friendships";
+import { serverApi } from "@/server/api";
 
 export const getFriendships = async () => {
   const res = await fetch(`/api/friendships`);
   const data = (await res.json()) as Awaited<
-    ReturnType<typeof getFriendshipsApi>
+    ReturnType<(typeof serverApi)["friendships"]["getFriendships"]>
   >;
 
   if (!res.ok) {
@@ -37,7 +32,7 @@ export const createFriendship = async ({
   }
 
   const data = (await res.json()) as Awaited<
-    ReturnType<typeof createFriendshipApi>
+    ReturnType<(typeof serverApi)["friendships"]["createFriendship"]>
   >;
 
   return data;
@@ -62,7 +57,7 @@ export const updateFriendship = async ({
   }
 
   const data = (await res.json()) as Awaited<
-    ReturnType<typeof updateFriendshipApi>
+    ReturnType<(typeof serverApi)["friendships"]["updateFriendship"]>
   >;
 
   return data;
@@ -80,7 +75,7 @@ export const deleteFriendship = async ({ id }: { id: number }) => {
   }
 
   const data = (await res.json()) as Awaited<
-    ReturnType<typeof deleteFriendshipApi>
+    ReturnType<(typeof serverApi)["friendships"]["deleteFriendship"]>
   >;
 
   return data;

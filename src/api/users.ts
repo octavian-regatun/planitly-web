@@ -1,13 +1,9 @@
-import {
-  getUserByIdApi,
-  getUsersApi,
-  searchUsersApi,
-} from "@/server/api/users";
+import { serverApi } from "@/server/api";
 
 export const searchUsers = async (query: string) => {
   const res = await fetch(`/api/users/search?query=${query}`);
   const users = (await res.json()) as Awaited<
-    ReturnType<typeof searchUsersApi>
+    ReturnType<(typeof serverApi)["users"]["searchUsers"]>
   >;
 
   return users;
@@ -33,7 +29,9 @@ export const getUsers = async ({
     throw new Error(data.error);
   }
 
-  const users = (await res.json()) as Awaited<ReturnType<typeof getUsersApi>>;
+  const users = (await res.json()) as Awaited<
+    ReturnType<(typeof serverApi)["users"]["getUsers"]>
+  >;
 
   return users;
 };
@@ -47,7 +45,9 @@ export async function getUserById({ id }: { id: string }) {
     throw new Error(data.error);
   }
 
-  const data = (await res.json()) as Awaited<ReturnType<typeof getUserByIdApi>>;
+  const data = (await res.json()) as Awaited<
+    ReturnType<(typeof serverApi)["users"]["getUserById"]>
+  >;
 
   console.log(data);
 

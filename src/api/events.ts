@@ -1,4 +1,4 @@
-import { createEventApi, getEventsApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 
 export async function getEvents() {
   const res = await fetch("/api/events");
@@ -9,7 +9,9 @@ export async function getEvents() {
     throw new Error(data.error);
   }
 
-  const data = (await res.json()) as Awaited<ReturnType<typeof getEventsApi>>;
+  const data = (await res.json()) as Awaited<
+    ReturnType<(typeof serverApi)["events"]["getEvents"]>
+  >;
 
   return data;
 }
@@ -55,7 +57,9 @@ export async function createEvent({
     throw new Error(data.error);
   }
 
-  const data = (await res.json()) as Awaited<ReturnType<typeof createEventApi>>;
+  const data = (await res.json()) as Awaited<
+    ReturnType<(typeof serverApi)["events"]["createEvent"]>
+  >;
 
   return data;
 }
@@ -71,7 +75,9 @@ export async function deleteEvent({ eventId }: { eventId: number }) {
     throw new Error(data.error);
   }
 
-  const data = (await res.json()) as Awaited<ReturnType<typeof createEventApi>>;
+  const data = (await res.json()) as Awaited<
+    ReturnType<(typeof serverApi)["events"]["createEvent"]>
+  >;
 
   return data;
 }

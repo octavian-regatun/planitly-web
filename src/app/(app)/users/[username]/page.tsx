@@ -2,7 +2,7 @@ import ProfilePicture from "@/components/ProfilePicture";
 import ImageList from "@/components/UsersPage/ImageList";
 import ProfileButtons from "@/components/UsersPage/ProfileButtons";
 import ProfileSectionToggle from "@/components/UsersPage/ProfileSectionToggle";
-import { getUserByUsernameApi } from "@/server/api/users";
+import { serverApi } from "@/server/api";
 import { User } from "@prisma/client";
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ interface Props {
 export default async function UserPage({ params }: Props) {
   const { username } = params;
 
-  const user = (await getUserByUsernameApi(username)) as User;
+  const user = (await serverApi.users.getUserByUsername(username)) as User;
 
   return (
     <div className="flex flex-col items-center">

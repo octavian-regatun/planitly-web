@@ -1,8 +1,8 @@
 import EventCard from "@/components/EventCard";
-import { getEventsApi } from "@/server/api/events";
+import { serverApi } from "@/server/api";
 
 export default async function EventsPage() {
-  const events = await getEventsApi();
+  const events = await serverApi.events.getEvents();
 
   return (
     <div className="px-4 pb-24 pt-4">

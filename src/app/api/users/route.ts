@@ -1,4 +1,4 @@
-import { getUsersApi } from "@/server/api/users";
+import { serverApi } from "@/server/api";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const includeMe = searchParams.get("includeMe") === "true";
 
   try {
-    return NextResponse.json(await getUsersApi({ includeMe }));
+    return NextResponse.json(await serverApi.users.getUsers({ includeMe }));
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
