@@ -1,13 +1,12 @@
 "use client";
-import { getFriendships } from "@/api/friendships";
-import { searchUsers } from "@/api/users";
+import { clientApi } from "@/api";
 import UserCard from "@/components/UserCard";
 import { useFriendsStore } from "@/store/friends";
 import { getUsersWithoutFriendship } from "@/utilities/users";
 import { User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Session } from "next-auth";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   session: Session;
@@ -19,12 +18,12 @@ export default function FriendsList({ session }: Props) {
 
   const searchUsersQuery = useQuery({
     queryKey: ["search-users", query],
-    queryFn: () => searchUsers(query),
+    queryFn: () => clientApi.users.searchUsers(query),
   });
 
   const getFriendshipsQuery = useQuery({
     queryKey: ["get-friendships", query],
-    queryFn: () => getFriendships(),
+    queryFn: () => clientApi.friendships.getFriendships(),
   });
 
   useEffect(() => {

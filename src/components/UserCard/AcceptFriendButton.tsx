@@ -1,11 +1,11 @@
 "use client";
 
-import { CheckIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-import Button from "../UI/Button";
-import { Friendship, User } from "@prisma/client";
+import { clientApi } from "@/api";
+import { CheckIcon } from "@heroicons/react/24/solid";
+import { Friendship } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createFriendship, updateFriendship } from "@/api/friendships";
 import { toast } from "react-toastify";
+import Button from "../UI/Button";
 
 interface Props {
   friendship: Friendship;
@@ -15,7 +15,7 @@ export default function AcceptFriendButton({ friendship }: Props) {
   const queryClient = useQueryClient();
 
   const updateFriendshipMutation = useMutation({
-    mutationFn: updateFriendship,
+    mutationFn: clientApi.friendships.updateFriendship,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["get-friendships"] });
     },

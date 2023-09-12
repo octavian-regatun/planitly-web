@@ -1,11 +1,11 @@
 "use client";
 
-import { UserPlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import Button from "../UI/Button";
-import { Friendship, User } from "@prisma/client";
+import { clientApi } from "@/api";
+import { XMarkIcon } from "@heroicons/react/24/solid";
+import { Friendship } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createFriendship, deleteFriendship } from "@/api/friendships";
 import { toast } from "react-toastify";
+import Button from "../UI/Button";
 
 interface Props {
   friendship: Friendship;
@@ -14,7 +14,7 @@ interface Props {
 export default function DeleteFriendButton({ friendship }: Props) {
   const queryClient = useQueryClient();
   const deleteFriendshipMutation = useMutation({
-    mutationFn: deleteFriendship,
+    mutationFn: clientApi.friendships.deleteFriendship,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["get-friendships"] });
     },

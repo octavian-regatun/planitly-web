@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteEvent } from "@/api/events";
+import { eventsClientApi } from "@/api/events";
 import { Event } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,9 @@ interface Props {
 }
 
 export default function AdminButtons({ event }: Props) {
-  const deleteMutation = useMutation({ mutationFn: deleteEvent });
+  const deleteMutation = useMutation({
+    mutationFn: eventsClientApi.deleteEvent,
+  });
   const router = useRouter();
 
   const onDelete = () => {

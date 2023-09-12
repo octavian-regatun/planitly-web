@@ -1,7 +1,7 @@
 "use client";
-import { createEvent } from "@/api/events";
-import { retrieveLocation, searchLocation } from "@/api/locations";
-import { getUsers } from "@/api/users";
+import { clientApi } from "@/api";
+import { eventsClientApi } from "@/api/events";
+import { locationsClientApi } from "@/api/locations";
 import RichTextEditor from "@/components/RichTextEditor";
 import Button from "@/components/UI/Button";
 import UserCard from "@/components/UserCard";
@@ -77,7 +77,7 @@ export default function EventsCreatePage() {
   }
 
   const createEventMutation = useMutation({
-    mutationFn: createEvent,
+    mutationFn: eventsClientApi.createEvent,
     onSuccess: () => {
       toast.success("Event created successfully", {
         toastId: "create-event-success",
@@ -96,14 +96,14 @@ export default function EventsCreatePage() {
 
   const searchLocationQuery = useQuery({
     queryKey: ["search-location", locationQuery],
-    queryFn: () => searchLocation({ query: locationQuery, session_token }),
+    queryFn: () => clientApi.locations. searchLocation({ query: locationQuery, session_token }),
     enabled: locationQuery !== "",
   });
 
   const retrieveLocationQuery = useQuery({
     queryKey: ["retrieve-location", pickedLocationId],
     queryFn: () =>
-      retrieveLocation({ session_token, id: pickedLocationId as string }),
+      locationsClientApi.retrieveLocation({ session_token, id: pickedLocationId as string }),
     enabled: !!pickedLocationId,
     onSuccess: data => {
       const { name, address, latitude, longitude } = data;
@@ -113,7 +113,7 @@ export default function EventsCreatePage() {
 
   const getUsersQuery = useQuery({
     queryKey: ["get-users"],
-    queryFn: () => getUsers({ includeMe: false }),
+    queryFn: () => clientApi.users.getUsers({ includeMe: false }),
   });
 
   const session = useSession();
@@ -215,7 +215,7 @@ const SelectUserGroupItem = forwardRef<
 >(({ value, label, ...rest }, ref) => {
   const getUsersQuery = useQuery({
     queryKey: ["get-users"],
-    queryFn: () => getUsers({ includeMe: false }),
+    queryFn: () => clientApi.users. getUsers({ includeMe: false }),
   });
 
   if (!getUsersQuery.data) return null;
@@ -241,7 +241,7 @@ const SelectUserGroupValue = forwardRef<HTMLDivElement, any>(
 
     const getUsersQuery = useQuery({
       queryKey: ["get-users"],
-      queryFn: () => getUsers({ includeMe: false }),
+      queryFn: () => clientApi.users. getUsers({ includeMe: false }),
     });
 
     if (!getUsersQuery.data) return null;

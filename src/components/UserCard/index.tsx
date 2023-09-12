@@ -5,7 +5,6 @@ import { twMerge } from "tailwind-merge";
 import AddFriendButton from "./AddFriendButton";
 import DeleteFriendButton from "./DeleteFriendButton";
 import ActionButtons from "./ActionButtons";
-import { getUserById } from "@/api/users";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {

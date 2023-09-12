@@ -1,82 +1,79 @@
 import { serverApi } from "@/server/api";
 
-export const getFriendships = async () => {
-  const res = await fetch(`/api/friendships`);
-  const data = (await res.json()) as Awaited<
-    ReturnType<(typeof serverApi)["friendships"]["getFriendships"]>
-  >;
+export const friendshipsClientApi = {
+  getFriendships: async () => {
+    const res = await fetch(`/api/friendships`);
+    const data = (await res.json()) as Awaited<
+      ReturnType<(typeof serverApi)["friendships"]["getFriendships"]>
+    >;
 
-  if (!res.ok) {
-    const data = (await res.json()) as { error: string };
+    if (!res.ok) {
+      const data = (await res.json()) as { error: string };
 
-    throw new Error(data.error);
-  }
+      throw new Error(data.error);
+    }
 
-  return data;
-};
+    return data;
+  },
 
-export const createFriendship = async ({
-  recipientId,
-}: {
-  recipientId: string;
-}) => {
-  const res = await fetch(`/api/friendships`, {
-    body: JSON.stringify({ recipientId }),
-    method: "POST",
-  });
+  createFriendship: async ({ recipientId }: { recipientId: string }) => {
+    const res = await fetch(`/api/friendships`, {
+      body: JSON.stringify({ recipientId }),
+      method: "POST",
+    });
 
-  if (!res.ok) {
-    const data = (await res.json()) as { error: string };
+    if (!res.ok) {
+      const data = (await res.json()) as { error: string };
 
-    throw new Error(data.error);
-  }
+      throw new Error(data.error);
+    }
 
-  const data = (await res.json()) as Awaited<
-    ReturnType<(typeof serverApi)["friendships"]["createFriendship"]>
-  >;
+    const data = (await res.json()) as Awaited<
+      ReturnType<(typeof serverApi)["friendships"]["createFriendship"]>
+    >;
 
-  return data;
-};
+    return data;
+  },
+  updateFriendship: async ({
+    id,
+    status,
+  }: {
+    id: number;
+    status: "ACCEPTED" | "PENDING";
+  }) => {
+    const res = await fetch(`/api/friendships/${id}`, {
+      body: JSON.stringify({ status }),
+      method: "PATCH",
+    });
 
-export const updateFriendship = async ({
-  id,
-  status,
-}: {
-  id: number;
-  status: "ACCEPTED" | "PENDING";
-}) => {
-  const res = await fetch(`/api/friendships/${id}`, {
-    body: JSON.stringify({ status }),
-    method: "PATCH",
-  });
+    if (!res.ok) {
+      const data = (await res.json()) as { error: string };
 
-  if (!res.ok) {
-    const data = (await res.json()) as { error: string };
+      throw new Error(data.error);
+    }
 
-    throw new Error(data.error);
-  }
+    const data = (await res.json()) as Awaited<
+      ReturnType<(typeof serverApi)["friendships"]["updateFriendship"]>
+    >;
 
-  const data = (await res.json()) as Awaited<
-    ReturnType<(typeof serverApi)["friendships"]["updateFriendship"]>
-  >;
+    return data;
+  },
 
-  return data;
-};
+  deleteFriendship: async ({ id }: { id: number }) => {
+    const res = await fetch(`/api/friendships/${id}`, {
+      method: "DELETE",
+    });
 
-export const deleteFriendship = async ({ id }: { id: number }) => {
-  const res = await fetch(`/api/friendships/${id}`, {
-    method: "DELETE",
-  });
+    if (!res.ok) {
+      const data = (await res.json()) as { error: string };
 
-  if (!res.ok) {
-    const data = (await res.json()) as { error: string };
+      throw new Error(data.error);
+    }
 
-    throw new Error(data.error);
-  }
+    const data = (await res.json()) as Awaited<
+      ReturnType<(typeof serverApi)["friendships"]["deleteFriendship"]>
+    >;
 
-  const data = (await res.json()) as Awaited<
-    ReturnType<(typeof serverApi)["friendships"]["deleteFriendship"]>
-  >;
-
-  return data;
+    return data;
+  },
 };
