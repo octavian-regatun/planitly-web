@@ -31,6 +31,11 @@ export const usersService = {
   async findById(id: number) {
     return (await backendAxios.get<PublicUser>(`users/${id}`)).data;
   },
+  async findByIds(ids: number[]) {
+    return await backendAxios.get<PublicUser[]>(`users`, {
+      params: { ids },
+    });
+  },
   async findAll() {
     return (await backendAxios.get<User[]>("users")).data;
   },

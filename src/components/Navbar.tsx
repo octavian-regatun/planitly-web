@@ -1,22 +1,20 @@
 "use client";
+import { authService } from "@/services/auth";
+import { useStore } from "@/store/store";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./shadcn/Button";
-import { Input } from "./shadcn/Input";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
-import { authService } from "@/services/auth";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./shadcn/DropdownMenu";
-import { useStore } from "@/store/store";
-import Link from "next/link";
+import { Input } from "./shadcn/Input";
 
 export function Navbar() {
   const user = useStore(store => store.me);
@@ -33,7 +31,7 @@ export function Navbar() {
   return (
     <nav className="absolute h-20 w-screen items-center flex pl-64 pr-4 border">
       <div className="ml-4">
-        <p className="text-2xl font-medium">Calendar</p>
+        <p className="text-2xl font-medium">{getCurrentPage()}</p>
       </div>
       <Input className="ml-auto w-48 mr-8" placeholder="Search" />
       <DropdownMenu>

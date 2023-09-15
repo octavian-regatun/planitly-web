@@ -1,4 +1,11 @@
-import { CheckIcon, XIcon } from "lucide-react";
+import { Friendship, friendshipsService } from "@/services/friendships";
+import { User, usersService } from "@/services/users";
+import { useStore } from "@/store/store";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useState } from "react";
+import { Button } from "./shadcn/Button";
 import {
   Card,
   CardContent,
@@ -6,10 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./shadcn/Card";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
-import { Button } from "./shadcn/Button";
-import Image from "next/image";
-import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
   Command,
   CommandEmpty,
@@ -17,12 +20,7 @@ import {
   CommandInput,
   CommandItem,
 } from "./shadcn/Command";
-import { User, usersService } from "@/services/users";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { cn } from "@/utilities/shadcn";
-import { Friendship, friendshipsService } from "@/services/friendships";
-import { useStore } from "@/store/store";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
 
 interface Props {
   selectedUser: User | null;
@@ -34,13 +32,13 @@ export function UserSelectorCard({ selectedUser, setSelectedUser }: Props) {
   const [open, setOpen] = useState(false);
 
   const usersQuery = useQuery({
-    queryKey: ["users-search"],
+    queryKey: ["users", { search: "" }],
     queryFn: () => usersService.search(""),
   });
 
   const friendshipsQuery = useQuery({
     queryKey: ["friendships"],
-    queryFn: friendshipsService.find,
+    queryFn: () => friendshipsService.find(),
   });
 
   const getFriendshipStatus = (friendship: Friendship) => {
