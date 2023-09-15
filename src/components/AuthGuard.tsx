@@ -5,7 +5,6 @@ import { useStore } from "@/store/store";
 import { backendAxios } from "@/utilities/axios";
 import { useQuery } from "@tanstack/react-query";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { shallow } from "zustand/shallow";
 
 export function AuthGuard({ children }: PropsWithChildren) {
   const [me, setMe] = useStore(state => [state.me, state.setMe]);

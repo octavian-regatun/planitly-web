@@ -1,9 +1,12 @@
 import { backendAxios } from "@/utilities/axios";
+import { PublicUser } from "./users";
 
 export interface Friendship {
   id: number;
   recipientId: number;
   requesterId: number;
+  recipient: PublicUser;
+  requester: PublicUser;
   status: FriendshipStatus;
   createdAt: string;
   updatedAt: string;
@@ -15,8 +18,21 @@ export enum FriendshipStatus {
 }
 
 export const friendshipsService = {
-  async find() {
-    return await backendAxios.get<Friendship[]>("friendships");
+  async find(
+    {
+      type = "ALL",
+      status = "ALL",
+    }: {
+      type: "ALL" | "INCOMING" | "OUTGOING";
+      status: "ALL" | "PENDING" | "ACCEPTED";
+    } = {
+      type: "ALL",
+      status: "ALL",
+    }
+  ) {
+    return await backendAxios.get<Friendship[]>("friendships", {
+      params: { type, status },
+    });
   },
   async findByUserId(userId: number) {
     return await backendAxios.get<Friendship>(`friendships/users/${userId}`);
