@@ -19,7 +19,7 @@ export function PublicUserProfile({ id }: Props) {
     <div className="flex flex-col items-center pt-4">
       <Image
         src={userQuery.data.picture}
-        alt="asd"
+        alt="profile"
         width={128}
         height={128}
         className="rounded-full border"

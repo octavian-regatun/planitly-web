@@ -6,8 +6,9 @@ import { config } from "@/utilities/config";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { ArrowRightIcon } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { GoToAppButton } from "./GoToAppButton";
 import { Button } from "./shadcn/Button";
 import {
   Card,
@@ -16,14 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./shadcn/Card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./shadcn/Tooltip";
-import Image from "next/image";
-import { GoToAppButton } from "./GoToAppButton";
 
 export function SignIn() {
   const router = useRouter();

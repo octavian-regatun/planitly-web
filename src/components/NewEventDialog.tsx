@@ -27,7 +27,9 @@ import { ColorPicker } from "./ColorPicker";
 import { blue } from "tailwindcss/colors";
 import { eventsService } from "@/services/events";
 import { useToast } from "./shadcn/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { GroupSelector } from "./GroupSelector";
+import { Group, groupsService } from "@/services/groups";
 
 interface DatePickerDate {
   startDate: Date | null;
@@ -38,11 +40,12 @@ export function NewEventDialog() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [date, setDate] = useState<DatePickerDate>({
     startDate: new Date(),
     endDate: new Date(),
   });
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
@@ -53,7 +56,12 @@ export function NewEventDialog() {
     }
   };
 
-  const createEventMutation = useMutation({
+  const groupsQuery = useQuery({
+    queryKey: ["groups"],
+    queryFn: groupsService.find,
+  });
+
+  const eventMutation = useMutation({
     mutationFn: eventsService.createEvent,
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
@@ -79,6 +87,7 @@ export function NewEventDialog() {
     allDay: z.boolean(),
     color: z.string(),
     picture: z.string(),
+    groupId: z.number(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,7 +104,7 @@ export function NewEventDialog() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createEventMutation.mutate(values);
+    eventMutation.mutate(values);
   }
 
   return (
@@ -134,6 +143,27 @@ export function NewEventDialog() {
                     <Textarea
                       placeholder="This is a description..."
                       {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="groupId"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Group</FormLabel>
+                  <FormControl>
+                    <GroupSelector
+                      value={selectedGroup}
+                      onChange={group => {
+                        if (!group) return;
+                        setSelectedGroup(group);
+                        form.setValue("groupId", group.id);
+                      }}
+                      groups={groupsQuery.data?.data || []}
                     />
                   </FormControl>
                   <FormMessage />
