@@ -1,8 +1,11 @@
-import { PublicUser, User } from "@/services/users";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
-import { Button } from "./shadcn/Button";
-import Image from "next/image";
+import { Group } from "@/services/groups";
+import { User } from "@/services/users";
+import { useStore } from "@/store/store";
 import { CaretSortIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import { useState } from "react";
+import { twMerge } from "tailwind-merge";
+import { Button } from "./shadcn/Button";
 import {
   Command,
   CommandEmpty,
@@ -10,12 +13,7 @@ import {
   CommandInput,
   CommandItem,
 } from "./shadcn/Command";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { useStore } from "@/store/store";
-import { Friendship, friendshipsService } from "@/services/friendships";
-import { Group } from "@/services/groups";
-import { twMerge } from "tailwind-merge";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
 
 interface Props {
   groups: Group[];
@@ -27,17 +25,6 @@ interface Props {
 export function GroupSelector({ groups, value, onChange, className }: Props) {
   const me = useStore(store => store.me) as User;
   const [open, setOpen] = useState(false);
-
-  //   const friendshipsQuery = useQuery({
-  //     queryKey: ["friendships"],
-  //     queryFn: friendshipsService.find,
-  //   });
-
-  //   const getFriendshipStatus = (friendship: Friendship) => {
-  //     if (friendship.status === "ACCEPTED") return "Friends";
-  //     if (friendship.status === "PENDING") return "Pending";
-  //     return undefined;
-  //   };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -67,7 +54,7 @@ export function GroupSelector({ groups, value, onChange, className }: Props) {
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0">
         <Command>
-          <CommandInput placeholder="Search username..." className="h-9" />
+          <CommandInput placeholder="Search group..." className="h-9" />
           <CommandEmpty>No user found.</CommandEmpty>
           <CommandGroup>
             {groups.map(group => (

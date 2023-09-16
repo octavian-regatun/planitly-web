@@ -16,6 +16,7 @@ import {
 import { useToast } from "./shadcn/use-toast";
 import { useStore } from "@/store/store";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 interface Props {
   user: PublicUser;
@@ -182,6 +183,9 @@ export function UserCard({ user }: Props) {
               Remove Friend
             </Button>
           )}
+        <Button asChild className="ml-2">
+          <Link href={`/users/${user.id}`}>View Profile</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

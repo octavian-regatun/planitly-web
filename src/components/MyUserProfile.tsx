@@ -61,6 +61,8 @@ export function MyUserProfile({ id }: Props) {
     updateUserMutation.mutate();
   }
 
+console.log(userQuery.data?.picture)
+
   if (userQuery.isPending) return <div>Loading...</div>;
   if (userQuery.isError) return <div>{userQuery.error.message}</div>;
 
@@ -68,7 +70,7 @@ export function MyUserProfile({ id }: Props) {
     <div className="flex flex-col items-center pt-4">
       <Image
         src={userQuery.data.picture}
-        alt="asd"
+        alt="profile"
         width={128}
         height={128}
         className="rounded-full border"
