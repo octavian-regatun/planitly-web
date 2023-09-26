@@ -61,8 +61,6 @@ export function MyUserProfile({ id }: Props) {
     updateUserMutation.mutate();
   }
 
-console.log(userQuery.data?.picture)
-
   if (userQuery.isPending) return <div>Loading...</div>;
   if (userQuery.isError) return <div>{userQuery.error.message}</div>;
 

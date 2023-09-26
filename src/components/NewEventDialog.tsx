@@ -170,12 +170,12 @@ export function NewEventDialog() {
                 </FormItem>
               )}
             />
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="startAt"
                 render={({ field }) => (
-                  <FormItem className="col-span-1">
+                  <FormItem className="col-span-1 flex flex-col">
                     <FormLabel>Date</FormLabel>
                     <FormControl>
                       <ReactDatePicker
@@ -195,7 +195,7 @@ export function NewEventDialog() {
                 control={form.control}
                 name="allDay"
                 render={({ field }) => (
-                  <FormItem className="col-span-1 flex items-center space-y-0 space-x-2 mt-8 ">
+                  <FormItem className="col-span-1 flex items-center space-y-0 space-x-2 mt-6 ">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
