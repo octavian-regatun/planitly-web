@@ -19,8 +19,6 @@ export function GroupMembers({ groupId }: Props) {
     queryFn: () => groupsService.findById(groupId),
   });
 
-  console.log(groupQuery.data?.data?.groupMembers);
-
   return (
     <div className="flex gap-1">
       {groupQuery.data?.data?.groupMembers.map(member => (

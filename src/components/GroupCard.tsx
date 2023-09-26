@@ -2,6 +2,11 @@ import { Group } from "@/services/groups";
 import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/Card";
 import Image from "next/image";
 import { GroupMembers } from "./GroupMembers";
+import { Button } from "./shadcn/Button";
+import { useStore } from "@/store/store";
+import { useMutation } from "@tanstack/react-query";
+import { groupMembersService } from "@/services/group-members";
+import Link from "next/link";
 
 interface Props {
   group: Group;
@@ -28,6 +33,9 @@ export function GroupCard({ group }: Props) {
           <p className="font-semibold">Members</p>
           <GroupMembers groupId={group.id} />
         </div>
+        <Button className="w-fit" asChild>
+          <Link href={`groups/${group.id}`}>View Group</Link>
+        </Button>
       </CardContent>
     </Card>
   );
