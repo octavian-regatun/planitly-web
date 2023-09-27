@@ -178,7 +178,7 @@ export function NewGroupDialog() {
               )}
             />
             <Button type="submit" disabled={!form.formState.isValid}>
-              Create Event
+              Create Group
             </Button>
           </form>
         </Form>

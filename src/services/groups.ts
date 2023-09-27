@@ -13,6 +13,7 @@ export interface GroupMember {
   userId: number;
   groupId: number;
   role: "ADMIN" | "MEMBER";
+  status: "PENDING" | "ACCEPTED";
   createdAt: string;
   updatedAt: string;
   user: PublicUser;
@@ -37,5 +38,8 @@ export const groupsService = {
   },
   async create(group: CreateGroupDto) {
     return await backendAxios.post<Group>("groups", group);
+  },
+  async delete(id: number) {
+    return await backendAxios.delete(`groups/${id}`);
   },
 };
