@@ -1,12 +1,9 @@
 import { Group } from "@/services/groups";
-import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/Card";
 import Image from "next/image";
+import Link from "next/link";
 import { GroupMembers } from "./GroupMembers";
 import { Button } from "./shadcn/Button";
-import { useStore } from "@/store/store";
-import { useMutation } from "@tanstack/react-query";
-import { groupMembersService } from "@/services/group-members";
-import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/Card";
 
 interface Props {
   group: Group;

@@ -15,23 +15,17 @@ import {
   DropdownMenuTrigger,
 } from "./shadcn/DropdownMenu";
 import { Input } from "./shadcn/Input";
+import { useCurrentPage } from "@/hooks/use-current-page";
 
 export function Navbar() {
   const user = useStore(store => store.me);
-  const pathname = usePathname();
 
-  const getCurrentPage = () => {
-    if (pathname.includes("/dashboard")) return "Dashboard";
-    if (pathname.includes("/calendar")) return "Calendar";
-    if (pathname.includes("/friends")) return "Friends";
-    if (pathname.includes("/groups")) return "Groups";
-    if (pathname.includes("/settings")) return "Settings";
-  };
+  const currentPage = useCurrentPage();
 
   return (
     <nav className="absolute h-20 w-screen items-center flex pl-64 pr-4 border">
       <div className="ml-4">
-        <p className="text-2xl font-medium">{getCurrentPage()}</p>
+        <p className="text-2xl font-medium">{currentPage}</p>
       </div>
       <Input className="ml-auto w-48 mr-8" placeholder="Search" />
       <DropdownMenu>

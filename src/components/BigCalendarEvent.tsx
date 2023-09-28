@@ -1,5 +1,5 @@
-import { EventResponse, eventsService } from "@/services/events";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDeleteEvent } from "@/hooks/use-delete-event";
+import { EventResponse } from "@/services/events";
 import fontColorContrast from "font-color-contrast";
 import Link from "next/link";
 import { EventWrapperProps } from "react-big-calendar";
@@ -9,24 +9,13 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "./shadcn/ContextMenu";
-import { useToast } from "./shadcn/use-toast";
 
 interface Props extends EventWrapperProps {}
 
 export function BigCalendarEvent(props: Props) {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
   const event = props.event.resource as EventResponse;
-  const removeEventMutation = useMutation({
-    mutationFn: eventsService.removeById,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
-      toast({
-        title: "Event deleted 🗑️",
-        description: "Your event has been deleted.",
-      });
-    },
-  });
+
+  const deleteEvent = useDeleteEvent();
 
   return (
     <ContextMenu>
@@ -44,7 +33,9 @@ export function BigCalendarEvent(props: Props) {
         </Link>
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuItem onClick={()=>removeEventMutation.mutate(event.id)}>Delete</ContextMenuItem>
+        <ContextMenuItem onClick={() => deleteEvent.mutate(event.id)}>
+          Delete
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   );

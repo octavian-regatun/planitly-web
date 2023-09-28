@@ -1,14 +1,8 @@
 "use client";
-import {
-  CalendarIcon,
-  HomeIcon,
-  UserGroupIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
-import { SettingsIcon } from "lucide-react";
+import { useSidebarIcon } from "@/hooks/use-sidebar-icon";
 import Link from "next/link";
-import { Button } from "./shadcn/Button";
 import { usePathname } from "next/navigation";
+import { Button } from "./shadcn/Button";
 
 const pages = [
   "dashboard",
@@ -27,20 +21,7 @@ export function Sidebar() {
     return pathname === `/${page}`;
   };
 
-  const getIcon = (page: Page) => {
-    switch (page) {
-      case "dashboard":
-        return <HomeIcon className="h-4 w-4" />;
-      case "calendar":
-        return <CalendarIcon className="h-4 w-4" />;
-      case "friends":
-        return <UsersIcon className="h-4 w-4" />;
-      case "groups":
-        return <UserGroupIcon className="h-4 w-4" />;
-      case "settings":
-        return <SettingsIcon className="h-4 w-4" />;
-    }
-  };
+  const icon = useSidebarIcon();
 
   return (
     <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white">
@@ -52,7 +33,7 @@ export function Sidebar() {
               variant={isLinkActive(page) ? "default" : "ghost"}
               className="flex gap-2 items-center"
             >
-              {getIcon(page)}
+              {icon(page)}
               {page[0].toUpperCase() + page.slice(1)}
             </Button>
           </Link>

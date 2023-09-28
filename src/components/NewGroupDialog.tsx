@@ -1,13 +1,15 @@
-import { friendshipsService } from "@/services/friendships";
-import { PublicUser, User, usersService } from "@/services/users";
+import { useCreateGroup } from "@/hooks/use-create-group";
+import { useGetFriendships } from "@/hooks/use-get-friendships";
+import { useGetGroupMembers } from "@/hooks/use-get-group-members";
+import { PublicUser, User } from "@/services/users";
 import { useStore } from "@/store/store";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { UserSelector } from "./UserSelector";
+import { UsersList } from "./UsersList";
 import { Button } from "./shadcn/Button";
 import {
   Dialog,
@@ -26,50 +28,12 @@ import {
 } from "./shadcn/Form";
 import { Input } from "./shadcn/Input";
 import { Textarea } from "./shadcn/Textarea";
-import { UsersList } from "./UsersList";
-import { groupsService } from "@/services/groups";
-import { useToast } from "./shadcn/use-toast";
-import { AxiosError } from "axios";
 
 export function NewGroupDialog() {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
   const me = useStore(store => store.me) as User;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<PublicUser | null>(null);
-
-  const groupMutation = useMutation({
-    mutationFn: () => groupsService.create(form.getValues()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["groups"] });
-      toast({
-        title: "Group Created 🎉",
-        description: "Your group has been created.",
-      });
-      setIsOpen(false);
-    },
-    onError: (error: AxiosError<{ message: string; statusCode: number }>) => {
-      toast({
-        title: `Error`,
-        description: error.response?.data.message,
-        className: "bg-red-600 text-white",
-      });
-    },
-  });
-
-  const friendshipsQuery = useQuery({
-    queryKey: ["friendships"],
-    queryFn: () => friendshipsService.find(),
-  });
-
-  const users =
-    friendshipsQuery.data?.data.map(friendship =>
-      friendship.recipientId === me.id
-        ? friendship.requester
-        : friendship.recipient
-    ) || [];
 
   const formSchema = z.object({
     name: z.string().min(1).max(255),
@@ -88,17 +52,23 @@ export function NewGroupDialog() {
     },
   });
 
-  const membersQuery = useQuery({
-    queryKey: ["users", form.getValues("members")],
-    queryFn: () => usersService.findByIds(form.getValues("members")),
-  });
+  const createGroup = useCreateGroup();
+  const getFriendships = useGetFriendships();
+  const membersQuery = useGetGroupMembers(form.getValues("members"));
+
+  const users =
+    getFriendships.data?.data.map(friendship =>
+      friendship.recipientId === me.id
+        ? friendship.requester
+        : friendship.recipient
+    ) || [];
 
   useEffect(() => {
     form.setValue("members", [me?.id as number]);
   }, [me]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    groupMutation.mutate();
+    createGroup.mutate(form.getValues());
   }
 
   const handleAddMember = () => {

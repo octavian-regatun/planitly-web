@@ -21,6 +21,8 @@ import {
   CommandItem,
 } from "./shadcn/Command";
 import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
+import { useGetFriendships } from "@/hooks/use-get-friendships";
+import { useSearchUsers } from "@/hooks/use-search-users";
 
 interface Props {
   selectedUser: User | null;
@@ -31,15 +33,8 @@ export function UserSelectorCard({ selectedUser, setSelectedUser }: Props) {
   const me = useStore(store => store.me) as User;
   const [open, setOpen] = useState(false);
 
-  const usersQuery = useQuery({
-    queryKey: ["users", { search: "" }],
-    queryFn: () => usersService.search(""),
-  });
-
-  const friendshipsQuery = useQuery({
-    queryKey: ["friendships"],
-    queryFn: () => friendshipsService.find(),
-  });
+  const usersQuery = useSearchUsers("");
+  const getFriendships = useGetFriendships();
 
   const getFriendshipStatus = (friendship: Friendship) => {
     if (friendship.status === "ACCEPTED") return "Friends";
@@ -104,18 +99,18 @@ export function UserSelectorCard({ selectedUser, setSelectedUser }: Props) {
                       />
                       <span>{user.username}</span>
                     </div>
-                    {friendshipsQuery.status === "success" &&
+                    {getFriendships.status === "success" &&
                       friendshipsService.findFriendshipBetween(
                         me.id,
                         user.id,
-                        friendshipsQuery.data.data
+                        getFriendships.data.data
                       ) && (
                         <p className="ml-auto text-sm text-neutral-500">
                           {getFriendshipStatus(
                             friendshipsService.findFriendshipBetween(
                               me.id,
                               user.id,
-                              friendshipsQuery.data.data
+                              getFriendships.data.data
                             ) as Friendship
                           )}
                         </p>
