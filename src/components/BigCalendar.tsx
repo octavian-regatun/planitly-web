@@ -1,19 +1,13 @@
+import { useGetEvents } from "@/hooks/use-get-events";
 import dayjs from "dayjs";
 import { Calendar, dayjsLocalizer } from "react-big-calendar";
-import { BigCalendarToolbar } from "./BigCalendarToolbar";
-import { useQuery } from "@tanstack/react-query";
-import { eventsService } from "@/services/events";
 import { BigCalendarEvent } from "./BigCalendarEvent";
-import { useEffect } from "react";
+import { BigCalendarToolbar } from "./BigCalendarToolbar";
 
 const localizer = dayjsLocalizer(dayjs);
 
 export function BigCalendar() {
-  const eventsQuery = useQuery({
-    queryKey: ["events"],
-    queryFn: eventsService.findAll,
-    initialData: [],
-  });
+  const getEvents = useGetEvents();
 
   return (
     <>
@@ -31,7 +25,7 @@ export function BigCalendar() {
             localizer.format(date, "dddd", culture),
         }}
         views={["month"]}
-        events={eventsQuery.data.map(event => ({
+        events={getEvents.data.map(event => ({
           title: event.title,
           start: new Date(event.startAt),
           end: new Date(event.endAt),

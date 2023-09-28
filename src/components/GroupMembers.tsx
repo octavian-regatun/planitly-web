@@ -1,12 +1,11 @@
-import { groupsService } from "@/services/groups";
-import { useQuery } from "@tanstack/react-query";
+import { useGetGroup } from "@/hooks/use-get-group";
+import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./shadcn/Tooltip";
-import Image from "next/image";
 
 interface Props {
   groupId: number;
@@ -14,10 +13,7 @@ interface Props {
 
 // FIXME: This component is not working properly
 export function GroupMembers({ groupId }: Props) {
-  const groupQuery = useQuery({
-    queryKey: ["groups", groupId],
-    queryFn: () => groupsService.findById(groupId),
-  });
+  const groupQuery = useGetGroup(groupId);
 
   return (
     <div className="flex gap-1">

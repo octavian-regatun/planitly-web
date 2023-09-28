@@ -30,6 +30,8 @@ import { useToast } from "./shadcn/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GroupSelector } from "./GroupSelector";
 import { Group, groupsService } from "@/services/groups";
+import { useCreateEvent } from "@/hooks/use-create-event";
+import { useGetGroups } from "@/hooks/use-get-groups";
 
 interface DatePickerDate {
   startDate: Date | null;
@@ -37,9 +39,6 @@ interface DatePickerDate {
 }
 
 export function NewEventDialog() {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [date, setDate] = useState<DatePickerDate>({
@@ -56,28 +55,8 @@ export function NewEventDialog() {
     }
   };
 
-  const groupsQuery = useQuery({
-    queryKey: ["groups"],
-    queryFn: groupsService.find,
-  });
-
-  const eventMutation = useMutation({
-    mutationFn: eventsService.createEvent,
-    onSuccess: data => {
-      queryClient.invalidateQueries({ queryKey: ["events"] });
-      toast({
-        title: "Event Created 🎉",
-        description: `Event ${data.title} has been created`,
-      });
-      setIsOpen(false);
-    },
-    onError(error) {
-      toast({
-        title: "Event Creation Failed 😢",
-        description: error.message,
-      });
-    },
-  });
+  const getGroups = useGetGroups();
+  const createEvent = useCreateEvent();
 
   const formSchema = z.object({
     title: z.string().min(1).max(50),
@@ -104,7 +83,7 @@ export function NewEventDialog() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    eventMutation.mutate(values);
+    createEvent.mutate(values);
   }
 
   return (
@@ -163,7 +142,7 @@ export function NewEventDialog() {
                         setSelectedGroup(group);
                         form.setValue("groupId", group.id);
                       }}
-                      groups={groupsQuery.data?.data || []}
+                      groups={getGroups.data?.data || []}
                     />
                   </FormControl>
                   <FormMessage />

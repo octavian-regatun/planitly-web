@@ -1,18 +1,6 @@
-import clsx from "clsx";
-import { Button } from "./shadcn/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
-import {
-  blue,
-  red,
-  green,
-  yellow,
-  purple,
-  orange,
-  indigo,
-  pink,
-} from "tailwindcss/colors";
-import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/Card";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { blue, green, orange, purple, red, yellow } from "tailwindcss/colors";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
 
 const colors = [
   blue["500"],

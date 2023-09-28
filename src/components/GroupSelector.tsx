@@ -1,6 +1,4 @@
 import { Group } from "@/services/groups";
-import { User } from "@/services/users";
-import { useStore } from "@/store/store";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useState } from "react";
@@ -23,7 +21,6 @@ interface Props {
 }
 
 export function GroupSelector({ groups, value, onChange, className }: Props) {
-  const me = useStore(store => store.me) as User;
   const [open, setOpen] = useState(false);
 
   return (

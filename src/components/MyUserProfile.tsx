@@ -1,7 +1,8 @@
-import { usersService } from "@/services/users";
+import { useGetUser } from "@/hooks/use-get-user";
+import { useUpdateUser } from "@/hooks/use-update-user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./shadcn/Button";
@@ -14,33 +15,12 @@ import {
   FormMessage,
 } from "./shadcn/Form";
 import { Input } from "./shadcn/Input";
-import { useEffect } from "react";
-import { useToast } from "./shadcn/use-toast";
 
 interface Props {
   id: number;
 }
 
 export function MyUserProfile({ id }: Props) {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-  const userQuery = useQuery({
-    queryKey: ["users", id],
-    queryFn: () => usersService.findById(id),
-  });
-
-  const updateUserMutation = useMutation({
-    mutationFn: () => usersService.update(id, form.getValues()),
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
-
-      toast({
-        title: "User Updated 🎉",
-        description: "Your user has been updated.",
-      });
-    },
-  });
-
   const formSchema = z.object({
     username: z.string().min(2).max(32),
   });
@@ -52,31 +32,34 @@ export function MyUserProfile({ id }: Props) {
     },
   });
 
+  const getUser = useGetUser(id);
+  const updateUser = useUpdateUser(id, form.getValues());
+
   useEffect(() => {
-    if (userQuery.data?.username)
-      form.setValue("username", userQuery.data.username);
-  }, [userQuery.data?.username]);
+    if (getUser.data?.username)
+      form.setValue("username", getUser.data.username);
+  }, [getUser.data?.username]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateUserMutation.mutate();
+    updateUser.mutate();
   }
 
-  if (userQuery.isPending) return <div>Loading...</div>;
-  if (userQuery.isError) return <div>{userQuery.error.message}</div>;
+  if (getUser.isPending) return <div>Loading...</div>;
+  if (getUser.isError) return <div>{getUser.error.message}</div>;
 
   return (
     <div className="flex flex-col items-center pt-4">
       <Image
-        src={userQuery.data.picture}
+        src={getUser.data.picture}
         alt="profile"
         width={128}
         height={128}
         className="rounded-full border"
       />
       <p className="text-xl mt-4">
-        {userQuery.data.firstName} {userQuery.data.lastName}
+        {getUser.data.firstName} {getUser.data.lastName}
       </p>
-      <p className="text-neutral-500">@{userQuery.data.username}</p>
+      <p className="text-neutral-500">@{getUser.data.username}</p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8">
           <FormField
