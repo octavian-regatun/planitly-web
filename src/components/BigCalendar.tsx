@@ -22,7 +22,7 @@ export function BigCalendar() {
         }}
         formats={{
           weekdayFormat: (date, culture) =>
-            localizer.format(date, "dddd", culture),
+            localizer.format(date, "ddd", culture),
         }}
         views={["month"]}
         events={getEvents.data.map(event => ({

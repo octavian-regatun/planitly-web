@@ -16,24 +16,34 @@ import {
 } from "./shadcn/DropdownMenu";
 import { Input } from "./shadcn/Input";
 import { useCurrentPage } from "@/hooks/use-current-page";
+import { MenuIcon } from "lucide-react";
+import { useLayoutStore } from "@/store/layout";
 
 export function Navbar() {
+  const setSidebarOpen = useLayoutStore(store => store.setSidebarOpen);
   const user = useStore(store => store.me);
 
   const currentPage = useCurrentPage();
 
   return (
-    <nav className="absolute h-20 w-screen items-center flex pl-64 pr-4 border">
+    <nav className="absolute h-16 md:h-20 w-screen items-center flex px-4 md:pl-64 border">
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={() => setSidebarOpen(true)}
+        className="md:hidden"
+      >
+        <MenuIcon className="h-4 w-4" />
+      </Button>
       <div className="ml-4">
-        <p className="text-2xl font-medium">{currentPage}</p>
+        <p className="text-lg md:text-2xl font-semibold">{currentPage}</p>
       </div>
-      <Input className="ml-auto w-48 mr-8" placeholder="Search" />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="lg"
-            className="flex items-center gap-2 px-4"
+            className="flex items-center gap-2 px-4 ml-auto"
           >
             <p className="font-medium">
               {user?.firstName} {user?.lastName}
