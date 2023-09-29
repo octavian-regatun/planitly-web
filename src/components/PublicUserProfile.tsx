@@ -19,7 +19,7 @@ interface Props {
 export function PublicUserProfile({ id }: Props) {
   const userQuery = useGetUser(id);
 
-  const getFriendship = useGetFriendship(userQuery.data!.id);
+  const getFriendship = useGetFriendship(userQuery.data?.id);
   const acceptFriendship = useAcceptFriendship();
   const deleteFriendship = useDeleteFriendship();
   const createFriendship = useCreateFriendship();
