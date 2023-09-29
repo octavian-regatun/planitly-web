@@ -17,19 +17,3 @@ export const createUsersStoreSlice: StateCreator<
   me: undefined,
   setMe: user => set({ me: user }),
 });
-
-// export const useUsersStore = create<UsersState>()(
-//   devtools(
-//     persist(
-//       set => ({
-//         me: undefined,
-//         setMe(user) {
-//           set({ me: user });
-//         },
-//       }),
-//       {
-//         name: "users-storage",
-//       }
-//     )
-//   )
-// );
