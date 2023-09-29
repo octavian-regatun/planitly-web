@@ -1,6 +1,7 @@
 "use client";
 
 import { ErrorCard } from "@/components/ErrorCard";
+import { GroupMembers } from "@/components/GroupMembers";
 import { Button } from "@/components/shadcn/Button";
 import { useToast } from "@/components/shadcn/use-toast";
 import { groupMembersService } from "@/services/group-members";
@@ -78,7 +79,8 @@ export default function GroupPage({ params: { id } }: Props) {
   );
 
   return (
-    <div className="flex flex-col items-center pt-4">
+    <div className="flex flex-col pt-4 md:pt-16 mx-auto px-4 gap-4 max-w-screen-sm">
+      <p className="text-2xl">{groupQuery.data.data.name}</p>
       <Image
         src={groupQuery.data.data.picture}
         alt="group"
@@ -86,9 +88,14 @@ export default function GroupPage({ params: { id } }: Props) {
         height={128}
         className="rounded-full border"
       />
-      <p className="text-xl mt-4">{groupQuery.data.data.name}</p>
-      <p className="text-neutral-700">{groupQuery.data.data.description}</p>
-      <div className="mt-8">
+      <p className="text-neutral-700 mt-4">{groupQuery.data.data.description}</p>
+      <hr />
+      <div>
+        <p className="font-semibold">Members</p>
+        <GroupMembers groupId={parseInt(id)} />
+      </div>
+      {/* Action Buttons */}
+      <div>
         {groupMemberMe &&
           groupMemberMe.status === "ACCEPTED" &&
           groupMemberMe.role === "MEMBER" && (
