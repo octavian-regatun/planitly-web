@@ -11,7 +11,7 @@ export default function AuthenticatedAppLayout({
       <>
         <Navbar />
         <Sidebar />
-        <main className="pt-20 pl-64 h-screen">{children}</main>
+        <main className="pt-16 md:pt-20 md:pl-64 h-screen">{children}</main>
       </>
     </AuthGuard>
   );

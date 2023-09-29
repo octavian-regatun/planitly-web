@@ -22,7 +22,7 @@ export default function GroupsPage() {
   });
 
   return (
-    <div className="p-4 flex gap-4">
+    <div className="p-4 flex flex-wrap md:flex-nowrap gap-4">
       <Card className="flex-1">
         <CardHeader>
           <CardTitle>Groups</CardTitle>

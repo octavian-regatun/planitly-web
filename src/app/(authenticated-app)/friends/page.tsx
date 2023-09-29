@@ -9,7 +9,7 @@ export default function FriendsPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   return (
-    <div className="flex gap-4 p-4">
+    <div className="flex flex-wrap md:flex-nowrap gap-4 p-4">
       <UserSelectorCard
         selectedUser={selectedUser}
         setSelectedUser={setSelectedUser}
