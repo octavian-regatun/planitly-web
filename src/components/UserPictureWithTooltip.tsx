@@ -13,7 +13,7 @@ interface Props {
   userId: number;
 }
 
-export function UserIcon({ userId }: Props) {
+export function UserPictureWithTooltip({ userId }: Props) {
   const userQuery = useQuery({
     queryKey: ["user", userId],
     queryFn: () => usersService.findById(userId),

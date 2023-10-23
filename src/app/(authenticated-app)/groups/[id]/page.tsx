@@ -3,14 +3,16 @@
 import { ErrorCard } from "@/components/ErrorCard";
 import { GroupMembers } from "@/components/GroupMembers";
 import { Button } from "@/components/shadcn/Button";
-import { useToast } from "@/components/shadcn/use-toast";
+import { GroupPicture } from "@/components/shadcn/GroupPicture";
+import { useAcceptGroupMember } from "@/hooks/use-accept-group-member";
+import { useDeleteGroup } from "@/hooks/use-delete-group";
+import { useDeleteGroupMember } from "@/hooks/use-delete-group-member";
+import { useGetGroup } from "@/hooks/use-get-group";
 import { groupMembersService } from "@/services/group-members";
-import { Group, groupsService } from "@/services/groups";
 import { useStore } from "@/store/store";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -20,75 +22,30 @@ interface Props {
 
 export default function GroupPage({ params: { id } }: Props) {
   const me = useStore(state => state.me);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  const groupQuery = useQuery<
-    AxiosResponse<Group, any>,
-    AxiosError<{ message: string; statusCode: number }>
-  >({
-    queryKey: ["group", id],
-    queryFn: () => groupsService.findById(parseInt(id)),
-    retry: false,
-  });
+  const getGroup = useGetGroup(parseInt(id));
+  const acceptGroupMember = useAcceptGroupMember(parseInt(id));
+  const deleteGroupMember = useDeleteGroupMember(parseInt(id));
+  const deleteGroup = useDeleteGroup(parseInt(id));
 
-  const acceptGroupMemberMutation = useMutation({
-    mutationFn: groupMembersService.accept,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group", id] });
-    },
-  });
-
-  const deleteGroupMemberMutation = useMutation({
-    mutationFn: groupMembersService.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group", id] });
-    },
-  });
-
-  const deleteGroupMutation = useMutation({
-    mutationFn: groupsService.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group", id] });
-
-      toast({
-        title: "Group deleted",
-        description: "Group was successfully deleted",
-      });
-    },
-    onError(error: AxiosError<{ message: string; statusCode: number }>) {
-      toast({
-        title: "Error",
-        description: error.response!.data.message,
-        variant: "destructive",
-      });
-    },
-  });
-
-  if (groupQuery.isPending) return <div>Loading...</div>;
-  if (groupQuery.isError)
+  if (getGroup.isPending) return <div>Loading...</div>;
+  if (getGroup.isError)
     return (
       <div className="p-4">
-        <ErrorCard message={groupQuery.error.response!.data.message} />
+        <ErrorCard message={getGroup.error.response!.data.message} />
       </div>
     );
 
   const groupMemberMe = groupMembersService.getMemberFromGroupByUserId(
-    groupQuery.data.data,
+    getGroup.data.data,
     me!.id
   );
 
   return (
     <div className="flex flex-col pt-4 md:pt-16 mx-auto px-4 gap-4 max-w-screen-sm">
-      <p className="text-2xl">{groupQuery.data.data.name}</p>
-      <Image
-        src={groupQuery.data.data.picture}
-        alt="group"
-        width={128}
-        height={128}
-        className="rounded-full border"
-      />
-      <p className="text-neutral-700 mt-4">{groupQuery.data.data.description}</p>
+      <p className="text-2xl">{getGroup.data.data.name}</p>
+      <GroupPicture groupId={parseInt(id)} size={128} />
+      <p className="text-neutral-700 mt-4">{getGroup.data.data.description}</p>
       <hr />
       <div>
         <p className="font-semibold">Members</p>
@@ -101,7 +58,7 @@ export default function GroupPage({ params: { id } }: Props) {
           groupMemberMe.role === "MEMBER" && (
             <Button
               variant="destructive"
-              onClick={() => deleteGroupMemberMutation.mutate(groupMemberMe.id)}
+              onClick={() => deleteGroupMember.mutate(groupMemberMe.id)}
             >
               Leave Group
             </Button>
@@ -109,25 +66,30 @@ export default function GroupPage({ params: { id } }: Props) {
         {groupMemberMe &&
           groupMemberMe.status === "ACCEPTED" &&
           groupMemberMe.role === "ADMIN" && (
-            <Button
-              variant="destructive"
-              onClick={() => deleteGroupMutation.mutate(parseInt(id))}
-            >
-              Delete Group
-            </Button>
+            <div className="flex gap-2">
+              <Button asChild>
+                <Link href={`/groups/${id}/edit`}>Edit Group</Link>
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => deleteGroup.mutate(parseInt(id))}
+              >
+                Delete Group
+              </Button>
+            </div>
           )}
         {groupMemberMe && groupMemberMe.status === "PENDING" && (
           <div className="flex gap-2">
             <Button
               onClick={() => {
-                acceptGroupMemberMutation.mutate(groupMemberMe.id);
+                acceptGroupMember.mutate(groupMemberMe.id);
               }}
             >
               Accept <CheckIcon className="ml-2 h-4 w-4" />
             </Button>
             <Button
               onClick={() => {
-                deleteGroupMemberMutation.mutate(groupMemberMe.id);
+                deleteGroupMember.mutate(groupMemberMe.id);
               }}
             >
               Decline <XMarkIcon className="ml-2 h-4 w-4" />

@@ -14,14 +14,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useStore } from "@/store/store";
 import { Friendship, friendshipsService } from "@/services/friendships";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   users: PublicUser[];
   value: PublicUser | null;
+  placeholder?: string;
+  className?: string;
   onChange: (user: PublicUser | null) => void;
 }
 
-export function UserSelector({ users, value, onChange }: Props) {
+export function UserSelector({ users, value, onChange, className }: Props) {
   const me = useStore(store => store.me) as User;
   const [open, setOpen] = useState(false);
 
@@ -43,7 +46,7 @@ export function UserSelector({ users, value, onChange }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[300px] justify-between"
+          className={twMerge("w-[300px] justify-between", className)}
         >
           {value ? (
             <div className="flex gap-2 items-center">
