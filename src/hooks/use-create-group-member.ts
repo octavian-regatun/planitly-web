@@ -2,17 +2,18 @@ import { useToast } from "@/components/shadcn/use-toast";
 import { groupMembersService } from "@/services/group-members";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useDeleteGroupMember(groupId: number) {
+export function useCreateGroupMember() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: groupMembersService.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["groups", groupId] });
+    mutationFn: groupMembersService.create,
+    onSuccess: data => {
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      console.log(data);
       toast({
         title: "Success",
-        description: `Group member deleted.`,
+        description: `You have invited ${data.data.user.firstName} ${data.data.user.lastName} to the group.`,
       });
     },
     onError(error) {
