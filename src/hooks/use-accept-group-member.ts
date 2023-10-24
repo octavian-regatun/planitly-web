@@ -7,7 +7,7 @@ export function useAcceptGroupMember(groupId: number) {
   return useMutation({
     mutationFn: groupMembersService.accept,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["group", groupId] });
+      queryClient.invalidateQueries({ queryKey: ["groups", groupId] });
     },
   });
 }
