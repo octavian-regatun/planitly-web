@@ -25,7 +25,7 @@ export default function GroupPage({ params: { id } }: Props) {
 
   const getGroup = useGetGroup(parseInt(id));
   const acceptGroupMember = useAcceptGroupMember(parseInt(id));
-  const deleteGroupMember = useDeleteGroupMember(parseInt(id));
+  const deleteGroupMember = useDeleteGroupMember();
   const deleteGroup = useDeleteGroup(parseInt(id));
 
   if (getGroup.isPending) return <div>Loading...</div>;
