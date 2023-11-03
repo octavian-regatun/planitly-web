@@ -20,7 +20,7 @@ export function BigCalendarEvent(props: Props) {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-        <Link href="/events/:id">
+        <Link href={`/events/${event.id}`}>
           <div
             style={{
               backgroundColor: event.color,
