@@ -34,7 +34,7 @@ export default function GroupPage({ params: { id } }: Props) {
 
   const searchUsers = useSearchUsers("");
   const getGroup = useGetGroup(parseInt(id));
-  const deleteMember = useDeleteGroupMember(parseInt(id));
+  const deleteMember = useDeleteGroupMember();
   const addMember = useCreateGroupMember();
 
   const groupMembers = getGroup.data?.data?.groupMembers || [];
