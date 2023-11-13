@@ -1,6 +1,6 @@
 import { PublicUser, User } from "@/services/users";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
-import { Button } from "./shadcn/Button";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
+import { Button } from "./shadcn/button";
 import Image from "next/image";
 import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
@@ -9,7 +9,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "./shadcn/Command";
+} from "./shadcn/command";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useStore } from "@/store/store";

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Form,
   FormControl,
@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./shadcn/Form";
-import { Input } from "./shadcn/Input";
+} from "./shadcn/form";
+import { Input } from "./shadcn/input";
 
 interface Props {
   id: number;

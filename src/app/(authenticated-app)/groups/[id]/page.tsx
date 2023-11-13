@@ -2,8 +2,8 @@
 
 import { ErrorCard } from "@/components/ErrorCard";
 import { GroupMembers } from "@/components/GroupMembers";
-import { Button } from "@/components/shadcn/Button";
-import { GroupPicture } from "@/components/shadcn/GroupPicture";
+import { Button } from "@/components/shadcn/button";
+import { GroupPicture } from "@/components/GroupPicture";
 import { useAcceptGroupMember } from "@/hooks/use-accept-group-member";
 import { useDeleteGroup } from "@/hooks/use-delete-group";
 import { useDeleteGroupMember } from "@/hooks/use-delete-group-member";

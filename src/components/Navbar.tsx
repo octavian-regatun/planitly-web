@@ -5,7 +5,7 @@ import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -13,8 +13,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./shadcn/DropdownMenu";
-import { Input } from "./shadcn/Input";
+} from "./shadcn/dropdown-menu";
+import { Input } from "./shadcn/input";
 import { useCurrentPage } from "@/hooks/use-current-page";
 import { MenuIcon } from "lucide-react";
 import { useLayoutStore } from "@/store/layout";

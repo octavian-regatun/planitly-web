@@ -1,15 +1,24 @@
+import { useCreateEvent } from "@/hooks/use-create-event";
+import { useGetGroups } from "@/hooks/use-get-groups";
+import { Group } from "@/services/groups";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import ReactDatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
+import { blue } from "tailwindcss/colors";
 import * as z from "zod";
-import { Button } from "./shadcn/Button";
+import { ColorPicker } from "./ColorPicker";
+import { GroupSelector } from "./GroupSelector";
+import { Button } from "./shadcn/button";
+import { Checkbox } from "./shadcn/checkbox";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./shadcn/Dialog";
+} from "./shadcn/dialog";
 import {
   Form,
   FormControl,
@@ -17,21 +26,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./shadcn/Form";
-import { Input } from "./shadcn/Input";
-import { Textarea } from "./shadcn/Textarea";
-import { Checkbox } from "./shadcn/Checkbox";
-import ReactDatePicker from "react-datepicker";
-import { useState } from "react";
-import { ColorPicker } from "./ColorPicker";
-import { blue } from "tailwindcss/colors";
-import { eventsService } from "@/services/events";
-import { useToast } from "./shadcn/use-toast";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GroupSelector } from "./GroupSelector";
-import { Group, groupsService } from "@/services/groups";
-import { useCreateEvent } from "@/hooks/use-create-event";
-import { useGetGroups } from "@/hooks/use-get-groups";
+} from "./shadcn/form";
+import { Input } from "./shadcn/input";
+import { Textarea } from "./shadcn/textarea";
 
 interface DatePickerDate {
   startDate: Date | null;
@@ -66,7 +63,7 @@ export function NewEventDialog() {
     allDay: z.boolean(),
     color: z.string(),
     picture: z.string(),
-    groupId: z.number(),
+    groupIds: z.number().array(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,6 +76,7 @@ export function NewEventDialog() {
       allDay: true,
       color: blue["500"],
       picture: "",
+      groupIds: [],
     },
   });
 
@@ -130,7 +128,7 @@ export function NewEventDialog() {
             />
             <FormField
               control={form.control}
-              name="groupId"
+              name="groupIds"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Group</FormLabel>
@@ -140,7 +138,7 @@ export function NewEventDialog() {
                       onChange={group => {
                         if (!group) return;
                         setSelectedGroup(group);
-                        form.setValue("groupId", group.id);
+                        form.setValue("groupIds", [group.id]);
                       }}
                       groups={getGroups.data?.data || []}
                     />

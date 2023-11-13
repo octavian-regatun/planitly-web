@@ -2,8 +2,8 @@ import { Group } from "@/services/groups";
 import Image from "next/image";
 import Link from "next/link";
 import { GroupMembers } from "./GroupMembers";
-import { Button } from "./shadcn/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/Card";
+import { Button } from "./shadcn/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./shadcn/card";
 
 interface Props {
   group: Group;

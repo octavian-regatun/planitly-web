@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/shadcn/Card";
+} from "@/components/shadcn/card";
 import { Group, groupsService } from "@/services/groups";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

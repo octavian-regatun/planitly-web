@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./shadcn/Tooltip";
+} from "./shadcn/tooltip";
 
 interface Props {
   users: PublicUser[];

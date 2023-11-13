@@ -1,28 +1,32 @@
 import { backendAxios } from "@/utilities/axios";
+import { z } from "zod";
 
-export interface User {
-  id: number;
-  username: string;
-  picture: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  gender: string;
-  role: string;
-  authProvider: string;
-  createdAt: string;
-  updatedAt: string;
-  iat: number;
-  exp: number;
-}
+export const userSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  picture: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string(),
+  gender: z.string(),
+  role: z.string(),
+  authProvider: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  iat: z.number(),
+  exp: z.number(),
+});
 
-export interface PublicUser {
-  id: number;
-  username: string;
-  picture: string;
-  firstName: string;
-  lastName: string;
-}
+export const publicUserSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  picture: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+});
+
+export type User = z.infer<typeof userSchema>;
+export type PublicUser = z.infer<typeof publicUserSchema>;
 
 export const usersService = {
   async findMe() {

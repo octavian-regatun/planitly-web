@@ -2,7 +2,7 @@
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
-import { Toaster } from "./shadcn/Toaster";
+import { Toaster } from "./shadcn/toaster";
 
 export function Providers({ children }: PropsWithChildren) {
   const queryClient = new QueryClient();

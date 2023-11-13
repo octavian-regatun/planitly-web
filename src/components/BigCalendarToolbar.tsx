@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import { ToolbarProps } from "react-big-calendar";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import { NewEventDialog } from "./NewEventDialog";
 
 export function BigCalendarToolbar(props: ToolbarProps) {
