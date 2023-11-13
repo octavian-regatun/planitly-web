@@ -18,6 +18,7 @@ import { Input } from "./shadcn/input";
 import { useCurrentPage } from "@/hooks/use-current-page";
 import { MenuIcon } from "lucide-react";
 import { useLayoutStore } from "@/store/layout";
+import { Notifications } from "./Notifications";
 
 export function Navbar() {
   const setSidebarOpen = useLayoutStore(store => store.setSidebarOpen);
@@ -26,7 +27,7 @@ export function Navbar() {
   const currentPage = useCurrentPage();
 
   return (
-    <nav className="absolute h-16 md:h-20 w-screen items-center flex px-4 md:pl-64 border">
+    <nav className="absolute h-16 md:h-20 w-screen items-center flex gap-4 px-4 md:pl-64 border">
       <Button
         size="icon"
         variant="outline"
@@ -72,6 +73,7 @@ export function Navbar() {
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+      <Notifications />
     </nav>
   );
 }
