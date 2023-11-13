@@ -10,7 +10,6 @@ export function useCreateGroupMember() {
     mutationFn: groupMembersService.create,
     onSuccess: data => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
-      console.log(data);
       toast({
         title: "Success",
         description: `You have invited ${data.data.user.firstName} ${data.data.user.lastName} to the group.`,

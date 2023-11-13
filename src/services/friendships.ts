@@ -12,10 +12,7 @@ export interface Friendship {
   updatedAt: string;
 }
 
-export enum FriendshipStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-}
+export type FriendshipStatus = "ACCEPTED" | "PENDING";
 
 export const friendshipsService = {
   async find(
@@ -24,7 +21,7 @@ export const friendshipsService = {
       status = "ALL",
     }: {
       type: "ALL" | "INCOMING" | "OUTGOING";
-      status: "ALL" | "PENDING" | "ACCEPTED";
+      status: FriendshipStatus | "ALL";
     } = {
       type: "ALL",
       status: "ALL",

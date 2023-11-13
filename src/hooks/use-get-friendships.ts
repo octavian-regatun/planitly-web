@@ -1,9 +1,11 @@
-import { friendshipsService } from "@/services/friendships";
+import { FriendshipStatus, friendshipsService } from "@/services/friendships";
 import { useQuery } from "@tanstack/react-query";
 
-export function useGetFriendships() {
+type Options = Parameters<typeof friendshipsService.find>[0];
+
+export function useGetFriendships(options?: Options) {
   return useQuery({
     queryKey: ["friendships"],
-    queryFn: () => friendshipsService.find(),
+    queryFn: () => friendshipsService.find(options),
   });
 }

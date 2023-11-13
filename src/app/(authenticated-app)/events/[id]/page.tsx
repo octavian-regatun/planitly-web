@@ -30,8 +30,6 @@ export default function EventPage({ params: { id } }: Props) {
     .flat()
     .map(groupMember => groupMember.user);
 
-  console.log(participants);
-
   return (
     <div className="flex flex-col pt-4 md:pt-16 mx-auto px-4 gap-4 max-w-screen-sm">
       <Card>
@@ -51,9 +49,7 @@ export default function EventPage({ params: { id } }: Props) {
               Master Club, Iasi
             </p>
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-medium">
-                Participants
-              </p>
+              <p className="text-sm font-medium">Participants</p>
               <UsersList users={participants} />
             </div>
           </div>
