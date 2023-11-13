@@ -3,14 +3,14 @@
 import { ErrorCard } from "@/components/ErrorCard";
 import { UserPicture } from "@/components/UserPicture";
 import { UserSelector } from "@/components/UserSelector";
-import { Button } from "@/components/shadcn/Button";
+import { Button } from "@/components/shadcn/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/shadcn/Card";
-import { GroupPicture } from "@/components/shadcn/GroupPicture";
+} from "@/components/shadcn/card";
+import { GroupPicture } from "@/components/GroupPicture";
 import { useCreateGroupMember } from "@/hooks/use-create-group-member";
 import { useDeleteGroupMember } from "@/hooks/use-delete-group-member";
 import { useGetGroup } from "@/hooks/use-get-group";

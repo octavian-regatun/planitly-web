@@ -1,5 +1,5 @@
 import { useDeleteEvent } from "@/hooks/use-delete-event";
-import { EventResponse } from "@/services/events";
+import { Event } from "@/services/events";
 import fontColorContrast from "font-color-contrast";
 import Link from "next/link";
 import { EventWrapperProps } from "react-big-calendar";
@@ -8,12 +8,12 @@ import {
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "./shadcn/ContextMenu";
+} from "./shadcn/context-menu";
 
 interface Props extends EventWrapperProps {}
 
 export function BigCalendarEvent(props: Props) {
-  const event = props.event.resource as EventResponse;
+  const event = props.event.resource as Event;
 
   const deleteEvent = useDeleteEvent();
 

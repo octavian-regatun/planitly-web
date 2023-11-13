@@ -1,6 +1,6 @@
 import { PopoverClose } from "@radix-ui/react-popover";
 import { blue, green, orange, purple, red, yellow } from "tailwindcss/colors";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
 
 const colors = [
   blue["500"],

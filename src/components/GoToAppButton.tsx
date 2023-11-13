@@ -1,13 +1,13 @@
 import { User } from "@/services/users";
 import { ArrowRightIcon } from "lucide-react";
 import Image from "next/image";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./shadcn/Tooltip";
+} from "./shadcn/tooltip";
 import Link from "next/link";
 
 interface Props {

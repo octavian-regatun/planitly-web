@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import { useMemo } from "react";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Card,
   CardContent,
@@ -12,7 +12,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./shadcn/Card";
+} from "./shadcn/card";
 import { useToast } from "./shadcn/use-toast";
 import { useStore } from "@/store/store";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";

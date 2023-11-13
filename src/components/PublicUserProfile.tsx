@@ -1,7 +1,7 @@
 import { usersService } from "@/services/users";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import { friendshipsService } from "@/services/friendships";
 import { toast } from "./shadcn/use-toast";
 import { AxiosError } from "axios";

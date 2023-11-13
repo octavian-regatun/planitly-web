@@ -5,7 +5,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "./shadcn/HoverCard";
+} from "./shadcn/hover-card";
 import { CalendarIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import { startCase } from "lodash";

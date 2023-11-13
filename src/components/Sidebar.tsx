@@ -2,7 +2,7 @@
 import { useSidebarIcon } from "@/hooks/use-sidebar-icon";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { useState } from "react";

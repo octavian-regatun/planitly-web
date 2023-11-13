@@ -4,10 +4,10 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./shadcn/Tooltip";
+} from "./shadcn/tooltip";
 import { useQuery } from "@tanstack/react-query";
 import { usersService } from "@/services/users";
-import { Skeleton } from "./shadcn/Skeleton";
+import { Skeleton } from "./shadcn/skeleton";
 
 interface Props {
   userId: number;

@@ -5,22 +5,22 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./shadcn/Card";
+} from "./shadcn/card";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "./shadcn/Command";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/Popover";
+} from "./shadcn/command";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
 import { useGetFriendships } from "@/hooks/use-get-friendships";
 import { useSearchUsers } from "@/hooks/use-search-users";
 

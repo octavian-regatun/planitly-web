@@ -9,14 +9,14 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GoToAppButton } from "./GoToAppButton";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./shadcn/Card";
+} from "./shadcn/card";
 
 export function SignIn() {
   const router = useRouter();

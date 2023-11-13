@@ -1,4 +1,4 @@
-import { Button } from "@/components/shadcn/Button";
+import { Button } from "@/components/shadcn/button";
 
 export default function SettingsPage() {
   return (

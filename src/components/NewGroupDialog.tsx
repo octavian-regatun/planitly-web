@@ -10,14 +10,14 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { UserSelector } from "./UserSelector";
 import { UsersList } from "./UsersList";
-import { Button } from "./shadcn/Button";
+import { Button } from "./shadcn/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./shadcn/Dialog";
+} from "./shadcn/dialog";
 import {
   Form,
   FormControl,
@@ -25,9 +25,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./shadcn/Form";
-import { Input } from "./shadcn/Input";
-import { Textarea } from "./shadcn/Textarea";
+} from "./shadcn/form";
+import { Input } from "./shadcn/input";
+import { Textarea } from "./shadcn/textarea";
 
 export function NewGroupDialog() {
   const me = useStore(store => store.me) as User;

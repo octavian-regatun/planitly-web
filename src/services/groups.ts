@@ -1,33 +1,38 @@
 import { backendAxios } from "@/utilities/axios";
-import { PublicUser } from "./users";
+import { z } from "zod";
+import { publicUserSchema, userSchema } from "./users";
 
-export interface CreateGroupDto {
-  name: string;
-  description: string;
-  picture: string;
-  members: number[];
-}
+export const groupMemberSchema = z.object({
+  id: z.number(),
+  userId: z.number(),
+  groupId: z.number(),
+  role: z.enum(["ADMIN", "MEMBER"]),
+  status: z.enum(["PENDING", "ACCEPTED"]),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  user: publicUserSchema,
+});
 
-export interface GroupMember {
-  id: number;
-  userId: number;
-  groupId: number;
-  role: "ADMIN" | "MEMBER";
-  status: "PENDING" | "ACCEPTED";
-  createdAt: string;
-  updatedAt: string;
-  user: PublicUser;
-}
+export const groupSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  picture: z.string(),
+  groupMembers: z.array(groupMemberSchema),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
 
-export interface Group {
-  id: number;
-  name: string;
-  description: string;
-  picture: string;
-  groupMembers: GroupMember[];
-  createdAt: string;
-  updatedAt: string;
-}
+export const createGroupDto = z.object({
+  name: z.string(),
+  description: z.string(),
+  picture: z.string(),
+  members: z.array(z.number()),
+});
+
+export type GroupMember = z.infer<typeof groupMemberSchema>;
+export type CreateGroupDto = z.infer<typeof createGroupDto>;
+export type Group = z.infer<typeof groupSchema>;
 
 export const groupsService = {
   async find() {
