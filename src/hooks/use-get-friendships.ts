@@ -5,7 +5,7 @@ type Options = Parameters<typeof friendshipsService.find>[0];
 
 export function useGetFriendships(options?: Options) {
   return useQuery({
-    queryKey: ["friendships"],
+    queryKey: ["friendships", { ...options }],
     queryFn: () => friendshipsService.find(options),
   });
 }
