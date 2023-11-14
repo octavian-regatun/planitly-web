@@ -36,7 +36,7 @@ export function Sidebar() {
   return (
     <>
       <Drawer open={sidebarOpen} onClose={toggleDrawer} direction="left">
-        <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white">
+        <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white dark:bg-black">
           <p className="font-semibold text-2xl pl-4">PlanITLY</p>
           <div className="flex flex-col mt-8 gap-2">
             {pages.map(page => (
@@ -53,7 +53,7 @@ export function Sidebar() {
           </div>
         </aside>
       </Drawer>
-      <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white hidden md:block">
+      <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white dark:bg-neutral-950 hidden md:block">
         <p className="font-semibold text-2xl pl-4">PlanITLY</p>
         <div className="flex flex-col mt-8 gap-2">
           {pages.map(page => (

@@ -19,6 +19,8 @@ import { useCurrentPage } from "@/hooks/use-current-page";
 import { MenuIcon } from "lucide-react";
 import { useLayoutStore } from "@/store/layout";
 import { Notifications } from "./Notifications";
+import { useTheme } from "next-themes";
+import { ThemeButton } from "./ThemeButton";
 
 export function Navbar() {
   const setSidebarOpen = useLayoutStore(store => store.setSidebarOpen);
@@ -74,6 +76,7 @@ export function Navbar() {
         </DropdownMenuContent>
       </DropdownMenu>
       <Notifications />
+      <ThemeButton />
     </nav>
   );
 }
