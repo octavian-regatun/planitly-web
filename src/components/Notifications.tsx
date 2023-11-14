@@ -18,8 +18,6 @@ export function Notifications() {
     type: "INCOMING",
   });
 
-  console.log(getFriendships.data?.data);
-
   if (getFriendships.isError)
     return (
       <Button variant="outline" size="icon" disabled>
