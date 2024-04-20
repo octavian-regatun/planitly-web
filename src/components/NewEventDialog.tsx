@@ -202,7 +202,9 @@ export function NewEventDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Create Event</Button>
+            <Button type="submit" disabled={form.formState.isLoading}>
+              Create Event
+            </Button>
           </form>
         </Form>
       </DialogContent>
