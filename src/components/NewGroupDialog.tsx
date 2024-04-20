@@ -149,7 +149,7 @@ export function NewGroupDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={!form.formState.isValid}>
+            <Button type="submit" disabled={form.formState.isLoading}>
               Create Group
             </Button>
           </form>
