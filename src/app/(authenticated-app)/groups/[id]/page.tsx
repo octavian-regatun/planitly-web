@@ -13,6 +13,7 @@ import { useStore } from "@/store/store";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: {
@@ -21,7 +22,8 @@ interface Props {
 }
 
 export default function GroupPage({ params: { id } }: Props) {
-  const me = useStore(state => state.me);
+  const router = useRouter();
+  const me = useStore((state) => state.me);
 
   const getGroup = useGetGroup(parseInt(id));
   const acceptGroupMember = useAcceptGroupMember(parseInt(id));
@@ -41,6 +43,11 @@ export default function GroupPage({ params: { id } }: Props) {
     me!.id
   );
 
+  const handleDeleteGroup = async () => {
+    await deleteGroup.mutateAsync(parseInt(id));
+    router.push("/groups");
+  };
+
   return (
     <div className="flex flex-col pt-4 md:pt-16 mx-auto px-4 gap-4 max-w-screen-sm">
       <p className="text-2xl">{getGroup.data.data.name}</p>
@@ -51,7 +58,6 @@ export default function GroupPage({ params: { id } }: Props) {
         <p className="font-semibold">Members</p>
         <GroupMembers groupId={parseInt(id)} />
       </div>
-      {/* Action Buttons */}
       <div>
         {groupMemberMe &&
           groupMemberMe.status === "ACCEPTED" &&
@@ -70,10 +76,7 @@ export default function GroupPage({ params: { id } }: Props) {
               <Button asChild>
                 <Link href={`/groups/${id}/edit`}>Edit Group</Link>
               </Button>
-              <Button
-                variant="destructive"
-                onClick={() => deleteGroup.mutate(parseInt(id))}
-              >
+              <Button variant="destructive" onClick={handleDeleteGroup}>
                 Delete Group
               </Button>
             </div>
