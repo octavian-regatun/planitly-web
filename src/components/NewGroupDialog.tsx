@@ -30,7 +30,7 @@ import { Input } from "./shadcn/input";
 import { Textarea } from "./shadcn/textarea";
 
 export function NewGroupDialog() {
-  const me = useStore(store => store.me) as User;
+  const me = useStore((store) => store.me) as User;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<PublicUser | null>(null);
@@ -57,7 +57,7 @@ export function NewGroupDialog() {
   const membersQuery = useGetGroupMembers(form.getValues("members"));
 
   const users =
-    getFriendships.data?.data.map(friendship =>
+    getFriendships.data?.data.map((friendship) =>
       friendship.recipientId === me.id
         ? friendship.requester
         : friendship.recipient
@@ -65,11 +65,13 @@ export function NewGroupDialog() {
 
   useEffect(() => {
     form.setValue("members", [me?.id as number]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [me]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    createGroup.mutate(form.getValues());
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await createGroup.mutate(form.getValues());
+    setIsOpen(false);
+  };
 
   const handleAddMember = () => {
     const members = form.getValues("members");
@@ -79,7 +81,7 @@ export function NewGroupDialog() {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={isOpen => setIsOpen(isOpen)}>
+    <Dialog open={isOpen} onOpenChange={(isOpen) => setIsOpen(isOpen)}>
       <DialogTrigger asChild>
         <Button className="w-fit">
           <PlusCircleIcon className="w-6 h-6 mr-2" /> New Group
@@ -131,7 +133,7 @@ export function NewGroupDialog() {
                       <UserSelector
                         users={users}
                         value={selectedUser}
-                        onChange={user => setSelectedUser(user)}
+                        onChange={(user) => setSelectedUser(user)}
                       />
                       <Button
                         type="button"
