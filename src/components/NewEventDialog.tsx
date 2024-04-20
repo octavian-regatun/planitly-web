@@ -80,12 +80,13 @@ export function NewEventDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    createEvent.mutate(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await createEvent.mutateAsync(values);
+    setIsOpen(false);
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={isOpen => setIsOpen(isOpen)}>
+    <Dialog open={isOpen} onOpenChange={(isOpen) => setIsOpen(isOpen)}>
       <DialogTrigger asChild>
         <Button variant="secondary">
           <PlusCircleIcon className="w-6 h-6 mr-4" /> New Event
@@ -135,7 +136,7 @@ export function NewEventDialog() {
                   <FormControl>
                     <GroupSelector
                       value={selectedGroup}
-                      onChange={group => {
+                      onChange={(group) => {
                         if (!group) return;
                         setSelectedGroup(group);
                         form.setValue("groupIds", [group.id]);
