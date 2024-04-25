@@ -37,7 +37,7 @@ export function NewGroupDialog() {
 
   const formSchema = z.object({
     name: z.string().min(1).max(255),
-    description: z.string().min(1),
+    description: z.string(),
     picture: z.string().min(1),
     members: z.array(z.number()),
   });
