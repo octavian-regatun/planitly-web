@@ -1,13 +1,11 @@
 "use client";
 import { useSidebarIcon } from "@/hooks/use-sidebar-icon";
+import { useLayoutStore } from "@/store/layout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "./shadcn/button";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { useState } from "react";
-import { useLayoutStore } from "@/store/layout";
-import { shallow } from "zustand/shallow";
+import { Button } from "./shadcn/button";
 
 const pages = [
   "dashboard",
@@ -37,7 +35,7 @@ export function Sidebar() {
     <>
       <Drawer open={sidebarOpen} onClose={toggleDrawer} direction="left">
         <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white">
-          <p className="font-semibold text-2xl pl-4">PlanITLY</p>
+          <p className="font-semibold text-2xl pl-4 select-none">PlanITLY</p>
           <div className="flex flex-col mt-8 gap-2">
             {pages.map(page => (
               <Link href={`/${page}`} key={page}>
@@ -54,7 +52,7 @@ export function Sidebar() {
         </aside>
       </Drawer>
       <aside className="px-4 pt-6 w-64 border h-screen absolute bg-white hidden md:block">
-        <p className="font-semibold text-2xl pl-4">PlanITLY</p>
+        <p className="font-semibold text-2xl pl-4 select-none">PlanITLY</p>
         <div className="flex flex-col mt-8 gap-2">
           {pages.map(page => (
             <Link href={`/${page}`} key={page}>
