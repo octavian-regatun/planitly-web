@@ -26,7 +26,7 @@ const NavbarBreadcrumb = () => {
         {paths.map((path, index) => {
           currentPath += `/${path}`;
           return (
-            <>
+            <div key={path}>
               <BreadcrumbItem>
                 {!isLastPath(index) ? (
                   <BreadcrumbLink href={currentPath}>
@@ -37,7 +37,7 @@ const NavbarBreadcrumb = () => {
                 )}
               </BreadcrumbItem>
               {!isLastPath(index) && <BreadcrumbSeparator />}
-            </>
+            </div>
           );
         })}
       </BreadcrumbList>

@@ -1,12 +1,4 @@
 import { FC } from "react";
-import { getServerAuthSession } from "~/server/auth";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "./ui/breadcrumb";
 import NavbarBreadcrumb from "./NavbarBreadcrumb";
 
 const Navbar: FC = async () => {
