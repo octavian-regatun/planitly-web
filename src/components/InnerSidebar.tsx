@@ -1,23 +1,23 @@
-"use client";
-import Link from "next/link";
 import { FC } from "react";
-import { sidebarPages } from "~/lib/constants";
-import { Button } from "./ui/button";
+import { SidebarPage } from "~/lib/types";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
-const Sidebar: FC = () => {
+type Props = {
+  pages: SidebarPage[];
+};
+
+const InnerSidebar: FC<Props> = ({ pages }) => {
   return (
-    <aside className="fixed left-0 top-0 flex h-screen w-20 flex-col items-center gap-8 border-r border-neutral-200 bg-white py-5">
-      <span className="w-fit select-none bg-gradient-to-tr from-neutral-500 to-black bg-clip-text font-bold text-transparent">
-        PlanITLY
-      </span>
+    <aside className="h-[calc(100vh-4rem)] w-20 border-r border-neutral-200 bg-white flex flex-col items-center py-3">
       <ul className="flex flex-col gap-2">
-        {sidebarPages.map((page) => (
+        {pages.map((page) => (
           <li key={page.href}>
             <TooltipProvider>
               <Tooltip>
@@ -40,4 +40,4 @@ const Sidebar: FC = () => {
   );
 };
 
-export default Sidebar;
+export default InnerSidebar;

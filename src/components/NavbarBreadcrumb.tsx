@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -26,7 +26,7 @@ const NavbarBreadcrumb = () => {
         {paths.map((path, index) => {
           currentPath += `/${path}`;
           return (
-            <div key={path}>
+            <Fragment key={path}>
               <BreadcrumbItem>
                 {!isLastPath(index) ? (
                   <BreadcrumbLink href={currentPath}>
@@ -37,7 +37,7 @@ const NavbarBreadcrumb = () => {
                 )}
               </BreadcrumbItem>
               {!isLastPath(index) && <BreadcrumbSeparator />}
-            </div>
+            </Fragment>
           );
         })}
       </BreadcrumbList>

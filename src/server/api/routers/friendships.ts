@@ -3,6 +3,30 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const friendshipsRouter = createTRPCRouter({
+  get: protectedProcedure
+    .input(
+      z.object({
+        userId1: z.string(),
+        userId2: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return ctx.db.friendship.findFirst({
+        where: {
+          OR: [
+            {
+              user1Id: input.userId1,
+              user2Id: input.userId2,
+            },
+            {
+              user1Id: input.userId2,
+              user2Id: input.userId1,
+            },
+          ],
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({
@@ -63,7 +87,7 @@ export const friendshipsRouter = createTRPCRouter({
       return friendship;
     }),
 
-  reject: protectedProcedure
+  delete: protectedProcedure
     .input(
       z.object({
         id: z.number(),
