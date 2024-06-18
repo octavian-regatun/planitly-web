@@ -35,7 +35,7 @@ export const friendshipsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.session.user.id === input.userId) {
-        throw new Error("You can't be friends with yourself");
+        throw new Error("You can't be friends with yourself!");
       }
 
       const existingFriendship = await ctx.db.friendship.findFirst({
@@ -54,7 +54,7 @@ export const friendshipsRouter = createTRPCRouter({
       });
 
       if (existingFriendship) {
-        throw new Error("You are already friends with this user");
+        throw new Error("You are already friends with this user!");
       }
 
       const friendship = await ctx.db.friendship.create({
@@ -94,7 +94,23 @@ export const friendshipsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const friendship = await ctx.db.friendship.delete({
+      const friendship = await ctx.db.friendship.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!friendship) {
+        throw new Error("Friendship not found!");
+      }
+
+      if (
+        friendship.user1Id !== ctx.session.user.id &&
+        friendship.user2Id !== ctx.session.user.id
+      )
+        throw new Error("You can't delete a friendship you're not part of!");
+
+      await ctx.db.friendship.delete({
         where: {
           id: input.id,
         },

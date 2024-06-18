@@ -60,7 +60,8 @@ const UserProfile: FC<Props> = ({ userId }) => {
           )}
           {friendship?.status === FriendshipStatus.ACCEPTED && (
             <Button variant="destructive">
-              <TrashIcon className="mr-2 h-4 w-4" /> Delete Friend
+              <TrashIcon className="mr-2 h-4 w-4" /> Delete{" "}
+              {friendship.status === FriendshipStatus.ACCEPTED ? "Friend" : "Request"}
             </Button>
           )}
         </div>
