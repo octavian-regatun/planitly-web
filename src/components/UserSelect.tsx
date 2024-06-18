@@ -13,6 +13,7 @@ import {
   SelectProps,
   SelectValueProps,
 } from "@radix-ui/react-select";
+import UserOption from "./UserOption";
 
 type Props = {
   selectProps?: SelectProps;
@@ -33,7 +34,7 @@ const UserSelect: FC<Props> = ({ selectProps, selectValueProps }) => {
       <SelectContent>
         {users.data?.map((user) => (
           <SelectItem key={user.id} value={user.id}>
-            {user.name}
+            <UserOption userId={user.id} />
           </SelectItem>
         ))}
       </SelectContent>

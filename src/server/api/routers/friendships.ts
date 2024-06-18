@@ -27,6 +27,21 @@ export const friendshipsRouter = createTRPCRouter({
       });
     }),
 
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.db.friendship.findMany({
+      where: {
+        OR: [
+          {
+            user1Id: ctx.session.user.id,
+          },
+          {
+            user2Id: ctx.session.user.id,
+          },
+        ],
+      },
+    });
+  }),
+
   create: protectedProcedure
     .input(
       z.object({

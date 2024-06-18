@@ -15,6 +15,8 @@ type Props = {
 
 const UserProfile: FC<Props> = ({ userId }) => {
   const session = useSession();
+  const apiUtils = api.useUtils();
+
   const { data } = api.users.getById.useQuery({ id: userId });
   const { data: friendship } = api.friendships.get.useQuery(
     {
@@ -23,18 +25,27 @@ const UserProfile: FC<Props> = ({ userId }) => {
     },
     { enabled: !!session.data?.user },
   );
-  const { mutate: addFriend } = api.friendships.create.useMutation({
+  const { mutate: createFriendship } = api.friendships.create.useMutation({
     onSuccess: () => {
       toast.success("Friend request sent!");
+      apiUtils.friendships.invalidate();
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
+  const { mutate: deleteFriendship } = api.friendships.delete.useMutation({
+    onSuccess: () => {
+      if (friendship?.status === FriendshipStatus.ACCEPTED)
+        toast.success("Friend deleted!");
+      else toast.success("Friend request deleted!");
+      apiUtils.friendships.invalidate();
+    },
+  });
 
-  const addFriendOnClick = () => {
-    addFriend({ userId: userId });
-  };
+  const addFriendOnClick = () => createFriendship({ userId: userId });
+  const deleteFriendOnClick = () =>
+    deleteFriendship({ id: friendship?.id || -1 });
 
   return (
     <Card className="h-full">
@@ -51,17 +62,22 @@ const UserProfile: FC<Props> = ({ userId }) => {
             className="rounded-full"
           />
         )}
-        <p>{friendship ? "Friends" : "Not Friends"}</p>
+        <p>
+          {friendship?.status === "ACCEPTED" && "Friends"}
+          {friendship?.status === "PENDING" && "Pending Request"}
+          {!friendship && "Not Friends"}
+        </p>
         <div className="flex gap-2">
           {!friendship && (
             <Button onClick={addFriendOnClick}>
               <PlusCircleIcon className="mr-2 h-4 w-4" /> Add Friend
             </Button>
           )}
-          {friendship?.status === FriendshipStatus.ACCEPTED && (
-            <Button variant="destructive">
+          {(friendship?.status === "ACCEPTED" ||
+            friendship?.status === "PENDING") && (
+            <Button variant="destructive" onClick={deleteFriendOnClick}>
               <TrashIcon className="mr-2 h-4 w-4" /> Delete{" "}
-              {friendship.status === FriendshipStatus.ACCEPTED ? "Friend" : "Request"}
+              {friendship?.status === "ACCEPTED" ? "Friend" : "Request"}
             </Button>
           )}
         </div>
