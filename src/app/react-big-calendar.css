@@ -1,3 +1,13 @@
 .rbc-header {
   @apply py-2;
 }
+
+.dark {
+  .rbc-day-bg.rbc-off-range-bg {
+    @apply bg-neutral-800;
+  }
+
+  .rbc-day-bg.rbc-today {
+    @apply bg-neutral-900;
+  }
+}
