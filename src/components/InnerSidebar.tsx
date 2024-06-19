@@ -15,7 +15,7 @@ type Props = {
 
 const InnerSidebar: FC<Props> = ({ pages }) => {
   return (
-    <aside className="h-[calc(100vh-4rem)] w-20 border-r border-neutral-200 bg-white flex flex-col items-center py-3">
+    <aside className="flex h-[calc(100vh-4rem)] w-20 flex-col items-center border-r border-neutral-200 bg-white py-3">
       <ul className="flex flex-col gap-2">
         {pages.map((page) => (
           <li key={page.href}>

@@ -8,7 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { api } from "~/trpc/react";
 import UserOption from "./UserOption";
 import { useSession } from "next-auth/react";
@@ -26,7 +32,8 @@ const FriendList: FC<Props> = ({ cardProps }) => {
   return (
     <Card {...cardProps}>
       <CardHeader>
-        <CardTitle>Friends List</CardTitle>
+        <CardTitle>Friend List</CardTitle>
+        <CardDescription>Manage your friendships</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -51,9 +58,6 @@ const FriendList: FC<Props> = ({ cardProps }) => {
                 </TableCell>
                 <TableCell>{friendship.status}</TableCell>
                 <TableCell className="flex gap-4">
-                  <Button size="icon" variant="outline">
-                    <ViewIcon className="h-4 w-4" />
-                  </Button>
                   <Button size="icon" variant="outline">
                     <TrashIcon className="h-4 w-4" />
                   </Button>
