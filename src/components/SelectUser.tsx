@@ -1,16 +1,18 @@
 import { usersService } from "@/services/users";
 import { cn } from "@/utilities/shadcn";
 import { useQuery } from "@tanstack/react-query";
-import { Check, ChevronsUpDown, Command } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import React, { FC } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { Button } from "./shadcn/button";
 import {
+  Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "./shadcn/command";
 import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
 
@@ -31,6 +33,8 @@ const SelectUser: FC<Props> = () => {
       toast.error("Failed to validate server response!");
     } else toast.error("Failed to fetch users");
   }
+
+  if (!getUsers.data?.response) return null;
 
   console.log(getUsers.data?.response);
 
@@ -53,37 +57,39 @@ const SelectUser: FC<Props> = () => {
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-            {getUsers.data?.response.map((user) => (
-              <CommandItem
-                key={user.id}
-                value={String(user.id)}
-                onSelect={(currentValue) => {
-                  if (currentValue === null) {
-                    setValue(null);
-                    return;
-                  }
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {getUsers.data?.response.map((user) => (
+                <CommandItem
+                  key={user.id}
+                  value={String(user.id)}
+                  onSelect={(currentValue) => {
+                    if (currentValue === null) {
+                      setValue(null);
+                      return;
+                    }
 
-                  setValue(
-                    currentValue === String(value)
-                      ? null
-                      : parseInt(currentValue, 10)
-                  );
+                    setValue(
+                      currentValue === String(value)
+                        ? null
+                        : parseInt(currentValue, 10)
+                    );
 
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === user.id ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {user.firstName} {user.lastName}
-              </CommandItem>
-            ))}
-          </CommandGroup>
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === user.id ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {user.firstName} {user.lastName}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
