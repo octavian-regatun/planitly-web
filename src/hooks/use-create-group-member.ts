@@ -8,7 +8,7 @@ export function useCreateGroupMember() {
 
   return useMutation({
     mutationFn: groupMembersService.create,
-    onSuccess: data => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["groups"] });
       toast({
         title: "Success",

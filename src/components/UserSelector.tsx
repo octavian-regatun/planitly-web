@@ -25,7 +25,7 @@ interface Props {
 }
 
 export function UserSelector({ users, value, onChange, className }: Props) {
-  const me = useStore(store => store.me) as User;
+  const me = useStore((store) => store.me) as User;
   const [open, setOpen] = useState(false);
 
   const friendshipsQuery = useQuery({
@@ -38,6 +38,8 @@ export function UserSelector({ users, value, onChange, className }: Props) {
     if (friendship.status === "PENDING") return "Pending";
     return undefined;
   };
+
+  console.log(friendshipsQuery);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -70,10 +72,10 @@ export function UserSelector({ users, value, onChange, className }: Props) {
           <CommandInput placeholder="Search username..." className="h-9" />
           <CommandEmpty>No user found.</CommandEmpty>
           <CommandGroup>
-            {users.map(user => (
+            {users.map((user) => (
               <CommandItem
                 key={`user-${user.id}`}
-                onSelect={username => {
+                onSelect={(username) => {
                   onChange(user?.username === value?.username ? null : user);
                   setOpen(false);
                 }}
