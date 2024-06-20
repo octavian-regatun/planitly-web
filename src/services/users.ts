@@ -1,4 +1,4 @@
-import { backendAxios } from "@/utilities/axios";
+import { backendAxios, mapAxiosResponse } from "@/utilities/axios";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -41,7 +41,9 @@ export const usersService = {
     });
   },
   async findAll() {
-    return (await backendAxios.get<User[]>("/users")).data;
+    const response = await backendAxios.get("/users");
+
+    return mapAxiosResponse(response, z.array(publicUserSchema));
   },
   async update(id: number, data: Partial<User>) {
     return await backendAxios.patch<User>(`/users/${id}`, data);

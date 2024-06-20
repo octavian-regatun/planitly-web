@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { UserSelector } from "./UserSelector";
+import { SelectUser } from "./SelectUser";
 import { UsersList } from "./UsersList";
 import { Button } from "./shadcn/button";
 import {
@@ -130,7 +130,7 @@ export function NewGroupDialog() {
                   <FormLabel>Members</FormLabel>
                   <FormControl>
                     <div className="flex gap-2 items-center flex-wrap">
-                      <UserSelector
+                      <SelectUser
                         users={users}
                         value={selectedUser}
                         onChange={(user) => setSelectedUser(user)}

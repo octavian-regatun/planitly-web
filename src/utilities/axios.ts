@@ -10,9 +10,9 @@ export const mapAxiosResponse = <T1, T2>(
   axiosResponse: AxiosResponse<T1, any>,
   zodSchema: ZodSchema<T2>
 ) => {
-  const { data: response, ...rest } = axiosResponse;
+  const { data, ...rest } = axiosResponse;
   return {
+    response: zodSchema.parse(data),
     ...rest,
-    response: zodSchema.parse(response),
   };
 };
