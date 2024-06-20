@@ -32,17 +32,17 @@ export type Event = z.infer<typeof eventSchema>;
 
 export const eventsService = {
   async createEvent(event: CreateEvent) {
-    return (await backendAxios.post<Event>("events", event)).data;
+    return (await backendAxios.post<Event>("/events", event)).data;
   },
   async findAll() {
-    return (await backendAxios.get<Event[]>("events")).data;
+    return (await backendAxios.get<Event[]>("/events")).data;
   },
   async findById(id: number) {
-    const response = await backendAxios.get<Event>(`events/${id}`);
+    const response = await backendAxios.get<Event>(`/events/${id}`);
 
     return mapAxiosResponse(response, eventSchema);
   },
   async removeById(id: number) {
-    return (await backendAxios.delete(`events/${id}`)).data;
+    return (await backendAxios.delete(`/events/${id}`)).data;
   },
 };

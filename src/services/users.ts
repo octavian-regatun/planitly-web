@@ -30,25 +30,25 @@ export type PublicUser = z.infer<typeof publicUserSchema>;
 
 export const usersService = {
   async findMe() {
-    return (await backendAxios.get<User>("users/me")).data;
+    return (await backendAxios.get<User>("/users/me")).data;
   },
   async findById(id: number) {
-    return (await backendAxios.get<PublicUser>(`users/${id}`)).data;
+    return (await backendAxios.get<PublicUser>(`/users/${id}`)).data;
   },
   async findByIds(ids: number[]) {
-    return await backendAxios.get<PublicUser[]>(`users`, {
+    return await backendAxios.get<PublicUser[]>(`/users`, {
       params: { ids },
     });
   },
   async findAll() {
-    return (await backendAxios.get<User[]>("users")).data;
+    return (await backendAxios.get<User[]>("/users")).data;
   },
   async update(id: number, data: Partial<User>) {
-    return await backendAxios.patch<User>(`users/${id}`, data);
+    return await backendAxios.patch<User>(`/users/${id}`, data);
   },
   async search(query: string) {
     return (
-      await backendAxios.get<User[]>(`users/search`, {
+      await backendAxios.get<User[]>(`/users/search`, {
         params: { query },
       })
     ).data;

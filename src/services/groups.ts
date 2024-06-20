@@ -36,15 +36,15 @@ export type Group = z.infer<typeof groupSchema>;
 
 export const groupsService = {
   async find() {
-    return await backendAxios.get<Group[]>("groups");
+    return await backendAxios.get<Group[]>("/groups");
   },
   async findById(id: number) {
-    return await backendAxios.get<Group>(`groups/${id}`);
+    return await backendAxios.get<Group>(`/groups/${id}`);
   },
   async create(group: CreateGroupDto) {
-    return await backendAxios.post<Group>("groups", group);
+    return await backendAxios.post<Group>("/groups", group);
   },
   async delete(id: number) {
-    return await backendAxios.delete(`groups/${id}`);
+    return await backendAxios.delete(`/groups/${id}`);
   },
 };

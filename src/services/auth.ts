@@ -4,7 +4,7 @@ import {} from "next/navigation";
 
 export const authService = {
   signIn: async (data: SignInRequest) => {
-    return (await backendAxios.post<string>("auth/google", data)).data;
+    return (await backendAxios.post<string>("/auth/google", data)).data;
   },
   signOut: () => {
     authService.removeJwt();

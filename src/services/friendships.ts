@@ -27,21 +27,21 @@ export const friendshipsService = {
       status: "ALL",
     }
   ) {
-    return await backendAxios.get<Friendship[]>("friendships", {
+    return await backendAxios.get<Friendship[]>("/friendships", {
       params: { type, status },
     });
   },
   async findByUserId(userId: number) {
-    return await backendAxios.get<Friendship>(`friendships/users/${userId}`);
+    return await backendAxios.get<Friendship>(`/friendships/users/${userId}`);
   },
   async create(recipientId: number) {
-    return await backendAxios.post<Friendship>("friendships", { recipientId });
+    return await backendAxios.post<Friendship>("/friendships", { recipientId });
   },
   async delete(id: number) {
-    return await backendAxios.delete(`friendships/${id}`);
+    return await backendAxios.delete(`/friendships/${id}`);
   },
   async accept(id: number) {
-    return await backendAxios.patch<Friendship>(`friendships/${id}`);
+    return await backendAxios.patch<Friendship>(`/friendships/${id}`);
   },
   findFriendshipBetween(
     userId1: number,

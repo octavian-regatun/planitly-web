@@ -2,7 +2,7 @@ import { Providers } from "@/components/Providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "react-datepicker/dist/react-datepicker.css";
-import "./globals.css";
+import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 

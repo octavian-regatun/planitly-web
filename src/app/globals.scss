@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @import url("react-big-calendar/lib/css/react-big-calendar.css");
-@import url("react-big-calendar.css");
+@import "react-big-calendar.scss";
 
 @layer base {
   :root {
