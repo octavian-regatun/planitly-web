@@ -24,7 +24,7 @@ export function SignIn() {
   const userQuery = useQuery({
     queryKey: ["user"],
     queryFn: () =>
-      axios.get<User>(`${config.backendUrl}users/me`, {
+      axios.get<User>(`${config.backendUrl}/users/me`, {
         headers: {
           Authorization: `Bearer ${authService.getJwt()}`,
         },
